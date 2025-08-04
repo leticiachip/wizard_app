@@ -1,0 +1,7 @@
+import 'core/flavors/flavors.dart';
+import 'main.dart' as main_common;
+
+Future<void> main() async {
+  Flavor.flavorType = FlavorTypes.dev;
+  main_common.main();
+}

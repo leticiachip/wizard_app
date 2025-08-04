@@ -1,0 +1,242 @@
+// #region tipos de requisições que são usadas no app se a telemetria criar mais uma adicionar aqui
+import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:http/http.dart' as http;
+import 'package:result_dart/result_dart.dart';
+import 'package:wizard_app/app/data/services/login/login_service.dart';
+import 'package:wizard_app/core/const/endpoint.dart';
+import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
+import 'package:wizard_app/core/utils/injecao_depencias.dart';
+
+import 'utils/coverter_base64.dart';
+import 'utils/resultado_requisicao.dart';
+import 'utils/status_response.dart';
+
+enum TiposRequisicao {
+  post,
+  put;
+
+  Function get tipo {
+    switch (this) {
+      case TiposRequisicao.post:
+        return http.post;
+
+      case TiposRequisicao.put:
+        return http.put;
+    }
+  }
+}
+// #endregion
+
+class CentralRequisicao {
+  final loginService = getIt<LoginService>();
+  // #region metodo que faz a requisição do app independente se foi escolhido rota PUT ou POST
+
+  Future<ResultDart<ResultadoRequisicao, ExceptionApp>> requisicaoPrincipal({
+    required String urlRota,
+    required String rastreioSGA,
+    Map<String, dynamic>? body,
+    required Function tipo,
+  }) async {
+    try {
+      //metodo renova o token se ele estiver expirado, se der erro deve ser interrompido o fluxo
+      ResultDart<String, ExceptionApp> resultadoToken = await loginService
+          .token();
+
+      //quer dizer que o token nao veio porque deu erro dentro do metodo na hora de pegar
+
+      if (resultadoToken.isError()) {
+        return Failure(resultadoToken.exceptionOrNull()!);
+      }
+      String token = resultadoToken.getOrNull()!;
+
+      String bodyEnviar = body == null ? json.encode({}) : json.encode(body);
+
+      http.Response response = await tipo(
+        Uri.parse(url.valor + urlRota),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: bodyEnviar,
+      ).timeout(const Duration(seconds: 40));
+
+      ResultDart<ResultadoRequisicao, ExceptionApp> resultadoAPI =
+          tratamentoRespostaAPI(response, '');
+
+      if (resultadoAPI.isError()) {
+        return Failure(resultadoAPI.exceptionOrNull()!);
+      }
+      ResultadoRequisicao resultadoRequisicao = resultadoAPI.getOrNull()!;
+
+      if (resultadoRequisicao.estadoResponse !=
+              EstadoResponse.todasInformacoesCadastrada &&
+          resultadoRequisicao.estadoResponse !=
+              EstadoResponse.sucessoBuscarDados) {
+        print("entrou neste metodo");
+      }
+
+      return Success(resultadoRequisicao);
+    } catch (erro, stackTrace) {
+      log("-> erro $erro | type erro ${erro.runtimeType} | stack $stackTrace");
+
+      Exception exception = erro is TypeError ? Exception() : erro as Exception;
+
+      ExceptionApp resultadoException = _centralTratamentoException(
+        exception,
+        stackTrace,
+        rastreioSGA,
+        body,
+      );
+      return Failure(resultadoException);
+    }
+  }
+
+  // #endregion
+  ///[tratativas de erros que foram lançados pela API]
+  // #region trata todas as exceptions que a API deve lançar, as tratativas foram baseadas na documentação da telemetria, se criarem mais deve ser colocado aqui
+  ResultDart<ResultadoRequisicao, ExceptionApp> tratamentoRespostaAPI(
+    http.Response responseData,
+    String codigoRastreio,
+  ) {
+    Map<String, dynamic> response = json.decode(
+      utf8.decode(responseData.bodyBytes),
+    );
+    if (response.containsKey("message") && responseData.statusCode == 401) {
+      //falha de autorizacao
+      return Failure(
+        ExceptionApp(
+          descricao: response["message"],
+          detalhes: "falha no servidor, houve uma falha com autorização",
+        ),
+      );
+    }
+    if (response.containsKey("message") && responseData.statusCode == 403) {
+      //forbidden
+      return Failure(
+        ExceptionApp(
+          descricao: response["message"],
+          detalhes: "falha no servidor, houve uma falha com autorização",
+        ),
+      );
+    }
+    if (response.containsKey("message") && responseData.statusCode == 400) {
+      //paremetros invalidos
+      return Failure(
+        ExceptionApp(
+          descricao: "falha servidor",
+          detalhes: response["message"],
+        ),
+      );
+    }
+    //deu certo a busca de dados do servidor
+    if (response["data"] != null && responseData.statusCode == 200) {
+      return Success(
+        ResultadoRequisicao(
+          estadoResponse: EstadoResponse.sucessoBuscarDados,
+          listaItensNaoCadastrados: [],
+          mensagemFalha: response["message"],
+          body: response,
+          codigoRastreio: 5,
+        ),
+      );
+    }
+
+    if (response["data"] == null && responseData.statusCode == 200) {
+      //quer dizer que não houve erro nenhum
+      return Success(
+        ResultadoRequisicao(
+          body: response,
+          estadoResponse: EstadoResponse.todasInformacoesCadastrada,
+          listaItensNaoCadastrados: [],
+          mensagemFalha: response["message"],
+          codigoRastreio: 6,
+        ),
+      );
+    }
+    if (response["data"]["erros"] != null && responseData.statusCode == 200) {
+      //deu erro no cadastro de algum dado na API
+      //pegar o array de erros e colocar dados sincronizados apenas para os eventos que não foram retornados pela API
+
+      List<Map<String, dynamic>> lista = List<Map<String, dynamic>>.from(
+        response["data"]["erros"],
+      );
+      return Success(
+        ResultadoRequisicao(
+          estadoResponse:
+              EstadoResponse.informacoesNaoForamCadastradaCorretamente,
+          listaItensNaoCadastrados: lista,
+          mensagemFalha: response["message"],
+          codigoRastreio: 7,
+        ),
+      );
+    }
+    if (responseData.statusCode == 500) {
+      //erro diretamente na API
+      return Failure(
+        ExceptionApp(
+          descricao: "Falha diretamente na API",
+          detalhes: response["message"],
+        ),
+      );
+    }
+
+    return Failure(
+      ExceptionApp(
+        descricao: "Falha ainda não rastreada",
+        detalhes: "Falha ainda não rastreada",
+      ),
+    );
+  }
+
+  // #endregion
+  ExceptionApp _centralTratamentoException(
+    Exception exception,
+    StackTrace stackTrace,
+    String codigoRastreio,
+    Map<String, dynamic>? body,
+  ) {
+    log("stacktrace $exception");
+    if (exception is SocketException) {
+      return ExceptionApp(
+        descricao: "Sem conexão com a internet",
+        detalhes: convertBase64(
+          "exception $exception | stackTrace $stackTrace",
+        ),
+      );
+    }
+    if (exception is TimeoutException) {
+      return ExceptionApp(
+        descricao: "Não foi possível completar solicitação",
+        detalhes: convertBase64(
+          "exception $exception | stackTrace $stackTrace",
+        ),
+      );
+    }
+    if (exception is FormatException) {
+      return ExceptionApp(
+        descricao: "Formato de alguns parametros estão incorretos",
+        detalhes: convertBase64(
+          "exception $exception | stackTrace $stackTrace",
+        ),
+      );
+    }
+
+    if (exception is http.ClientException) {
+      return ExceptionApp(
+        descricao: "Falha na resposta ou solicitação",
+        detalhes: convertBase64(
+          "exception $exception | stackTrace $stackTrace",
+        ),
+      );
+    }
+    return ExceptionApp(
+      descricao: "Exception ainda não rastreada",
+      detalhes: convertBase64("exception $exception | stackTrace $stackTrace"),
+    );
+  }
+}

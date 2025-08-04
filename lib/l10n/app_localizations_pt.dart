@@ -1,0 +1,43 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Portuguese (`pt`).
+class AppLocalizationsPt extends AppLocalizations {
+  AppLocalizationsPt([String locale = 'pt']) : super(locale);
+
+  @override
+  String get login => 'Entrar';
+
+  @override
+  String get esqueciSenha => 'Esqueci minha senha';
+
+  @override
+  String get atencao => 'Atenção';
+
+  @override
+  String get confirmacaoEmail => 'Email de confirmação';
+
+  @override
+  String get continuar => 'Continuar';
+
+  @override
+  String get naoTrocouSenha => 'Não foi possível trocar a senha';
+
+  @override
+  String get codigo => 'Código';
+
+  @override
+  String get senha => 'Senha';
+
+  @override
+  String get confirmarSenha => 'Confirmacao de senha';
+
+  @override
+  String get senhaDeveSerIgual => 'A senha deve ser igual a digitada acima';
+
+  @override
+  String get trocarSenha => 'Trocar senha';
+}

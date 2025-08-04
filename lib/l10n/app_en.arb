@@ -1,0 +1,14 @@
+{   
+    "@@locale": "en",
+    "login": "Login",
+    "esqueciSenha": "I forgot my password",
+    "atencao": "Attention",
+    "confirmacaoEmail": "Email confirmation",
+    "continuar": "Continue",
+    "naoTrocouSenha": "Unable to change password",
+    "codigo": "Code",
+    "senha": "Password",
+    "confirmarSenha": "Password confirmation",
+    "senhaDeveSerIgual": "The password must be the same as the one entered above.",
+    "trocarSenha": "Change password"
+}

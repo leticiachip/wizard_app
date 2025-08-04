@@ -1,0 +1,15 @@
+{
+    "@@locale": "pt",
+    "login": "Entrar",
+    "esqueciSenha": "Esqueci minha senha",
+    "atencao":"Atenção",
+    "confirmacaoEmail": "Email de confirmação",
+    "continuar": "Continuar",
+    "naoTrocouSenha": "Não foi possível trocar a senha",
+    "codigo": "Código",
+    "senha": "Senha",
+    "confirmarSenha": "Confirmacao de senha",
+    "senhaDeveSerIgual": "A senha deve ser igual a digitada acima",
+    "trocarSenha": "Trocar senha"
+    
+}
