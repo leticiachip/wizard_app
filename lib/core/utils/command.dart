@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:result_dart/result_dart.dart';
+import 'package:wizard_app/core/utils/result.dart';
+
 
 typedef CommandAction0<T> = Future<Result> Function();
 typedef CommandAction1<T, A> = Future<Result> Function(A);
@@ -39,7 +40,7 @@ class Command<T> extends ChangeNotifier {
     try {
       _result = await action();
 
-      if (result!.isError()) {
+      if (result!.isError) {
         _error = true;
       } else {
         _sucess = true;

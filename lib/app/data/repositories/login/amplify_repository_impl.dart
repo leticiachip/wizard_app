@@ -1,10 +1,11 @@
-import 'package:result_dart/result_dart.dart' show Failure, ResultDart, Success;
+import 'dart:developer';
 import 'package:wizard_app/app/data/repositories/login/amplify_repository.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:wizard_app/app/data/utils/parse_jwt.dart';
 import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
+import 'package:wizard_app/core/utils/result.dart';
 
 import '../../../../amplifyconfiguration.dart' show amplifyconfig;
 import '../../services/login/enum_result_login.dart';
@@ -12,7 +13,7 @@ import '../../services/login/exception_login.dart';
 
 class AmplifyRepositoryImpl implements AmplifyRepository {
   @override
-  Future<ResultDart<EnumResultLogin, ExceptionLogin>> autenticarUsuario(
+  Future<Result<EnumResultLogin, ExceptionLogin>> autenticarUsuario(
     String email,
     String senha,
   ) async {
@@ -75,6 +76,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
           );
           break;
       }
+      log("----->> adicionar excpetion $exception");
       return Failure(exception);
     } on NetworkException catch (e, stack) {
       return Failure(
@@ -152,7 +154,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
   }
 
   @override
-  Future<ResultDart<bool, ExceptionLogin>> signout() async {
+  Future<Result<bool, ExceptionLogin>> signout() async {
     try {
       await Amplify.Auth.signOut(
         options: const SignOutOptions(globalSignOut: true),
@@ -169,7 +171,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
   }
 
   @override
-  Future<ResultDart<Map<String, dynamic>, ExceptionLogin>>
+  Future<Result<Map<String, dynamic>, ExceptionLogin>>
   buscarIdToken() async {
     try {
       AuthSession result = await Amplify.Auth.fetchAuthSession(
@@ -196,7 +198,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
   }
 
   @override
-  Future<ResultDart<String, ExceptionApp>> buscarToken() async {
+  Future<Result<String, ExceptionApp>> buscarToken() async {
     try {
       AuthSession result = await Amplify.Auth.fetchAuthSession(
         options: FetchAuthSessionOptions(forceRefresh: true),
@@ -212,7 +214,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
   }
 
   @override
-  Future<ResultDart<bool, ExceptionApp>> confirmarTrocaSenha(
+  Future<Result<bool, ExceptionApp>> confirmarTrocaSenha(
     String senha,
   ) async {
     try {
@@ -226,7 +228,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
   }
 
   @override
-  Future<ResultDart<bool, ExceptionApp>> resetarSenha(
+  Future<Result<bool, ExceptionApp>> resetarSenha(
     String email,
     String senha,
     String codigoConfirmacao,
@@ -249,7 +251,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
   }
 
   @override
-  Future<ResultDart<String, ExceptionApp>> envioEmailSenha(String email) async {
+  Future<Result<String, ExceptionApp>> envioEmailSenha(String email) async {
     try {
       final result = await Amplify.Auth.resetPassword(username: email);
       return Success(result.nextStep.updateStep.name);

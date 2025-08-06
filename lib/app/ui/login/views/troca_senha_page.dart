@@ -23,7 +23,7 @@ class _TrocaSenhapageState extends State<TrocaSenhapage> {
     trocaSenhaViewModel.trocaSenha.addListener(() {
       if (trocaSenhaViewModel.trocaSenha.completed &&
           trocaSenhaViewModel.sucessoTrocaSenha) {
-        context.go(NomesNavegacaoRota.loginPage);
+        context.go(NomesNavegacaoRota.homePage);
       }
       if (trocaSenhaViewModel.trocaSenha.completed &&
           !trocaSenhaViewModel.sucessoTrocaSenha) {

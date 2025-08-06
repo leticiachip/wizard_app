@@ -5,11 +5,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:result_dart/result_dart.dart';
 import 'package:wizard_app/app/data/services/login/login_service.dart';
 import 'package:wizard_app/core/const/endpoint.dart';
 import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
 import 'package:wizard_app/core/utils/injecao_depencias.dart';
+import 'package:wizard_app/core/utils/result.dart';
 
 import 'utils/coverter_base64.dart';
 import 'utils/resultado_requisicao.dart';
@@ -35,7 +35,7 @@ class CentralRequisicao {
   final loginService = getIt<LoginService>();
   // #region metodo que faz a requisição do app independente se foi escolhido rota PUT ou POST
 
-  Future<ResultDart<ResultadoRequisicao, ExceptionApp>> requisicaoPrincipal({
+  Future<Result<ResultadoRequisicao, ExceptionApp>> requisicaoPrincipal({
     required String urlRota,
     required String rastreioSGA,
     Map<String, dynamic>? body,
@@ -43,12 +43,12 @@ class CentralRequisicao {
   }) async {
     try {
       //metodo renova o token se ele estiver expirado, se der erro deve ser interrompido o fluxo
-      ResultDart<String, ExceptionApp> resultadoToken = await loginService
+      Result<String, ExceptionApp> resultadoToken = await loginService
           .token();
 
       //quer dizer que o token nao veio porque deu erro dentro do metodo na hora de pegar
 
-      if (resultadoToken.isError()) {
+      if (resultadoToken.isError) {
         return Failure(resultadoToken.exceptionOrNull()!);
       }
       String token = resultadoToken.getOrNull()!;
@@ -65,10 +65,10 @@ class CentralRequisicao {
         body: bodyEnviar,
       ).timeout(const Duration(seconds: 40));
 
-      ResultDart<ResultadoRequisicao, ExceptionApp> resultadoAPI =
+      Result<ResultadoRequisicao, ExceptionApp> resultadoAPI =
           tratamentoRespostaAPI(response, '');
 
-      if (resultadoAPI.isError()) {
+      if (resultadoAPI.isError) {
         return Failure(resultadoAPI.exceptionOrNull()!);
       }
       ResultadoRequisicao resultadoRequisicao = resultadoAPI.getOrNull()!;
@@ -99,7 +99,7 @@ class CentralRequisicao {
   // #endregion
   ///[tratativas de erros que foram lançados pela API]
   // #region trata todas as exceptions que a API deve lançar, as tratativas foram baseadas na documentação da telemetria, se criarem mais deve ser colocado aqui
-  ResultDart<ResultadoRequisicao, ExceptionApp> tratamentoRespostaAPI(
+  Result<ResultadoRequisicao, ExceptionApp> tratamentoRespostaAPI(
     http.Response responseData,
     String codigoRastreio,
   ) {

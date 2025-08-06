@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:result_dart/result_dart.dart' show ResultDart;
 import 'package:wizard_app/app/data/services/configuracoes/configuracoes_service.dart';
 import 'package:wizard_app/core/utils/command.dart';
+import 'package:wizard_app/core/utils/result.dart';
 import '../../../data/services/login/exception_login.dart' show ExceptionLogin;
 
 class ConfiguracoesViewModel extends ChangeNotifier {
@@ -13,11 +13,11 @@ class ConfiguracoesViewModel extends ChangeNotifier {
   }
   ExceptionLogin get exceptionLogin => _exceptionLogin;
 
-  Future<ResultDart<bool, ExceptionLogin>> _logoutUser() async {
-    ResultDart<bool, ExceptionLogin> resultadoDeslogar =
-        await configuracoesService.deslogar();
+  Future<Result<bool, ExceptionLogin>> _logoutUser() async {
+    Result<bool, ExceptionLogin> resultadoDeslogar = await configuracoesService
+        .deslogar();
 
-    if (resultadoDeslogar.isError()) {
+    if (resultadoDeslogar.isError) {
       ExceptionLogin exception = resultadoDeslogar.exceptionOrNull()!;
       _exceptionLogin = exception;
     }

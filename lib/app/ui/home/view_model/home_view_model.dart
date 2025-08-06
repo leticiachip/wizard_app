@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:result_dart/result_dart.dart';
 import 'package:wizard_app/app/data/services/home/home_service.dart';
+import 'package:wizard_app/core/utils/result.dart';
 
 import '../../../../core/exceptions_app/model/exception_app.dart';
 import '../../../../core/utils/command.dart';
@@ -60,15 +60,15 @@ class HomeViewModel extends ChangeNotifier {
     ],
   };
 
-  Future<ResultDart<List<String>, ExceptionApp>>
+  Future<Result<List<String>, ExceptionApp>>
   buscarPermissaoExibicaoComponentes() async {
-    ResultDart<List<String>, ExceptionApp> resultPermissao = await homeService
+    Result<List<String>, ExceptionApp> resultPermissao = await homeService
         .buscarPermissoes();
-    if (resultPermissao.isSuccess()) {
+    if (resultPermissao.isSuccess) {
       List<String> listaScope = resultPermissao.getOrNull()!;
       compararRotas(listaScope);
     }
-    if (resultPermissao.isError()) {
+    if (resultPermissao.isError) {
       _exceptionApp = resultPermissao.exceptionOrNull()!;
     }
 

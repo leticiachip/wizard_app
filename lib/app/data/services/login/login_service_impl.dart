@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:result_dart/result_dart.dart' show ResultDart, Success, Failure;
 import 'package:wizard_app/app/data/dao/usuario/usuario_dao.dart';
 import 'package:wizard_app/app/data/repositories/login/amplify_repository.dart';
 import 'package:wizard_app/app/data/services/login/enum_result_login.dart';
@@ -8,6 +7,7 @@ import 'package:wizard_app/app/data/services/login/exception_login.dart';
 import 'package:wizard_app/app/data/services/login/login_service.dart';
 import 'package:wizard_app/core/const/regex.dart';
 import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
+import 'package:wizard_app/core/utils/result.dart';
 
 import '../../../domain/models/usuario/usuario.dart';
 
@@ -27,22 +27,22 @@ class LoginServiceImpl implements LoginService {
   }
 
   @override
-  Future<ResultDart<EnumResultLogin, ExceptionLogin>> login(
+  Future<Result<EnumResultLogin, ExceptionLogin>> login(
     String email,
     String senha,
   ) async {
-    ResultDart<EnumResultLogin, ExceptionLogin> resultAutenticacao =
+    Result<EnumResultLogin, ExceptionLogin> resultAutenticacao =
         await amplifyRepository.autenticarUsuario(email, senha);
     await buscaridToken();
     return resultAutenticacao;
   }
 
   @override
-  Future<ResultDart<bool, ExceptionLogin>> deslogarUsuario() async {
+  Future<Result<bool, ExceptionLogin>> deslogarUsuario() async {
     try {
       bool usuarioLogado = await validaUsuarioLogado();
       if (usuarioLogado) {
-        ResultDart<bool, ExceptionLogin> resultadoLogout =
+        Result<bool, ExceptionLogin> resultadoLogout =
             await amplifyRepository.signout();
         return Success(resultadoLogout.getOrNull()!);
       }
@@ -58,20 +58,20 @@ class LoginServiceImpl implements LoginService {
   }
 
   @override
-  Future<ResultDart<String, ExceptionApp>> token() async {
-    ResultDart<String, ExceptionApp> resultToken = await amplifyRepository
+  Future<Result<String, ExceptionApp>> token() async {
+    Result<String, ExceptionApp> resultToken = await amplifyRepository
         .buscarToken();
 
     return resultToken;
   }
 
   @override
-  Future<ResultDart<bool, ExceptionApp>> trocarSenhaPrimeiroUso(String senha) {
+  Future<Result<bool, ExceptionApp>> trocarSenhaPrimeiroUso(String senha) {
     return amplifyRepository.confirmarTrocaSenha(senha);
   }
 
   @override
-  Future<ResultDart<bool, ExceptionApp>> confirmarTrocaSenha(
+  Future<Result<bool, ExceptionApp>> confirmarTrocaSenha(
     String usuario,
     String senha,
     String codigo,
@@ -80,7 +80,7 @@ class LoginServiceImpl implements LoginService {
   }
 
   @override
-  Future<ResultDart<String, ExceptionApp>> enviarEmailResetSenha(String email) {
+  Future<Result<String, ExceptionApp>> enviarEmailResetSenha(String email) {
     return amplifyRepository.envioEmailSenha(email);
   }
 
@@ -120,11 +120,11 @@ class LoginServiceImpl implements LoginService {
   }
 
   @override
-  Future<ResultDart<Map<String, dynamic>, ExceptionLogin>>
+  Future<Result<Map<String, dynamic>, ExceptionLogin>>
   buscaridToken() async {
-    ResultDart<Map<String, dynamic>, ExceptionLogin> idToken =
+    Result<Map<String, dynamic>, ExceptionLogin> idToken =
         await amplifyRepository.buscarIdToken();
-    if (idToken.isSuccess()) {
+    if (idToken.isSuccess) {
       log("----->>> inserir dados");
       Map<String, dynamic> token = idToken.getOrNull()!;
       Map<String, dynamic> address = token['address'];

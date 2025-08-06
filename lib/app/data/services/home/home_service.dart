@@ -1,7 +1,8 @@
-import 'package:result_dart/result_dart.dart';
+import 'package:wizard_app/core/utils/result.dart';
 
-import '../../../../core/exceptions_app/model/exception_app.dart' show ExceptionApp;
+import '../../../../core/exceptions_app/model/exception_app.dart'
+    show ExceptionApp;
 
 abstract class HomeService {
-  Future<ResultDart<List<String>, ExceptionApp>> buscarPermissoes();
+  Future<Result<List<String>, ExceptionApp>> buscarPermissoes();
 }

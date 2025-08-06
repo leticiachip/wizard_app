@@ -54,59 +54,69 @@ class _LoginPageState extends State<LoginPage> {
       body: Form(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         key: formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              autofillHints: const [AutofillHints.username],
-              controller: email,
-              validator: loginViewModel.regexEmail,
-            ),
-            TextFormField(
-              autofillHints: const [AutofillHints.password],
-              controller: senha,
-              validator: loginViewModel.regexSenha,
-              obscureText: Flavor.isProduction() && exibirSenha,
-              decoration: InputDecoration(
-                suffix: Flavor.isProduction() ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      exibirSenha = !exibirSenha;
-                    });
-                  },
-                  icon: exibirSenha
-                      ? Icon(Icons.visibility, color: Colors.black)
-                      : Icon(Icons.visibility_off, color: Colors.black),
-                ) : null,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+        child: ListenableBuilder(
+          listenable: loginViewModel.login,
+          builder: (context, child) {
+            return Column(
               children: [
-                TextButton(
-                  onPressed: () {
-                    context.push(NomesNavegacaoRota.confirmacaoEmailPage);
-                  },
-                  child: Text(AppLocalizations.of(context)!.esqueciSenha),
+                TextFormField(
+                  readOnly: loginViewModel.login.running,
+                  autofillHints: const [AutofillHints.username],
+                  controller: email,
+                  validator: loginViewModel.regexEmail,
                 ),
-              ],
-            ),
-            ListenableBuilder(
-              listenable: loginViewModel.login,
-              builder: (context, child) {
-                return ElevatedButton(
-                  onPressed: () async {
-                    loginViewModel.login.execute((
-                      email.text.trim(),
-                      senha.text.trim(),
-                    ));
-                  },
+                TextFormField(
+                  readOnly: loginViewModel.login.running,
+                  autofillHints: const [AutofillHints.password],
+                  controller: senha,
+                  validator: loginViewModel.regexSenha,
+                  obscureText: Flavor.isProduction() && exibirSenha,
+                  decoration: InputDecoration(
+                    suffix: Flavor.isProduction()
+                        ? IconButton(
+                            onPressed: () {
+                              setState(() {
+                                exibirSenha = !exibirSenha;
+                              });
+                            },
+                            icon: exibirSenha
+                                ? Icon(Icons.visibility, color: Colors.black)
+                                : Icon(
+                                    Icons.visibility_off,
+                                    color: Colors.black,
+                                  ),
+                          )
+                        : null,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        context.push(NomesNavegacaoRota.confirmacaoEmailPage);
+                      },
+                      child: Text(AppLocalizations.of(context)!.esqueciSenha),
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: loginViewModel.login.running
+                      ? null
+                      : () async {
+                          FocusScope.of(context).unfocus();
+                          loginViewModel.login.execute((
+                            email.text.trim(),
+                            senha.text.trim(),
+                          ));
+                        },
                   child: loginViewModel.login.running
                       ? CircularProgressIndicator()
                       : Text(AppLocalizations.of(context)!.login),
-                );
-              },
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

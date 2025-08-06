@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:result_dart/result_dart.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wizard_app/app/ui/home/view_model/home_view_model.dart';
@@ -9,6 +8,7 @@ import 'package:wizard_app/core/requisicao_app/central_requisicao.dart';
 import 'package:wizard_app/core/requisicao_app/utils/resultado_requisicao.dart';
 import 'package:wizard_app/core/utils/injecao_depencias.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
+import 'package:wizard_app/core/utils/result.dart';
 
 class HomePage extends StatefulWidget {
   final HomeViewModel homeViewModel;
@@ -30,18 +30,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          
           final centralRequisicao = getIt<CentralRequisicao>();
-          ResultDart<ResultadoRequisicao, ExceptionApp> result =
+          Result<ResultadoRequisicao, ExceptionApp> result =
               await centralRequisicao.requisicaoPrincipal(
                 urlRota: "/app/empresa/get",
                 rastreioSGA: "",
                 tipo: TiposRequisicao.post.tipo,
               );
-          if (result.isError()) {
+          if (result.isError) {
             ExceptionApp exceptionApp = result.exceptionOrNull()!;
-            if(exceptionApp.descricao.contains("token")){
-              if(!context.mounted) return;
+            if (exceptionApp.descricao.contains("token")) {
+              if (!context.mounted) return;
               context.go(NomesNavegacaoRota.loginPage);
             }
             return;
@@ -98,7 +97,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  funcaoBotao(String id) {
+  funcaoBotao(String id) async {
     switch (id) {
       case "elemento1":
         context.push(NomesNavegacaoRota.configuracaoPage);
