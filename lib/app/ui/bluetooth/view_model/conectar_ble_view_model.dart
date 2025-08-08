@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/services/bluetooth/bluetooth_service.dart'
-    show BluetoothBleService;
+    show BluetoothAppService;
 
 class ConectarBleViewModel extends ChangeNotifier {
-  final BluetoothBleService bluetoothBleService;
+  final BluetoothAppService bluetoothBleService;
   ConectarBleViewModel({required this.bluetoothBleService});
   bool _bluetoothConectado = false;
   bool get bluetoothConectado => _bluetoothConectado;

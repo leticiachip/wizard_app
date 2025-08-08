@@ -5,4 +5,5 @@ import '../../../../core/exceptions_app/model/exception_app.dart'
 
 abstract class HomeService {
   Future<Result<List<String>, ExceptionApp>> buscarPermissoes();
+  Future<void> capturarImagem();
 }

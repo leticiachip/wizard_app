@@ -65,7 +65,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: NomesNavegacaoRota.testeBluetoothPage,
       builder: (BuildContext context, GoRouterState state) {
-        final btService = getIt<BluetoothBleService>();
+        final btService = getIt<BluetoothAppService>(instanceName: 'ble');
         return TesteBluetoothPage(bluetoothBleService: btService);
       },
     ),

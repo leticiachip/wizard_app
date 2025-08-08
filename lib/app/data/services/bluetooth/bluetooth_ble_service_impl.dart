@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:wizard_app/app/adapter/bluetooth_ble_adapter.dart';
+import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
 
 import '../../../../core/services/permission_services/permission_handler_service.dart'
     show PermissionHandlerService;
-import 'bluetooth_service.dart';
 
-class BluetoothBleServiceImpl implements BluetoothBleService {
+class BluetoothBleServiceImpl implements BluetoothAppService {
   final BluetoothBleAdapter bluetoothBleAdapter;
   final PermissionHandlerService permissionHandlerService;
 
@@ -22,8 +22,8 @@ class BluetoothBleServiceImpl implements BluetoothBleService {
   }
 
   @override
-  Future<String> transmitirComandoBle(String comando) async {
-    print("------> comando $comando");
+  Future<String> transmitirComando(String comando) async {
+    print("------> transmitir BLE $comando");
     String resp = await bluetoothBleAdapter.transmitCommand(comando);
     print("---------------------------> resp $resp");
     return resp;
@@ -34,5 +34,11 @@ class BluetoothBleServiceImpl implements BluetoothBleService {
     BluetoothConnectionState statusConexao = await bluetoothBleAdapter
         .getConnectionState();
     return statusConexao == BluetoothConnectionState.connected;
+  }
+
+  @override
+  Future<void> desconectar() async {
+    await bluetoothBleAdapter.disconnect();
+    return;
   }
 }

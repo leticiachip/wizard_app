@@ -144,4 +144,8 @@ class BluetoothBleAdapter {
       receiveData += event;
     });
   }
+
+  Future<void> disconnect() async {
+    await _bluetoothDevice!.disconnect();
+  }
 }

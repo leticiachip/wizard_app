@@ -28,7 +28,7 @@ class HomeViewModel extends ChangeNotifier {
       },
       {
         "id": "elemento2",
-        "nome": "Elemento 2",
+        "nome": "Capturar imagem",
         "rotas": [
           "post:app_usuario_foto_get",
           "post:app_configuracao_get",
@@ -38,7 +38,7 @@ class HomeViewModel extends ChangeNotifier {
       },
       {
         "id": "elemento3",
-        "nome": "Elemento 3",
+        "nome": "Conexão bluetooth",
         "rotas": [
           "post:app_evento_tipo_get",
           "post:app_notificacao_tipo_get",
@@ -91,5 +91,9 @@ class HomeViewModel extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  capturarImagem()async{
+    await homeService.capturarImagem();
   }
 }

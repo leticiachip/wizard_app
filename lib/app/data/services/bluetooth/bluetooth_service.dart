@@ -1,5 +1,6 @@
-abstract class BluetoothBleService {
+abstract class BluetoothAppService {
   Future<bool> conectar(String mac);
-  Future<String> transmitirComandoBle(String comando);
+  Future<String> transmitirComando(String comando);
   Future<bool> obterStatusConexao();
+  Future<void> desconectar();
 }

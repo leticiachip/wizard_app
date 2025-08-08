@@ -1,9 +1,13 @@
+
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../data/services/bluetooth/bluetooth_service.dart';
 
 class TesteBluetoothPage extends StatelessWidget {
-  final BluetoothBleService bluetoothBleService;
+  final BluetoothAppService bluetoothBleService;
   const TesteBluetoothPage({super.key, required this.bluetoothBleService});
 
   @override
@@ -29,12 +33,18 @@ class TesteBluetoothPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                await bluetoothBleService.transmitirComandoBle("AT+TLCF");
+                var retorno = await bluetoothBleService.transmitirComando(
+                  "AT+TLCF\r\n",
+                );
+                log("-> retorno $retorno");
               },
               //AT+TLCF
               //AT+GET_INFO:00
               child: Text("Transmitir comando"),
             ),
+            ElevatedButton(onPressed: ()async{
+              await bluetoothBleService.desconectar();
+            }, child: Text("Desconectar")),
           ],
         ),
       ),

@@ -89,4 +89,6 @@ class ImagePickerAdapter {
     file.writeAsBytesSync(result!);
     return file;
   }
+
+  buscarCaminhoFotos(){}
 }
