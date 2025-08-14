@@ -72,9 +72,11 @@ class BluetoothClassicService implements BluetoothAppService {
         if (!devicesEncontrados.contains(
           Devices(nome: device.name, mac: devices.address),
         )) {
-          devicesEncontrados.add(
-            Devices(nome: device.name, mac: devices.address),
-          );
+          if (device.name != null) {
+            devicesEncontrados.add(
+              Devices(nome: device.name, mac: devices.address),
+            );
+          }
         }
       });
       await Future.delayed(const Duration(seconds: 3));

@@ -17,10 +17,23 @@ class ScanViewModel extends ChangeNotifier {
   late ExceptionApp _exceptionApp;
 
   Future<Result> scanear() async {
+    _dispositivosEncontrados.clear();
     Result<List<Devices>, ExceptionApp> result = await bluetoothAppService
         .scan();
     if (result.isSuccess) {
       List<Devices> devices = result.getOrNull()!;
+      //ordernar sempre os com o nome CB no topo
+      devices.sort((a, b) {
+        bool aComecaCB = a.nome!.startsWith('CB');
+        bool bComecaCB = b.nome!.startsWith('CB');
+        if (aComecaCB && !bComecaCB) {
+          return -1;
+        } else if (!aComecaCB && bComecaCB) {
+          return 1;
+        } else {
+          return a.nome!.compareTo(a.nome!);
+        }
+      });
       _dispositivosEncontrados.addAll(devices);
     }
     if (result.isError) {
@@ -31,7 +44,7 @@ class ScanViewModel extends ChangeNotifier {
     return Success(_dispositivosEncontrados);
   }
 
-  stopScan(){
+  stopScan() {
     bluetoothAppService.stopScan();
   }
 }
