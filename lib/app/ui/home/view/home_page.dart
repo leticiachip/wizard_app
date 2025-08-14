@@ -2,52 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
 import 'package:wizard_app/app/ui/home/view_model/home_view_model.dart';
-import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
-import 'package:wizard_app/core/requisicao_app/central_requisicao.dart';
-import 'package:wizard_app/core/requisicao_app/utils/resultado_requisicao.dart';
-import 'package:wizard_app/core/utils/injecao_depencias.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
-import 'package:wizard_app/core/utils/result.dart';
 
 class HomePage extends StatefulWidget {
+  final AtualizadorViewModel atualizadorViewModel;
   final HomeViewModel homeViewModel;
-  const HomePage({super.key, required this.homeViewModel});
+  const HomePage({
+    super.key,
+    required this.homeViewModel,
+    required this.atualizadorViewModel,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  AtualizadorViewModel get atualizadorViewModel => widget.atualizadorViewModel;
   @override
   void initState() {
+    atualizadorViewModel.buscarPermissao.addListener(() {
+      if (atualizadorViewModel.buscarPermissao.completed &&
+          atualizadorViewModel.cargaAtualizacao != null) {
+        context.go(NomesNavegacaoRota.scanBluetoothPage);
+      }
+    });
     widget.homeViewModel.buscaPermissao.execute();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final centralRequisicao = getIt<CentralRequisicao>();
-          Result<ResultadoRequisicao, ExceptionApp> result =
-              await centralRequisicao.requisicaoPrincipal(
-                urlRota: "/app/empresa/get",
-                rastreioSGA: "",
-                tipo: TiposRequisicao.post.tipo,
-              );
-          if (result.isError) {
-            ExceptionApp exceptionApp = result.exceptionOrNull()!;
-            if (exceptionApp.descricao.contains("token")) {
-              if (!context.mounted) return;
-              context.go(NomesNavegacaoRota.loginPage);
-            }
-            return;
-          }
-          print(result.getOrNull()!);
-        },
-      ),
       appBar: AppBar(
         title: Text("Home page"),
         actions: [
@@ -109,7 +98,7 @@ class _HomePageState extends State<HomePage> {
         context.push(NomesNavegacaoRota.testeBluetoothPage);
         break;
       case "elemento4":
-        print("funcao element 4");
+        context.push(NomesNavegacaoRota.scanBluetoothPage);
         break;
     }
   }

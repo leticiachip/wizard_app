@@ -11,9 +11,9 @@ import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
 import 'package:wizard_app/core/utils/injecao_depencias.dart';
 import 'package:wizard_app/core/utils/result.dart';
 
-import 'utils/coverter_base64.dart';
-import 'utils/resultado_requisicao.dart';
-import 'utils/status_response.dart';
+import '../utils/coverter_base64.dart';
+import '../utils/resultado_requisicao.dart';
+import '../utils/status_response.dart';
 
 enum TiposRequisicao {
   post,
@@ -31,19 +31,18 @@ enum TiposRequisicao {
 }
 // #endregion
 
-class CentralRequisicao {
-  final loginService = getIt<LoginService>();
+class CentralRequisicaoRepository {
+  final _loginService = getIt<LoginService>();
   // #region metodo que faz a requisição do app independente se foi escolhido rota PUT ou POST
 
   Future<Result<ResultadoRequisicao, ExceptionApp>> requisicaoPrincipal({
     required String urlRota,
-    required String rastreioSGA,
     Map<String, dynamic>? body,
     required Function tipo,
   }) async {
     try {
       //metodo renova o token se ele estiver expirado, se der erro deve ser interrompido o fluxo
-      Result<String, ExceptionApp> resultadoToken = await loginService
+      Result<String, ExceptionApp> resultadoToken = await _loginService
           .token();
 
       //quer dizer que o token nao veio porque deu erro dentro do metodo na hora de pegar
@@ -89,7 +88,6 @@ class CentralRequisicao {
       ExceptionApp resultadoException = _centralTratamentoException(
         exception,
         stackTrace,
-        rastreioSGA,
         body,
       );
       return Failure(resultadoException);
@@ -197,7 +195,6 @@ class CentralRequisicao {
   ExceptionApp _centralTratamentoException(
     Exception exception,
     StackTrace stackTrace,
-    String codigoRastreio,
     Map<String, dynamic>? body,
   ) {
     log("stacktrace $exception");

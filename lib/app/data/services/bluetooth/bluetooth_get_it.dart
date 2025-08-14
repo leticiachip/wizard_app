@@ -3,6 +3,8 @@ import 'package:wizard_app/app/data/services/bluetooth/bluetooth_ble_service_imp
     show BluetoothBleServiceImpl;
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_serial_service_impl.dart';
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
+import 'package:wizard_app/app/ui/bluetooth/view_model/bluetooth_view_model.dart';
+import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
 import 'package:wizard_app/core/utils/injecao_depencias.dart';
 import 'package:wizard_app/core/services/permission_services/permission_handler_service.dart';
 
@@ -19,12 +21,27 @@ class BluetoothGetIt {
       instanceName: 'ble',
     );
     getIt.registerLazySingleton<BluetoothAppService>(
-      () => BluetoothSerialService(),
-      instanceName: 'serial',
+      () => BluetoothClassicService(),
+      instanceName: 'classic',
     );
 
     getIt.registerLazySingleton<BluetoothBleAdapter>(
       () => BluetoothBleAdapter(),
+    );
+
+    getIt.registerLazySingleton<ScanViewModel>(
+      () => ScanViewModel(
+        bluetoothAppService: getIt<BluetoothAppService>(
+          instanceName: 'classic',
+        ),
+      ),
+    );
+    getIt.registerLazySingleton<BluetoothViewModel>(
+      () => BluetoothViewModel(
+        bluetoothBleService: getIt<BluetoothAppService>(
+          instanceName: 'classic',
+        ),
+      ),
     );
   }
 }

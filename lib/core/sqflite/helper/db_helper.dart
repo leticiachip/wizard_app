@@ -23,7 +23,7 @@ class DatabaseHelper {
       String databasesPath = await getDatabasesPath();
       String pathBd = path.join(databasesPath, 'banco_wizard.db');
       var db = await openDatabase(pathBd,
-          version: 1, onCreate: _onCreate, onUpgrade: _onUpgrade);
+          version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
 
       return db;
     } catch (e) {

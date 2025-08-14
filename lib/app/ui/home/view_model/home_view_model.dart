@@ -49,7 +49,7 @@ class HomeViewModel extends ChangeNotifier {
       },
       {
         "id": "elemento4",
-        "nome": "Elemento 4",
+        "nome": "Atualizador ESP",
         "rotas": ["post:app_notificacao"],
       },
       {

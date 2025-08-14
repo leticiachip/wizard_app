@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import '../../../data/services/bluetooth/bluetooth_service.dart'
     show BluetoothAppService;
 
-class ConectarBleViewModel extends ChangeNotifier {
+class BluetoothViewModel extends ChangeNotifier {
   final BluetoothAppService bluetoothBleService;
-  ConectarBleViewModel({required this.bluetoothBleService});
+  BluetoothViewModel({required this.bluetoothBleService});
   bool _bluetoothConectado = false;
   bool get bluetoothConectado => _bluetoothConectado;
   bool _carregandoConexao = false;
@@ -30,14 +30,8 @@ class ConectarBleViewModel extends ChangeNotifier {
       }
     } finally {
       _carregandoConexao = false;
-
+      _bluetoothConectado = false;
       notifyListeners();
     }
-  }
-
-  transmitirComando(String mac) async {}
-
-  escutarRetornos() {
-    //bluetoothSerialService.startListenerRX();
   }
 }

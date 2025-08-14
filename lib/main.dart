@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
 import 'package:wizard_app/app/data/services/login/login_service.dart';
+import 'package:wizard_app/app/ui/atualizador_esp/view/atualizacao_page.dart';
+import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
+import 'package:wizard_app/app/ui/bluetooth/view_model/bluetooth_view_model.dart';
+import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
 import 'package:wizard_app/app/ui/bluetooth/views/teste_bluetooth_page.dart';
 import 'package:wizard_app/app/ui/configuracoes/view/configuracoes_page.dart';
 import 'package:wizard_app/app/ui/configuracoes/view_model/configuracoes_view_model.dart';
@@ -19,6 +23,8 @@ import 'package:wizard_app/core/splash/views/splash_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wizard_app/l10n/app_localizations.dart';
 
+import 'app/ui/bluetooth/views/conectar_bluetooth_page.dart';
+import 'app/ui/bluetooth/views/scan_bluetooth_page.dart' show ScanBluetoothPage;
 import 'app/ui/home/view/home_page.dart';
 import 'app/ui/login/views/esqueci_senha_page.dart';
 
@@ -35,7 +41,11 @@ final GoRouter _router = GoRouter(
       path: NomesNavegacaoRota.homePage,
       builder: (BuildContext context, GoRouterState state) {
         final homeViewModel = getIt<HomeViewModel>();
-        return HomePage(homeViewModel: homeViewModel);
+        final atualizadorViewModel = getIt<AtualizadorViewModel>();
+        return HomePage(
+          homeViewModel: homeViewModel,
+          atualizadorViewModel: atualizadorViewModel,
+        );
       },
     ),
     GoRoute(
@@ -65,7 +75,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: NomesNavegacaoRota.testeBluetoothPage,
       builder: (BuildContext context, GoRouterState state) {
-        final btService = getIt<BluetoothAppService>(instanceName: 'ble');
+        final btService = getIt<BluetoothAppService>(instanceName: 'classic');
         return TesteBluetoothPage(bluetoothBleService: btService);
       },
     ),
@@ -92,6 +102,35 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         final esqueciSenhaViewModel = getIt<EsqueciSenhaViewModel>();
         return ConfirmarEmailPage(esqueciSenhaViewModel: esqueciSenhaViewModel);
+      },
+    ),
+    GoRoute(
+      path: NomesNavegacaoRota.scanBluetoothPage,
+      builder: (BuildContext context, GoRouterState state) {
+        final scanViewModel = getIt<ScanViewModel>();
+        return ScanBluetoothPage(scanViewModel: scanViewModel);
+      },
+    ),
+    GoRoute(
+      path: NomesNavegacaoRota.conexaoBluetoothPage,
+      builder: (BuildContext context, GoRouterState state) {
+        final bluetoothViewModel = getIt<BluetoothViewModel>();
+        String mac = state.extra as String;
+        return ConectarBluetoothPage(
+          bluetoothViewModel: bluetoothViewModel,
+          mac: mac,
+        );
+      },
+    ),
+    GoRoute(
+      path: NomesNavegacaoRota.atualizadorPage,
+      builder: (BuildContext context, GoRouterState state) {
+        final atualizadorViewModel = getIt<AtualizadorViewModel>();
+        String mac = state.extra as String;
+        return AtualizadorPage(
+          atualizadorViewModel: atualizadorViewModel,
+          enderecoMac: mac,
+        );
       },
     ),
   ],
@@ -126,7 +165,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               primaryColor: Colors.pink,
               appBarTheme: AppBarTheme(color: Colors.purple),
-              scaffoldBackgroundColor: Colors.pink[50]
+              scaffoldBackgroundColor: Colors.pink[50],
             ),
     );
   }

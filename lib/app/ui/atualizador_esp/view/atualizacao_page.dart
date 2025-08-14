@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+
+import 'package:wizard_app/app/data/services/atualizador_esp/enum_validacao_modo_scape.dart';
+import 'package:wizard_app/app/data/utils/enum_estado_atualizacao_esp.dart';
+import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
+
+import '../../login/views/components/dialog_erro.dart';
+
+class AtualizadorPage extends StatefulWidget {
+  final String enderecoMac;
+  final AtualizadorViewModel atualizadorViewModel;
+  const AtualizadorPage({
+    super.key,
+    required this.atualizadorViewModel,
+    required this.enderecoMac,
+  });
+
+  @override
+  State<AtualizadorPage> createState() => _AtualizadorPageState();
+}
+
+class _AtualizadorPageState extends State<AtualizadorPage> {
+  AtualizadorViewModel get atualizadorViewModel => widget.atualizadorViewModel;
+  String get endereco => widget.enderecoMac;
+  @override
+  void initState() {
+    atualizadorViewModel.buscarPermissao.execute((endereco));
+    atualizadorViewModel.buscarPermissao.addListener(() {
+      if (atualizadorViewModel.buscarPermissao.error &&
+          atualizadorViewModel.enumExitModoSceape ==
+              EnumValidacaoModoScape.semRetorno) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return DialogErro(erro: "Usuário deve reiniciar o connect");
+          },
+        );
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Atualizar")),
+      body: AnimatedBuilder(
+        animation: atualizadorViewModel,
+        builder: (context, child) {
+          if (!atualizadorViewModel.estadoConexao) {
+            return Text("O bluetooth esta desconectado");
+          }
+          if (atualizadorViewModel.estadoAtualizacao ==
+                  EstadoAtualizacao.modoScape ||
+              atualizadorViewModel.estadoAtualizacao ==
+                  EstadoAtualizacao.iniciaAtualizacao) {
+            return Text("Iniciando atualização");
+          }
+          if (atualizadorViewModel.estadoAtualizacao ==
+              EstadoAtualizacao.envioCarga) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Stack(
+                  alignment: AlignmentDirectional.topEnd,
+                  children: [
+                    LinearProgressIndicator(
+                      value: atualizadorViewModel.porcentagem / 100,
+                      minHeight: 30,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6, right: 5),
+                      child: Text(
+                        '${atualizadorViewModel.porcentagem}%',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+          if (atualizadorViewModel.buscarPermissao.error) {
+            return Column(
+              children: [
+                Text("Deve reiniciar a atualização"),
+                ElevatedButton(
+                  onPressed: () {
+                    atualizadorViewModel.buscarPermissao.execute((endereco));
+                  },
+                  child: Text("Tentar novamente "),
+                ),
+              ],
+            );
+          }
+          return Text("Carrega arquivo");
+        },
+      ),
+    );
+  }
+}

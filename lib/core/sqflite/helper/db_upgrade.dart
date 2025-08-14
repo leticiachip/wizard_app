@@ -16,6 +16,13 @@ class DbUpgrade {
         {"atributo": "TELEFONE", "tipo": "TEXT", "old": ""},
         {"atributo": "ENDERECO", "tipo": "TEXT", "old": ""},
       ],
+      "CARGA_ATUALIZACAO": [
+        {"atributo": "ID", "tipo": "INTEGER PRIMARY KEY", "old": ""},
+        {"atributo": "ID_INTERFACE_CATEGORIA_ESP_32", "tipo": "INTEGER", "old": ""},
+        {"atributo": "VERSAO", "tipo": "TEXT", "old": ""},
+        {"atributo": "NOME", "tipo": "TEXT", "old": ""},
+        {"atributo": "FIRMARE", "tipo": "TEXT", "old": ""},
+      ],
     },
   ];
 

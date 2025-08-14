@@ -1,0 +1,1 @@
+enum EnumValidacaoModoScape {modoScape, semRetorno, prosseguir}

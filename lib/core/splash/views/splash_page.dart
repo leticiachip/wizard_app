@@ -21,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
       bool usuarioLogado = await loginService.validaUsuarioLogado();
       if (!mounted) return;
       if (usuarioLogado) {
-        context.go(NomesNavegacaoRota.homePage);
+        context.go(NomesNavegacaoRota.scanBluetoothPage);
       } else {
         context.go(NomesNavegacaoRota.loginPage);
       }
