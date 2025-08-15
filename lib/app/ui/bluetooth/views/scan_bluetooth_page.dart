@@ -14,10 +14,12 @@ class ScanBluetoothPage extends StatefulWidget {
 
 class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
   ScanViewModel get scanViewModel => widget.scanViewModel;
-
+  final filtroPesquisa = TextEditingController();
+  bool filtroHabilitado = false;
   @override
   void initState() {
     scanViewModel.scan.execute();
+    scanViewModel.addListener(() {});
     super.initState();
   }
 
@@ -30,7 +32,42 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
           scanViewModel.scan.execute();
         },
       ),
-      appBar: AppBar(title: Text("ScanPage")),
+      appBar: AppBar(
+        title: filtroHabilitado
+            ? AnimatedBuilder(
+                animation: filtroPesquisa,
+                builder: (context, child) {
+                  return TextField(
+                    controller: filtroPesquisa,
+                    onChanged: (value) {
+                      scanViewModel.filtrarDevices(value);
+                    },
+                  );
+                },
+              )
+            : Text("ScanPage"),
+        actions: [
+          filtroHabilitado
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      filtroHabilitado = !filtroHabilitado;
+                    });
+                    filtroPesquisa.clear();
+                    scanViewModel.limparFiltro();
+                  },
+                  icon: Icon(Icons.close),
+                )
+              : IconButton(
+                  onPressed: () {
+                    setState(() {
+                      filtroHabilitado = !filtroHabilitado;
+                    });
+                  },
+                  icon: Icon(Icons.search_rounded),
+                ),
+        ],
+      ),
       body: AnimatedBuilder(
         animation: scanViewModel.scan,
         builder: (context, child) {
@@ -49,21 +86,29 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
           if (scanViewModel.scan.error) {
             return Text("não foi possivel scanear");
           }
-          return ListView.builder(
-            itemCount: scanViewModel.dispositivos.length,
-            itemBuilder: (context, index) {
-              Devices devices = scanViewModel.dispositivos[index];
-              return ListTile(
-                title: Text(
-                  devices.nome ?? "Desconhecido",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                subtitle: Text(devices.mac),
-                onTap: () {
-                  scanViewModel.stopScan();
-                  context.pushReplacement(
-                    NomesNavegacaoRota.conexaoBluetoothPage,
-                    extra: devices.mac,
+          return AnimatedBuilder(
+            animation: scanViewModel,
+            builder: (context, child) {
+              return ListView.builder(
+                itemCount: scanViewModel.dispositivos.length,
+                itemBuilder: (context, index) {
+                  Devices devices = scanViewModel.dispositivos[index];
+                  return ListTile(
+                    title: Text(
+                      devices.nome ?? "Desconhecido",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Text(devices.mac),
+                    onTap: () {
+                      scanViewModel.stopScan();
+                      context.pushReplacement(
+                        NomesNavegacaoRota.conexaoBluetoothPage,
+                        extra: devices.mac,
+                      );
+                    },
                   );
                 },
               );

@@ -12,7 +12,8 @@ class ScanViewModel extends ChangeNotifier {
     scan = Command0<void>(scanear);
   }
   List<Devices> get dispositivos => _dispositivosEncontrados;
-  final List<Devices> _dispositivosEncontrados = [];
+  List<Devices> _dispositivosEncontrados = [];
+  List<Devices> todosDispositivosEncontrados = [];
   ExceptionApp get exception => _exceptionApp;
   late ExceptionApp _exceptionApp;
 
@@ -35,6 +36,7 @@ class ScanViewModel extends ChangeNotifier {
         }
       });
       _dispositivosEncontrados.addAll(devices);
+      todosDispositivosEncontrados = _dispositivosEncontrados;
     }
     if (result.isError) {
       _exceptionApp = result.exceptionOrNull()!;
@@ -46,5 +48,19 @@ class ScanViewModel extends ChangeNotifier {
 
   stopScan() {
     bluetoothAppService.stopScan();
+  }
+
+  void filtrarDevices(String filtro) {
+    List<Devices> resultadoFiltro = todosDispositivosEncontrados
+        .where((element) => element.nome!.contains(filtro.toUpperCase()))
+        .toList();
+    _dispositivosEncontrados = resultadoFiltro;
+    notifyListeners();
+    return;
+  }
+
+  limparFiltro(){
+    _dispositivosEncontrados = todosDispositivosEncontrados;
+    notifyListeners();
   }
 }
