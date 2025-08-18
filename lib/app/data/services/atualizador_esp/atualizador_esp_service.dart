@@ -8,6 +8,7 @@ import 'package:wizard_app/app/domain/models/atualizacao/carga_atualizacao.dart'
 import '../../../../core/exceptions_app/model/exception_app.dart'
     show ExceptionApp;
 import '../../../../core/utils/result.dart';
+import '../../utils/estado_conexao_bluetooth.dart';
 import 'enum_validacao_modo_scape.dart' show EnumValidacaoModoScape;
 
 class AtualizadorEspService {
@@ -65,6 +66,11 @@ class AtualizadorEspService {
   }
 
   Future<EnumValidacaoModoScape> validarModoScape() async {
+    EstadoConexaoBluetooth estadoBt = await bluetoothAppService
+        .obterStatusConexao();
+    if (estadoBt == EstadoConexaoBluetooth.desconectado) {
+      return EnumValidacaoModoScape.nenhum;
+    }
     String resposta = await bluetoothAppService.transmitirComando(
       'AT+GET_INFO:AA',
     );
@@ -99,6 +105,11 @@ class AtualizadorEspService {
   }
 
   Future<bool> validarComando(String comando) async {
+    EstadoConexaoBluetooth estadoBt = await bluetoothAppService
+        .obterStatusConexao();
+    if (estadoBt == EstadoConexaoBluetooth.desconectado) {
+      return false;
+    }
     String iniciarAtualizacao = await bluetoothAppService.transmitirComando(
       comando,
     );
@@ -109,6 +120,11 @@ class AtualizadorEspService {
   }
 
   Future<String> enviarComando(String comando) async {
+    EstadoConexaoBluetooth estadoBt = await bluetoothAppService
+        .obterStatusConexao();
+    if (estadoBt == EstadoConexaoBluetooth.desconectado) {
+      return "";
+    }
     String respostaComando = await bluetoothAppService.transmitirComando(
       comando,
     );

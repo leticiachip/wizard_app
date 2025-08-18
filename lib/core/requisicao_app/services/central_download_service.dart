@@ -13,6 +13,7 @@ class CentralDownloadService {
   Future<Result<ResultadoRequisicao, ExceptionApp>> executarDownload(
     NomeRotasDownload rota, {
     required Map<String, dynamic> body,
+    required String rastreio
   }) async {
     if (rota.name.contains('/mock')) {
       return Success(MockDownload.resultadoMock(rota));
@@ -22,6 +23,7 @@ class CentralDownloadService {
           urlRota: rota.name,
           tipo: TiposRequisicao.post.tipo,
           body: body,
+          rastreio: rastreio
         );
     return resultReq;
   }

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:wizard_app/app/adapter/diretorio_adapter.dart';
 import 'package:wizard_app/app/data/repositories/login/amplify_repository.dart';
 import 'package:wizard_app/app/data/services/home/home_service.dart';
+import 'package:wizard_app/core/const/codigo_rastreio.dart';
 import 'package:wizard_app/core/utils/result.dart';
 
 import '../../../../core/exceptions_app/model/exception_app.dart';
@@ -40,6 +41,7 @@ class HomeServiceImpl implements HomeService {
         ExceptionApp(
           descricao: getIdToken.exceptionOrNull()!.descricao,
           detalhes: getIdToken.exceptionOrNull()!.detalhes,
+          rastreio: '${CodigoRastreio.atualizacaoESP}.1'
         ),
       );
     } catch (error) {
@@ -47,6 +49,7 @@ class HomeServiceImpl implements HomeService {
         ExceptionApp(
           descricao: '$error',
           detalhes: 'Não foi possivel obter os dados do cognito',
+          rastreio: '${CodigoRastreio.atualizacaoESP}.2'
         ),
       );
     }

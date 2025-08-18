@@ -1,0 +1,1 @@
+enum EstadoConexaoBluetooth {tentandoConectar, conectado, desconectado, nenhum}

@@ -8,6 +8,7 @@ import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
 import 'package:wizard_app/core/utils/result.dart';
 
 import '../../../../amplifyconfiguration.dart' show amplifyconfig;
+import '../../../../core/const/codigo_rastreio.dart';
 import '../../services/login/enum_result_login.dart';
 import '../../services/login/exception_login.dart';
 
@@ -209,7 +210,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
 
       return Success(acessToken);
     } catch (e) {
-      return Failure(ExceptionApp(descricao: "token", detalhes: "$e"));
+      return Failure(ExceptionApp(descricao: "token", detalhes: "$e", rastreio: "$CodigoRastreio.1"));
     }
   }
 
@@ -222,7 +223,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
       return Success(result.isSignedIn);
     } catch (e) {
       return Failure(
-        ExceptionApp(descricao: "Falha ao trocar a senha", detalhes: "$e"),
+        ExceptionApp(descricao: "Falha ao trocar a senha", detalhes: "$e",rastreio: '$CodigoRastreio.'),
       );
     }
   }
@@ -245,6 +246,8 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
         ExceptionApp(
           descricao: 'Não foi possível resetar a senha ',
           detalhes: '$e',
+
+          rastreio: '$CodigoRastreio.2'
         ),
       );
     }
@@ -259,6 +262,7 @@ class AmplifyRepositoryImpl implements AmplifyRepository {
       return Failure(
         ExceptionApp(
           descricao: "Não foi possível enviar email",
+          rastreio: "$CodigoRastreio.3",
           detalhes: "$e",
         ),
       );

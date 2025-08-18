@@ -4,6 +4,8 @@ import 'package:wizard_app/app/domain/models/bluetooth/devices.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
+import '../../../../l10n/app_localizations.dart';
+
 class ScanBluetoothPage extends StatefulWidget {
   final ScanViewModel scanViewModel;
   const ScanBluetoothPage({super.key, required this.scanViewModel});
@@ -78,24 +80,34 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircularProgressIndicator(),
-                  Text("Buscando dispositivos"),
+                  Text(AppLocalizations.of(context)!.buscarDispositivos),
                 ],
               ),
             );
           }
           if (scanViewModel.scan.error) {
-            return Text("não foi possivel scanear");
+            return Text(AppLocalizations.of(context)!.falhaBuscarDispositivos);
+          }
+          if (scanViewModel.dispositivos.isEmpty) {
+            return Text("Não foi encontrado nada");
           }
           return AnimatedBuilder(
             animation: scanViewModel,
             builder: (context, child) {
+              if (scanViewModel.dispositivos.isEmpty) {
+                return Text(
+                  AppLocalizations.of(
+                    context,
+                  )!.filtroNaoEncontrado(filtroPesquisa.text),
+                );
+              }
               return ListView.builder(
                 itemCount: scanViewModel.dispositivos.length,
                 itemBuilder: (context, index) {
                   Devices devices = scanViewModel.dispositivos[index];
                   return ListTile(
                     title: Text(
-                      devices.nome ?? "Desconhecido",
+                      devices.nome ?? "Unknown",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,

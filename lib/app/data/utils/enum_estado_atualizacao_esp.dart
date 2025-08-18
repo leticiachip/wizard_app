@@ -6,5 +6,6 @@ enum EstadoAtualizacao {
   resetPlaca,
   atualizacaoCompleta,
   falhaAtualizacao,
+  confirmandoAtualizacao,
   nenhum,
 }

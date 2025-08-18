@@ -10,6 +10,14 @@
     "senha": "Contraseña",
     "confirmarSenha": "Confirmación de contraseña",
     "senhaDeveSerIgual": "La contraseña debe ser igual a la introducida anteriormente.",
-    "trocarSenha": "Cambiar contraseña"
+    "trocarSenha": "Cambiar contraseña",
+    "filtroNaoEncontrado": "No se ha encontrado el dispositivo {name}.",
+    "@filtroNaoEncontrado": {
+        "placeHolders": {
+            "name": {}
+        }
+    },
+   "falhaBuscarDispositivos": "No se pudieron buscar dispositivos.",
+   "buscarDispositivos": "Buscando dispositivos"
     
 }

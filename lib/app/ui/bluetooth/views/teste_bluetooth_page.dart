@@ -25,9 +25,8 @@ class TesteBluetoothPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                bool btConectado = await bluetoothBleService
-                    .obterStatusConexao();
-                print("-> bluetooth conectado: $btConectado");
+                /* bool btConectado = await bluetoothBleService
+                    .obterStatusConexao(); */
               },
               child: Text("Valida conexao"),
             ),

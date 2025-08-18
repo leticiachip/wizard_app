@@ -40,4 +40,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get trocarSenha => 'Trocar senha';
+
+  @override
+  String filtroNaoEncontrado(Object name) {
+    return 'O dispositivo $name não foi encontrado';
+  }
+
+  @override
+  String get falhaBuscarDispositivos => 'Não foi possivel buscar dispositivos';
+
+  @override
+  String get buscarDispositivos => 'Buscando dispositivos';
 }

@@ -165,6 +165,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change password'**
   String get trocarSenha;
+
+  /// No description provided for @filtroNaoEncontrado.
+  ///
+  /// In en, this message translates to:
+  /// **'The device {name} was not found.'**
+  String filtroNaoEncontrado(Object name);
+
+  /// No description provided for @falhaBuscarDispositivos.
+  ///
+  /// In en, this message translates to:
+  /// **'It was not possible to retrieve devices'**
+  String get falhaBuscarDispositivos;
+
+  /// No description provided for @buscarDispositivos.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching for devices'**
+  String get buscarDispositivos;
 }
 
 class _AppLocalizationsDelegate

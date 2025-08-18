@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter_blue_classic/flutter_blue_classic.dart';
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
+import 'package:wizard_app/app/data/utils/estado_conexao_bluetooth.dart';
 import 'package:wizard_app/app/domain/models/bluetooth/devices.dart';
+import 'package:wizard_app/core/const/codigo_rastreio.dart';
 import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
 import 'package:wizard_app/core/utils/result.dart';
 
@@ -31,14 +33,17 @@ class BluetoothClassicService implements BluetoothAppService {
   }
 
   @override
-  Future<bool> obterStatusConexao() async {
+  Future<EstadoConexaoBluetooth> obterStatusConexao() async {
     try {
       if (bluetoothConnection == null) {
-        return false;
+        return EstadoConexaoBluetooth.desconectado;
       }
-      return bluetoothConnection!.isConnected;
+      if (!bluetoothConnection!.isConnected) {
+        return EstadoConexaoBluetooth.desconectado;
+      }
+      return EstadoConexaoBluetooth.conectado;
     } catch (e) {
-      return false;
+      return EstadoConexaoBluetooth.desconectado;
     }
   }
 
@@ -50,9 +55,8 @@ class BluetoothClassicService implements BluetoothAppService {
     }
     print("-> comando $comando");
     bluetoothConnection!.writeString("$comando\r\n");
-    await Future.delayed(const Duration(seconds: 1));
-    print("-> resposta $dados");
-    return dados;
+    String dadosRecebidos = await receiveData(5);
+    return dadosRecebidos;
   }
 
   @override
@@ -84,7 +88,11 @@ class BluetoothClassicService implements BluetoothAppService {
       return Success(devicesEncontrados);
     } catch (e) {
       return Failure(
-        ExceptionApp(detalhes: "$e", descricao: "Não foi possível scanear"),
+        ExceptionApp(
+          detalhes: "$e",
+          descricao: "Não foi possível scanear",
+          rastreio: '$CodigoRastreio.1',
+        ),
       );
     }
   }
@@ -92,5 +100,27 @@ class BluetoothClassicService implements BluetoothAppService {
   @override
   void stopScan() {
     blueClassic.stopScan();
+  }
+
+  Future<String> receiveData(int timeoutResp) async {
+    final timeout = Duration(seconds: timeoutResp);
+    final stopwatch = Stopwatch()..start();
+    String data = "";
+    while (stopwatch.elapsed < timeout) {
+      String contemDadosAlemFim = dados.replaceAll('\r\n', "");
+      data = contemDadosAlemFim;
+
+      if (contemDadosAlemFim.isNotEmpty) {
+        stopwatch.stop();
+        break;
+      }
+      if ((timeout - stopwatch.elapsed).isNegative) {
+        break;
+      }
+
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+    dados = "";
+    return data;
   }
 }

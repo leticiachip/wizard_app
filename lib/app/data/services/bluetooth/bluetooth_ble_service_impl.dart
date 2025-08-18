@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:wizard_app/app/adapter/bluetooth_ble_adapter.dart';
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
+import 'package:wizard_app/app/data/utils/estado_conexao_bluetooth.dart';
 import 'package:wizard_app/app/domain/models/bluetooth/devices.dart';
 import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
 import 'package:wizard_app/core/utils/result.dart';
@@ -31,10 +32,13 @@ class BluetoothBleServiceImpl implements BluetoothAppService {
   }
 
   @override
-  Future<bool> obterStatusConexao() async {
+  Future<EstadoConexaoBluetooth> obterStatusConexao() async {
     BluetoothConnectionState statusConexao = await bluetoothBleAdapter
         .getConnectionState();
-    return statusConexao == BluetoothConnectionState.connected;
+    if (BluetoothConnectionState.connected == statusConexao) {
+      return EstadoConexaoBluetooth.conectado;
+    }
+    return EstadoConexaoBluetooth.desconectado;
   }
 
   @override
@@ -42,13 +46,13 @@ class BluetoothBleServiceImpl implements BluetoothAppService {
     await bluetoothBleAdapter.disconnect();
     return;
   }
-  
+
   @override
   Future<Result<List<Devices>, ExceptionApp>> scan() {
     // TODO: implement scan
     throw UnimplementedError();
   }
-  
+
   @override
   void stopScan() {
     // TODO: implement stopScan

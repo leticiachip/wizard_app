@@ -1,1 +1,1 @@
-enum EnumValidacaoModoScape {modoScape, semRetorno, prosseguir}
+enum EnumValidacaoModoScape {modoScape, semRetorno, prosseguir, nenhum}

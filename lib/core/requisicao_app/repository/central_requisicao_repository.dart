@@ -39,11 +39,11 @@ class CentralRequisicaoRepository {
     required String urlRota,
     Map<String, dynamic>? body,
     required Function tipo,
+    required String rastreio,
   }) async {
     try {
       //metodo renova o token se ele estiver expirado, se der erro deve ser interrompido o fluxo
-      Result<String, ExceptionApp> resultadoToken = await _loginService
-          .token();
+      Result<String, ExceptionApp> resultadoToken = await _loginService.token();
 
       //quer dizer que o token nao veio porque deu erro dentro do metodo na hora de pegar
 
@@ -89,6 +89,7 @@ class CentralRequisicaoRepository {
         exception,
         stackTrace,
         body,
+        rastreio,
       );
       return Failure(resultadoException);
     }
@@ -110,6 +111,7 @@ class CentralRequisicaoRepository {
         ExceptionApp(
           descricao: response["message"],
           detalhes: "falha no servidor, houve uma falha com autorização",
+          rastreio: codigoRastreio,
         ),
       );
     }
@@ -119,6 +121,7 @@ class CentralRequisicaoRepository {
         ExceptionApp(
           descricao: response["message"],
           detalhes: "falha no servidor, houve uma falha com autorização",
+          rastreio: codigoRastreio,
         ),
       );
     }
@@ -128,6 +131,7 @@ class CentralRequisicaoRepository {
         ExceptionApp(
           descricao: "falha servidor",
           detalhes: response["message"],
+          rastreio: codigoRastreio,
         ),
       );
     }
@@ -179,6 +183,7 @@ class CentralRequisicaoRepository {
         ExceptionApp(
           descricao: "Falha diretamente na API",
           detalhes: response["message"],
+          rastreio: codigoRastreio,
         ),
       );
     }
@@ -187,6 +192,7 @@ class CentralRequisicaoRepository {
       ExceptionApp(
         descricao: "Falha ainda não rastreada",
         detalhes: "Falha ainda não rastreada",
+        rastreio: codigoRastreio,
       ),
     );
   }
@@ -196,6 +202,7 @@ class CentralRequisicaoRepository {
     Exception exception,
     StackTrace stackTrace,
     Map<String, dynamic>? body,
+    String rastreio,
   ) {
     log("stacktrace $exception");
     if (exception is SocketException) {
@@ -204,6 +211,7 @@ class CentralRequisicaoRepository {
         detalhes: convertBase64(
           "exception $exception | stackTrace $stackTrace",
         ),
+        rastreio: rastreio,
       );
     }
     if (exception is TimeoutException) {
@@ -212,6 +220,7 @@ class CentralRequisicaoRepository {
         detalhes: convertBase64(
           "exception $exception | stackTrace $stackTrace",
         ),
+        rastreio: rastreio,
       );
     }
     if (exception is FormatException) {
@@ -220,6 +229,7 @@ class CentralRequisicaoRepository {
         detalhes: convertBase64(
           "exception $exception | stackTrace $stackTrace",
         ),
+        rastreio: rastreio,
       );
     }
 
@@ -229,11 +239,13 @@ class CentralRequisicaoRepository {
         detalhes: convertBase64(
           "exception $exception | stackTrace $stackTrace",
         ),
+        rastreio: rastreio,
       );
     }
     return ExceptionApp(
       descricao: "Exception ainda não rastreada",
       detalhes: convertBase64("exception $exception | stackTrace $stackTrace"),
+      rastreio: rastreio,
     );
   }
 }

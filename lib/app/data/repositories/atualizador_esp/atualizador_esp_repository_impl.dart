@@ -1,4 +1,5 @@
 import 'package:wizard_app/app/data/repositories/atualizador_esp/atualizador_esp_repository.dart';
+import 'package:wizard_app/core/const/codigo_rastreio.dart';
 import 'package:wizard_app/core/requisicao_app/rotas_requisicao/rotas_download.dart';
 import 'package:wizard_app/core/requisicao_app/rotas_requisicao/rotas_upload.dart';
 import 'package:wizard_app/core/requisicao_app/services/central_download_service.dart';
@@ -24,6 +25,7 @@ class AtualizadorEspRepositoryImpl implements AtualizadorEspRepository {
         await centralDownloadService.executarDownload(
           NomeRotasDownload.downloadPermissaoAtualizarEsp,
           body: {"serial": serial},
+          rastreio: '${CodigoRastreio.atualizacaoESP}.3',
         );
     if (resultado.isSuccess) {
       ResultadoRequisicao requisicao = resultado.getOrNull()!;
@@ -42,9 +44,10 @@ class AtualizadorEspRepositoryImpl implements AtualizadorEspRepository {
         await centralUploadService.executarUpload(
           NomeRotasUpload.uploadSituacaoAtualizacao,
           body: {"versao": versao, 'id': id, 'status': status},
+          rastreio: "${CodigoRastreio.atualizacaoESP}.4",
         );
     if (resultado.isSuccess) {
-     // ResultadoRequisicao requisicao = resultado.getOrNull()!;
+      // ResultadoRequisicao requisicao = resultado.getOrNull()!;
       return Success({});
     }
     return Failure(resultado.exceptionOrNull()!);

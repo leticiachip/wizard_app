@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:wizard_app/app/data/services/atualizador_esp/enum_validacao_modo_scape.dart';
 import 'package:wizard_app/app/data/utils/enum_estado_atualizacao_esp.dart';
+import 'package:wizard_app/app/data/utils/estado_conexao_bluetooth.dart';
 import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
 
 import '../../login/views/components/dialog_erro.dart';
@@ -36,6 +37,22 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
           },
         );
       }
+      print("-- estado: ${atualizadorViewModel.estadoConexao}");
+      print("-- estado: ${atualizadorViewModel.buscarPermissao.completed}");
+
+      if (atualizadorViewModel.estadoConexao ==
+              EstadoConexaoBluetooth.desconectado &&
+          atualizadorViewModel.buscarPermissao.error) {
+        print("ENTROU BLUETOOTH POPUP");
+        showDialog(
+          context: context,
+          builder: (context) {
+            return DialogErro(
+              erro: "Verifique se equipamento esta proximo e tente novamente",
+            );
+          },
+        );
+      }
     });
     super.initState();
   }
@@ -47,15 +64,13 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
       body: AnimatedBuilder(
         animation: atualizadorViewModel,
         builder: (context, child) {
-          if (!atualizadorViewModel.estadoConexao) {
-            return Text("O bluetooth esta desconectado");
-          }
           if (atualizadorViewModel.estadoAtualizacao ==
                   EstadoAtualizacao.modoScape ||
               atualizadorViewModel.estadoAtualizacao ==
                   EstadoAtualizacao.iniciaAtualizacao) {
             return Text("Iniciando atualização");
           }
+
           if (atualizadorViewModel.estadoAtualizacao ==
               EstadoAtualizacao.envioCarga) {
             return Padding(
@@ -87,7 +102,9 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
           if (atualizadorViewModel.buscarPermissao.error) {
             return Column(
               children: [
-                Text("Deve reiniciar a atualização"),
+                Text(
+                  "Deve reiniciar a atualização ${atualizadorViewModel.exception.rastreio}",
+                ),
                 ElevatedButton(
                   onPressed: () {
                     atualizadorViewModel.buscarPermissao.execute((endereco));
@@ -97,7 +114,20 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
               ],
             );
           }
-          return Text("Carrega arquivo");
+          if (atualizadorViewModel.estadoAtualizacao ==
+              EstadoAtualizacao.resetPlaca) {
+            return Text("Reiniciando");
+          }
+          if (atualizadorViewModel.estadoConexao ==
+              EstadoConexaoBluetooth.tentandoConectar) {
+            return Text("Reconectando");
+          }
+          if (atualizadorViewModel.estadoAtualizacao ==
+              EstadoAtualizacao.atualizacaoCompleta) {
+            return Text("Atualização completa");
+          }
+
+          return Text("Carregando");
         },
       ),
     );

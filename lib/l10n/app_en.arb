@@ -10,5 +10,13 @@
     "senha": "Password",
     "confirmarSenha": "Password confirmation",
     "senhaDeveSerIgual": "The password must be the same as the one entered above.",
-    "trocarSenha": "Change password"
+    "trocarSenha": "Change password",
+    "filtroNaoEncontrado": "The device {name} was not found.",
+    "@filtroNaoEncontrado": {
+        "placeHolders": {
+            "name": {}
+        }
+    },
+    "falhaBuscarDispositivos": "It was not possible to retrieve devices",
+    "buscarDispositivos": "Searching for devices"
 }

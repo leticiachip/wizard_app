@@ -12,6 +12,7 @@ class CentralUploadService {
   Future<Result<ResultadoRequisicao, ExceptionApp>> executarUpload(
     NomeRotasUpload rota, {
     required Map<String, dynamic> body,
+    required String rastreio,
   }) async {
     if (rota.name.contains('/mock')) {
       return Success(
@@ -22,6 +23,7 @@ class CentralUploadService {
         await centralRequisicaoRepository.requisicaoPrincipal(
           urlRota: rota.name,
           tipo: TiposRequisicao.post.tipo,
+          rastreio: rastreio,
         );
     return resultReq;
   }
