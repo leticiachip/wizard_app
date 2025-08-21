@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:wizard_app/app/data/services/atualizador_esp/enum_validacao_modo_scape.dart';
 import 'package:wizard_app/app/data/utils/enum_estado_atualizacao_esp.dart';
 import 'package:wizard_app/app/data/utils/estado_conexao_bluetooth.dart';
 import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
+import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
 import '../../login/views/components/dialog_erro.dart';
 
@@ -37,13 +39,10 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
           },
         );
       }
-      print("-- estado: ${atualizadorViewModel.estadoConexao}");
-      print("-- estado: ${atualizadorViewModel.buscarPermissao.completed}");
 
       if (atualizadorViewModel.estadoConexao ==
               EstadoConexaoBluetooth.desconectado &&
           atualizadorViewModel.buscarPermissao.error) {
-        print("ENTROU BLUETOOTH POPUP");
         showDialog(
           context: context,
           builder: (context) {
@@ -52,6 +51,12 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
             );
           },
         );
+      }
+      if (atualizadorViewModel.cargaAtualizacao == null &&
+          atualizadorViewModel.buscarPermissao.completed) {
+        context.go(NomesNavegacaoRota.homePage, extra: endereco);
+        atualizadorViewModel.atualizadorEspService.bluetoothAppService
+            .desconectar();
       }
     });
     super.initState();

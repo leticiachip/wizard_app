@@ -60,7 +60,7 @@ class BluetoothBleAdapter {
       }
     }
 
-    String retornoComando = await receiveCommandBle(5);
+    String retornoComando = await receiveCommandBle(10);
     return retornoComando;
   }
 
@@ -71,7 +71,10 @@ class BluetoothBleAdapter {
     while (stopwatch.elapsed < timeout) {
       String contemDadosAlemFim = receiveData.replaceAll('\r\n', "");
       data = contemDadosAlemFim;
-
+      //evite que junte dois comandos no stream
+      if (data.contains('\r\n')) {
+        data = data.split('\r\n').first;
+      }
       if (contemDadosAlemFim.isNotEmpty) {
         stopwatch.stop();
         break;
@@ -142,10 +145,13 @@ class BluetoothBleAdapter {
   listenerBle() {
     rx.listen((event) {
       receiveData += event;
+      print('\x1B[32m$receiveData\x1B[0m');
+      print('\x1B[31m${receiveData.codeUnits}\x1B[0m');
     });
   }
 
   Future<void> disconnect() async {
+    receiveData = "";
     await _bluetoothDevice!.disconnect();
   }
 }

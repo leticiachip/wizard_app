@@ -3,16 +3,23 @@ import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
+import 'package:wizard_app/app/ui/bluetooth/views/conectar_bluetooth_page.dart';
 import 'package:wizard_app/app/ui/home/view_model/home_view_model.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
+import '../../../../core/utils/injecao_depencias.dart';
+import '../../../data/services/bluetooth/bluetooth_service.dart';
+import '../../bluetooth/view_model/bluetooth_view_model.dart';
+
 class HomePage extends StatefulWidget {
+  final String enderecoMac;
   final AtualizadorViewModel atualizadorViewModel;
   final HomeViewModel homeViewModel;
   const HomePage({
     super.key,
     required this.homeViewModel,
     required this.atualizadorViewModel,
+    required this.enderecoMac,
   });
 
   @override
@@ -20,6 +27,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String get endereco => widget.enderecoMac;
   AtualizadorViewModel get atualizadorViewModel => widget.atualizadorViewModel;
   @override
   void initState() {
@@ -98,8 +106,30 @@ class _HomePageState extends State<HomePage> {
         context.push(NomesNavegacaoRota.testeBluetoothPage);
         break;
       case "elemento4":
-        context.push(NomesNavegacaoRota.scanBluetoothPage);
+        context.push(NomesNavegacaoRota.atualizadorConnectPage);
         break;
+      case "elemento5":
+        final bluetoothViewModel = BluetoothViewModel(
+          bluetoothBleService: getIt<BluetoothAppService>(instanceName: 'ble'),
+        );
+        Map<String, dynamic> resultadoConexao = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ConectarBluetoothPage(
+                bluetoothViewModel: bluetoothViewModel,
+                mac: endereco,
+              );
+            },
+          ),
+        );
+        if (resultadoConexao.isNotEmpty) {
+          if (!mounted) return;
+          context.push(
+            NomesNavegacaoRota.atualizadorConnectPage,
+            extra: resultadoConexao['enderecoMac'],
+          );
+        }
     }
   }
 }

@@ -18,7 +18,6 @@ class BluetoothViewModel extends ChangeNotifier {
       notifyListeners();
       while (tentativasConexao <= 3 || _bluetoothConectado) {
         if (_bluetoothConectado) {
-          notifyListeners();
           return;
         }
         bool conectado = await bluetoothBleService.conectar(device);

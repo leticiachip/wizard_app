@@ -128,9 +128,12 @@ class AtualizadorViewModel extends ChangeNotifier {
       notifyListeners();
       return Failure(permissaoCarga.exceptionOrNull()!);
     }
-    _cargaAtualizacao = permissaoCarga.getOrNull()!;
+    _cargaAtualizacao = permissaoCarga.getOrNull();
+    if (_cargaAtualizacao == null) {
+      return Success(null);
+    }
     double novaVersao = await buscarVersaoEsp();
-log("---->> versao atual esp $novaVersao");
+    log("---->> versao atual esp $novaVersao");
     bool confirmacaoEnviadaServidor =
         sharedPreferences.getBool("atualizacaoCompleta") ?? false;
     //atualizou mas não subiu para o servidor, tenta novamente
@@ -265,7 +268,7 @@ log("---->> versao atual esp $novaVersao");
     log("----->> resposta sair modo scape $sairModoScape");
     if (falhaReceberComando(sairModoScape)) {
       return Failure(
-        ExceptionApp(  
+        ExceptionApp(
           descricao: "Nao foi possivel sair do modo scape",
           detalhes: resposta,
           rastreio: "${CodigoRastreio.atualizacaoESP}.57",
@@ -310,7 +313,7 @@ log("---->> versao atual esp $novaVersao");
     notifyListeners();
     _estadoAtualizacao = EstadoAtualizacao.confirmandoAtualizacao;
     notifyListeners();
-    novaVersao = await buscarVersaoEsp();
+
     if (novaVersao == 0.0) {
       return Failure(
         ExceptionApp(
@@ -339,6 +342,7 @@ log("---->> versao atual esp $novaVersao");
         ),
       );
     }
+    novaVersao = await buscarVersaoEsp();
     if (novaVersao != _cargaAtualizacao!.versao) {
       _estadoAtualizacao = EstadoAtualizacao.falhaAtualizacao;
       return Failure(

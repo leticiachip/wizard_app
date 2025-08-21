@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart' show GetIt;
+import 'package:wizard_app/app/data/services/atualizador_connectbus/atualizador_connectbus_getit.dart';
 import 'package:wizard_app/app/data/services/atualizador_esp/atualizador_getit.dart';
 import 'package:wizard_app/app/data/services/configuracoes/configuracoes_get_it.dart';
 import 'package:wizard_app/app/data/services/home/home_get_it.dart';
@@ -21,4 +22,5 @@ void setupDependencias() {
   CentralRequisicaoGetIt.instance.registrarCentralReq();
   AtualizadorGetit.instance.registrarAtualizadorGetit();
   SharedPreferencesGetit.instance.registrarSharedPrefences();
+  AtualizadorConnectbusGetit.instance.registrarAtualizadorConnectbusGetit();
 }

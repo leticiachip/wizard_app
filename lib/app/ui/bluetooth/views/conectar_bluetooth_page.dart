@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/bluetooth_view_model.dart';
-import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
 class ConectarBluetoothPage extends StatefulWidget {
   final String mac;
@@ -23,7 +21,10 @@ class _ConectarBluetoothPageState extends State<ConectarBluetoothPage> {
   void initState() {
     bluetoothViewModel.addListener(() {
       if (bluetoothViewModel.bluetoothConectado) {
-        context.pushReplacement(NomesNavegacaoRota.atualizadorPage, extra: macVeiculo);
+        Navigator.pop(context, {
+          "statusConexao": bluetoothViewModel.bluetoothConectado,
+          "enderecoMac": macVeiculo,
+        });
       }
     });
     bluetoothViewModel.conectarEquipamento(macVeiculo);
@@ -48,11 +49,21 @@ class _ConectarBluetoothPageState extends State<ConectarBluetoothPage> {
                     ],
                   ),
                 )
-              : ElevatedButton(
-                  onPressed: () {
-                    bluetoothViewModel.conectarEquipamento(macVeiculo);
-                  },
-                  child: Text('Tentar novamente'),
+              : Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        bluetoothViewModel.conectarEquipamento(macVeiculo);
+                      },
+                      child: Text('Tentar novamente'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context, false);
+                      },
+                      child: Text('Voltar'),
+                    ),
+                  ],
                 );
         },
       ),

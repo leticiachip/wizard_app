@@ -54,7 +54,7 @@ class HomeViewModel extends ChangeNotifier {
       },
       {
         "id": "elemento5",
-        "nome": "Elemento 5",
+        "nome": "Atualização connect teste",
         "rotas": ["post:driver_trip_event_get", "post:driver_trip_get"],
       },
     ],

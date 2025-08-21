@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
 import 'package:wizard_app/app/data/services/login/login_service.dart';
+import 'package:wizard_app/app/ui/atualizador_connectbus/view/atualizador_connectbus_page.dart';
+import 'package:wizard_app/app/ui/atualizador_connectbus/view_model/atualizador_connectbus_view_model.dart';
 import 'package:wizard_app/app/ui/atualizador_esp/view/atualizacao_page.dart';
 import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
-import 'package:wizard_app/app/ui/bluetooth/view_model/bluetooth_view_model.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
 import 'package:wizard_app/app/ui/bluetooth/views/teste_bluetooth_page.dart';
 import 'package:wizard_app/app/ui/configuracoes/view/configuracoes_page.dart';
@@ -23,7 +24,6 @@ import 'package:wizard_app/core/splash/views/splash_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wizard_app/l10n/app_localizations.dart';
 
-import 'app/ui/bluetooth/views/conectar_bluetooth_page.dart';
 import 'app/ui/bluetooth/views/scan_bluetooth_page.dart' show ScanBluetoothPage;
 import 'app/ui/home/view/home_page.dart';
 import 'app/ui/login/views/esqueci_senha_page.dart';
@@ -42,9 +42,11 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         final homeViewModel = getIt<HomeViewModel>();
         final atualizadorViewModel = getIt<AtualizadorViewModel>();
+        String mac = state.extra as String;
         return HomePage(
           homeViewModel: homeViewModel,
           atualizadorViewModel: atualizadorViewModel,
+          enderecoMac: mac,
         );
       },
     ),
@@ -111,25 +113,27 @@ final GoRouter _router = GoRouter(
         return ScanBluetoothPage(scanViewModel: scanViewModel);
       },
     ),
+
     GoRoute(
-      path: NomesNavegacaoRota.conexaoBluetoothPage,
-      builder: (BuildContext context, GoRouterState state) {
-        final bluetoothViewModel = getIt<BluetoothViewModel>();
-        String mac = state.extra as String;
-        return ConectarBluetoothPage(
-          bluetoothViewModel: bluetoothViewModel,
-          mac: mac,
-        );
-      },
-    ),
-    GoRoute(
-      path: NomesNavegacaoRota.atualizadorPage,
+      path: NomesNavegacaoRota.atualizadorEspPage,
       builder: (BuildContext context, GoRouterState state) {
         final atualizadorViewModel = getIt<AtualizadorViewModel>();
         String mac = state.extra as String;
         return AtualizadorPage(
           atualizadorViewModel: atualizadorViewModel,
           enderecoMac: mac,
+        );
+      },
+    ),
+    GoRoute(
+      path: NomesNavegacaoRota.atualizadorConnectPage,
+      builder: (BuildContext context, GoRouterState state) {
+        final atualizadorConnectViewModel =
+            getIt<AtualizadorConnectbusViewModel>();
+        String mac = state.extra as String;
+        return AtualizadorConnectbusPage(
+          mac: mac,
+          atualizadorConnectbusViewModel: atualizadorConnectViewModel,
         );
       },
     ),

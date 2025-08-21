@@ -5,4 +5,5 @@ abstract class CodigoRastreio {
   static String conexaoBluetooth = "$base.B.A";
   static String atualizacaoESP = "$base.C.A";
   static String consultarPermissoesRota = "$base.D.A";
+  static String atualizacaoConnect = "$base.F.A";
 }

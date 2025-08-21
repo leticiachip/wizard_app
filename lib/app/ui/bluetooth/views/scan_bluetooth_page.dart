@@ -4,7 +4,11 @@ import 'package:wizard_app/app/domain/models/bluetooth/devices.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
+import '../../../../core/utils/injecao_depencias.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../data/services/bluetooth/bluetooth_service.dart';
+import '../view_model/bluetooth_view_model.dart';
+import 'conectar_bluetooth_page.dart';
 
 class ScanBluetoothPage extends StatefulWidget {
   final ScanViewModel scanViewModel;
@@ -114,12 +118,30 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
                       ),
                     ),
                     subtitle: Text(devices.mac),
-                    onTap: () {
+                    onTap: () async {
                       scanViewModel.stopScan();
-                      context.pushReplacement(
-                        NomesNavegacaoRota.conexaoBluetoothPage,
-                        extra: devices.mac,
+                      final bluetoothViewModel = BluetoothViewModel(
+                        bluetoothBleService: getIt<BluetoothAppService>(
+                          instanceName: 'classic',
+                        ),
                       );
+                      Map<String,dynamic> resultadoConexao = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ConectarBluetoothPage(
+                              bluetoothViewModel: bluetoothViewModel,
+                              mac: devices.mac,
+                            );
+                          },
+                        ),
+                      );
+                      if (resultadoConexao.isNotEmpty) {
+                        if (!context.mounted) {
+                          return;
+                        }
+                        context.push(NomesNavegacaoRota.atualizadorEspPage,extra: resultadoConexao['enderecoMac']);
+                      }
                     },
                   );
                 },

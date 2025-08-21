@@ -26,7 +26,6 @@ class LoginViewModel extends ChangeNotifier {
     final (email, senha) = credenciais;
     Result<EnumResultLogin, ExceptionLogin> resultLogin = await loginService
         .login(email, senha);
-  //  log("----->> result login ${resultLogin.}");
     if (resultLogin.isError) {
       log("------>> caiu na falha");
       ExceptionLogin exception = resultLogin.exceptionOrNull()!;

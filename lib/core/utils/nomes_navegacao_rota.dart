@@ -8,7 +8,7 @@ class NomesNavegacaoRota {
   static String configuracaoPage = '/configuracaoPage';
   static String testeBluetoothPage = '/teste/testeBluetooth';
   static String scanBluetoothPage = '/atualizaresp/scanPage';
-  static String conexaoBluetoothPage = '/conectarBluetooth';
-  static String atualizadorPage = '/atualizadoresp/atualizadorPage';
+  static String atualizadorEspPage = '/atualizadoresp/atualizadorPage';
+  static String atualizadorConnectPage = '/atualizadorConnect/atualizadorConnectPage';
 
 }
