@@ -15,16 +15,20 @@ class AtualizadorConnectBusServiceImpl implements AtualizadorConnectbusService {
   });
   @override
   Future<String> enviarComando(String comando) async {
-    EstadoConexaoBluetooth estadoBt = await bluetoothAppService
-        .obterStatusConexao();
-    if (estadoBt == EstadoConexaoBluetooth.desconectado) {
+    try {
+      EstadoConexaoBluetooth estadoBt = await bluetoothAppService
+          .obterStatusConexao();
+      if (estadoBt == EstadoConexaoBluetooth.desconectado) {
+        return "";
+      }
+      String respostaComando = await bluetoothAppService.transmitirComando(
+        comando,
+      );
+
+      return respostaComando;
+    } catch (e) {
       return "";
     }
-    String respostaComando = await bluetoothAppService.transmitirComando(
-      comando,
-    );
-
-    return respostaComando;
   }
 
   @override

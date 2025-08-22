@@ -53,7 +53,6 @@ class BluetoothClassicService implements BluetoothAppService {
     if (bluetoothConnection == null) {
       return '';
     }
-    print("-> comando $comando");
     bluetoothConnection!.writeString("$comando\r\n");
     String dadosRecebidos = await receiveData(5);
     return dadosRecebidos;

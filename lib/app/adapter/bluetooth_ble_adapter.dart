@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -34,6 +35,7 @@ class BluetoothBleAdapter {
   }
 
   Future<String> transmitCommand(String command) async {
+    log("->receive data $receiveData");
     int mtu = 60;
     List<int> bytes = [];
     //fazer for para o comando grande
@@ -42,7 +44,7 @@ class BluetoothBleAdapter {
       for (int byte in command.codeUnits) {
         bytes.add(byte.toSigned(8));
       }
-
+      print("--->> enviar command $command");
       await _characteristicTX.write(bytes, withoutResponse: true);
       bytes.clear();
     } else {
@@ -60,7 +62,8 @@ class BluetoothBleAdapter {
       }
     }
 
-    String retornoComando = await receiveCommandBle(10);
+    String retornoComando = await receiveCommandBle(15);
+    receiveData = "";
     return retornoComando;
   }
 
@@ -69,16 +72,15 @@ class BluetoothBleAdapter {
     final stopwatch = Stopwatch()..start();
     String data = "";
     while (stopwatch.elapsed < timeout) {
-      String contemDadosAlemFim = receiveData.replaceAll('\r\n', "");
-      data = contemDadosAlemFim;
+      data = receiveData;
       //evite que junte dois comandos no stream
+
       if (data.contains('\r\n')) {
-        data = data.split('\r\n').first;
-      }
-      if (contemDadosAlemFim.isNotEmpty) {
         stopwatch.stop();
-        break;
+        data = data.split('\r\n').first;
+        return data;
       }
+
       if ((timeout - stopwatch.elapsed).isNegative) {
         break;
       }
@@ -145,7 +147,7 @@ class BluetoothBleAdapter {
   listenerBle() {
     rx.listen((event) {
       receiveData += event;
-      print('\x1B[32m$receiveData\x1B[0m');
+         print('\x1B[32m$receiveData\x1B[0m');
       print('\x1B[31m${receiveData.codeUnits}\x1B[0m');
     });
   }

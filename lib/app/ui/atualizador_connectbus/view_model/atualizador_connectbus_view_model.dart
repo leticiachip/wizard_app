@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:wizard_app/app/data/utils/enum_estado_atualizacao_connnect.dart';
 import 'package:wizard_app/core/const/codigo_rastreio.dart';
@@ -30,6 +28,7 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
     String endereco,
   ) async {
     int qtdLinhas = 3;
+
     _estadoAtualizacaoConnect = EnumEstadoAtualizacaoConnnect.erase;
     notifyListeners();
     Result<CargaConnect, ExceptionApp> resultCarga =
@@ -52,9 +51,22 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
       notifyListeners();
       return Failure(_exception);
     }
-    /* Result<bool?, ExceptionApp> resultConsultaVersao = await consultarVersao(
-      carga.id!,
+    //testa comunicação
+    String resulGetInfo = await atualizadorConnectBusService.enviarComando(
+      "AT+GET_INFO:AA",
     );
+    if (resulGetInfo.isEmpty) {
+      _exception = ExceptionApp(
+        descricao: "Não foi possivel estabelecer comunicação com o connect",
+        detalhes: "Connect não respondeu, deve reiniciar o connect",
+        rastreio: CodigoRastreio.atualizacaoConnect,
+      );
+      notifyListeners();
+      return Failure(_exception);
+    }
+    Result<bool?, ExceptionApp> resultConsultaVersao = await consultarVersao(
+      carga.id!,
+    ); 
     if (resultConsultaVersao.isError) {
       _exception = resultConsultaVersao.exceptionOrNull()!;
       notifyListeners();
@@ -66,13 +78,15 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
       _estadoAtualizacaoConnect = EnumEstadoAtualizacaoConnnect.sucesso;
       notifyListeners();
       return Success(null);
-    } */
-
+    }
+    print("-> envio ${DateTime.now()}");
     String resultErase = await atualizadorConnectBusService.enviarComando(
       "AT+BL_ERASE",
     );
+    print("--->> resposta $resultErase");
+    print("-> fim ${DateTime.now()}");
+
     String statusResposta = resultErase.split(':').last;
-    print("--------->>> statusResposta $statusResposta");
     if (statusResposta != '00') {
       _exception = ExceptionApp(
         descricao: "Não foi possivel enviar comando AT+BL_ERASE",
@@ -88,7 +102,6 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
     String resulStartUpdate = await atualizadorConnectBusService.enviarComando(
       "AT+BL_UPDATE_START:$startUpdate",
     );
-    print("--->> resposta $resulStartUpdate");
     String statusStartUpdate = resulStartUpdate.split(':').last.substring(0, 2);
     if (statusStartUpdate != "00") {
       _exception = ExceptionApp(
@@ -110,12 +123,9 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
           .toRadixString(16)
           .padLeft(8, '0')
           .toUpperCase();
-      print('\x1B[35m inicio: ${DateTime.now()}\x1B[0m');
       String resultBlData = await atualizadorConnectBusService.enviarComando(
         "AT+BL_DATA:$indice${result[i]}",
       );
-      print('\x1B[35m fim: ${DateTime.now()}\x1B[0m');
-      print("--->> teste $resultBlData");
       //se vier vazio continua enviando os dados
       if (resultBlData.isEmpty) {
         _exception = ExceptionApp(
@@ -145,11 +155,9 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
       notifyListeners();
       return Failure(_exception);
     }
-    print("> $finish");
-    await Future.delayed(const Duration(seconds: 15));
+    await Future.delayed(const Duration(seconds: 20));
     bool reconectarNovamente = await atualizadorConnectBusService
         .reconectarBluetooth(endereco);
-    print("---->>> reconectar $reconectarNovamente");
     if (!reconectarNovamente) {
       _exception = ExceptionApp(
         descricao: "Não foi possivel reconectar no equipamento",
@@ -169,7 +177,7 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
       return Failure(_exception);
     }
     bool resultadoAtualizacao = resultTeste.getOrNull()!;
-    if (resultadoAtualizacao) {
+    if (!resultadoAtualizacao) {
       _exception = ExceptionApp(
         descricao: "Não foi possivel confirmar atualização",
         detalhes:
@@ -185,11 +193,11 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
   }
 
   Future<Result<bool?, ExceptionApp>> consultarVersao(String idCarga) async {
-    print("----->>>> AT+GET_APP_INFO:AA - ${DateTime.now()}");
+    print("--->> AT+GET_APP_INFO:AA");
     String resultInfo = await atualizadorConnectBusService.enviarComando(
       "AT+GET_APP_INFO:AA",
     );
-    print("---->>> result get info $resultInfo - ${DateTime.now()}");
+    print("--->> result get info $resultInfo");
     if (resultInfo.isEmpty) {
       _exception = ExceptionApp(
         descricao: "Não foi possivel obter as informações",
@@ -205,8 +213,6 @@ class AtualizadorConnectbusViewModel extends ChangeNotifier {
     ).toString();
 
     String versaoRota = int.parse(idCarga, radix: 16).toString();
-    print("--->> versao rota $versaoRota");
-    print("---->>> versao atual $versaoAtual");
 
     return Success(versaoAtual == versaoRota);
   }
