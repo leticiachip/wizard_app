@@ -125,22 +125,29 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
                           instanceName: 'classic',
                         ),
                       );
-                      Map<String,dynamic> resultadoConexao = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ConectarBluetoothPage(
-                              bluetoothViewModel: bluetoothViewModel,
-                              mac: devices.mac,
-                            );
-                          },
-                        ),
-                      );
+                      Map<String, dynamic>? resultadoConexao =
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ConectarBluetoothPage(
+                                  bluetoothViewModel: bluetoothViewModel,
+                                  mac: devices.mac,
+                                );
+                              },
+                            ),
+                          );
+                      if (resultadoConexao == null) {
+                        return;
+                      }
                       if (resultadoConexao.isNotEmpty) {
                         if (!context.mounted) {
                           return;
                         }
-                        context.push(NomesNavegacaoRota.atualizadorEspPage,extra: resultadoConexao['enderecoMac']);
+                        context.push( 
+                          NomesNavegacaoRota.atualizadorEspPage,
+                          extra: resultadoConexao['enderecoMac'],
+                        );
                       }
                     },
                   );

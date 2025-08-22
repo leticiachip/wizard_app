@@ -59,7 +59,8 @@ class _ConectarBluetoothPageState extends State<ConectarBluetoothPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context, false);
+                        print("-> entrou em voltar");
+                        Navigator.pop(context, null);
                       },
                       child: Text('Voltar'),
                     ),
