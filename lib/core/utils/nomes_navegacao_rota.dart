@@ -10,5 +10,6 @@ class NomesNavegacaoRota {
   static String scanBluetoothPage = '/atualizaresp/scanPage';
   static String atualizadorEspPage = '/atualizadoresp/atualizadorPage';
   static String atualizadorConnectPage = '/atualizadorConnect/atualizadorConnectPage';
+  static String ordemServicoPage = '/ordemServicoPage';
 
 }

@@ -38,7 +38,7 @@ class HomeViewModel extends ChangeNotifier {
       },
       {
         "id": "elemento3",
-        "nome": "Conexão bluetooth",
+        "nome": "Ordem de serviço",
         "rotas": [
           "post:app_evento_tipo_get",
           "post:app_notificacao_tipo_get",

@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
         widget.homeViewModel.capturarImagem();
         break;
       case "elemento3":
-        context.push(NomesNavegacaoRota.testeBluetoothPage);
+        context.push(NomesNavegacaoRota.ordemServicoPage);
         break;
       case "elemento4":
         context.push(NomesNavegacaoRota.atualizadorConnectPage);

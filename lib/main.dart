@@ -17,6 +17,8 @@ import 'package:wizard_app/app/ui/login/views/confirmar_email_page.dart';
 import 'package:wizard_app/app/ui/login/views/login_page.dart';
 import 'package:wizard_app/app/ui/login/view_model/login_view_model.dart';
 import 'package:wizard_app/app/ui/login/views/troca_senha_page.dart';
+import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
+import 'package:wizard_app/app/ui/ordem_servico/views/ordem_servico_page.dart';
 import 'package:wizard_app/core/flavors/flavors.dart';
 import 'package:wizard_app/core/utils/injecao_depencias.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
@@ -135,6 +137,14 @@ final GoRouter _router = GoRouter(
           mac: mac,
           atualizadorConnectbusViewModel: atualizadorConnectViewModel,
         );
+      },
+    ),
+    GoRoute(
+      path: NomesNavegacaoRota.ordemServicoPage,
+      builder: (BuildContext context, GoRouterState state) {
+        OrdemServicoViewModel ordemServicoViewModel =
+            getIt<OrdemServicoViewModel>();
+        return OrdemServicoPage(ordemServicoViewModel: ordemServicoViewModel);
       },
     ),
   ],
