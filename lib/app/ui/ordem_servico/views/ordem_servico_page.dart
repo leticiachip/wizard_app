@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
 import 'package:wizard_app/core/services/formatar_hora.dart';
+import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
 import '../../../domain/models/ordem_servico/ordem_servico.dart';
 
@@ -44,6 +46,9 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
               OrdemServico ordemServico =
                   ordemServicoViewModel.listaOrdemServico[index];
               return ListTile(
+                onTap: (){
+                  context.push(NomesNavegacaoRota.inicioOrdemServicoPage);
+                },
                 title: Text(ordemServico.informacoesAdicionais),
                 subtitle: Column(
                   mainAxisAlignment: MainAxisAlignment.start,

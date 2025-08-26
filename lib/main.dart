@@ -29,6 +29,9 @@ import 'package:wizard_app/l10n/app_localizations.dart';
 import 'app/ui/bluetooth/views/scan_bluetooth_page.dart' show ScanBluetoothPage;
 import 'app/ui/home/view/home_page.dart';
 import 'app/ui/login/views/esqueci_senha_page.dart';
+import 'app/ui/ordem_servico/views/checklist_ordem_servico_page.dart';
+import 'app/ui/ordem_servico/views/inicial_ordem_servico_page.dart';
+import 'app/ui/ordem_servico/views/pdf_manual_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -147,6 +150,36 @@ final GoRouter _router = GoRouter(
         return OrdemServicoPage(ordemServicoViewModel: ordemServicoViewModel);
       },
     ),
+    GoRoute(
+      path: NomesNavegacaoRota.inicioOrdemServicoPage,
+      builder: (BuildContext context, GoRouterState state) {
+        OrdemServicoViewModel ordemServicoViewModel =
+            getIt<OrdemServicoViewModel>();
+        return InicialOrdemServicoPage(
+          ordemServicoViewModel: ordemServicoViewModel,
+        );
+      },
+    ),
+    GoRoute(
+      path: NomesNavegacaoRota.checklistVeiculo,
+      builder: (BuildContext context, GoRouterState state) {
+        OrdemServicoViewModel ordemServicoViewModel =
+            getIt<OrdemServicoViewModel>();
+        return ChecklistOrdemServicoPage(
+          ordemServicoViewModel: ordemServicoViewModel,
+        );
+      },
+    ),
+    GoRoute(
+      path: NomesNavegacaoRota.pdfPage,
+      builder: (BuildContext context, GoRouterState state) {
+        OrdemServicoViewModel ordemServicoViewModel =
+            getIt<OrdemServicoViewModel>();
+        return PdfManualPage(
+          ordemServicoViewModel: ordemServicoViewModel,
+        );
+      },
+    ),
   ],
   initialLocation: NomesNavegacaoRota.splashPage,
 );
@@ -179,7 +212,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               primaryColor: Colors.pink,
               appBarTheme: AppBarTheme(color: Colors.purple),
-              scaffoldBackgroundColor: Colors.pink[50],
+              scaffoldBackgroundColor: Colors.pink[10],
             ),
     );
   }

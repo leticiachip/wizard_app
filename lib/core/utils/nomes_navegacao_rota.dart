@@ -11,5 +11,8 @@ class NomesNavegacaoRota {
   static String atualizadorEspPage = '/atualizadoresp/atualizadorPage';
   static String atualizadorConnectPage = '/atualizadorConnect/atualizadorConnectPage';
   static String ordemServicoPage = '/ordemServicoPage';
+  static String inicioOrdemServicoPage = '/ordemServicoPage/inicio';
+  static String checklistVeiculo = '/ordemServicoPage/inicio/checklistVeiculo';
+  static String pdfPage = '/ordemServico/pdf';
 
 }

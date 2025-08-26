@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:wizard_app/core/requisicao_app/repository/central_requisicao_repository.dart';
 
 import '../../exceptions_app/model/exception_app.dart';
@@ -13,7 +15,7 @@ class CentralDownloadService {
   Future<Result<ResultadoRequisicao, ExceptionApp>> executarDownload(
     NomeRotasDownload rota, {
     required Map<String, dynamic> body,
-    required String rastreio
+    required String rastreio,
   }) async {
     if (rota.name.contains('/mock')) {
       return Success(MockDownload.resultadoMock(rota));
@@ -23,8 +25,13 @@ class CentralDownloadService {
           urlRota: rota.name,
           tipo: TiposRequisicao.post.tipo,
           body: body,
-          rastreio: rastreio
+          rastreio: rastreio,
         );
     return resultReq;
   }
+
+  Future<Result<Uint8List, ExceptionApp>> baixarArquivo(urlPdf, {required String rastreio})async{
+    return centralRequisicaoRepository.executarCarregamentoArquivo(urlPdf, rastreio);
+  }
+ 
 }

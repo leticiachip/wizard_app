@@ -19,4 +19,39 @@ class OrdemServicoRepositoryImpl implements OrdemServicoRepository {
       rastreio: CodigoRastreio.ordemServico,
     );
   }
+
+  @override
+  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarEtapaOS() {
+    return centralDownloadService.executarDownload(
+      NomeRotasDownload.downloadEtapasOS,
+      body: {},
+      rastreio: CodigoRastreio.ordemServico,
+    );
+  }
+
+  @override
+  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarChecklist() {
+    return centralDownloadService.executarDownload(
+      NomeRotasDownload.downloadCheckList,
+      body: {},
+      rastreio: CodigoRastreio.ordemServico,
+    );
+  }
+
+  @override
+  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarManualPdf(
+    String url,
+    Map<String, dynamic> body,
+  ) async {
+    return centralDownloadService.executarDownload(
+      NomeRotasDownload.downloadManual,
+      body: {},
+      rastreio: CodigoRastreio.ordemServico,
+    );
+  }
+  
+  @override
+  buscarArquivoPdf(String urlPdf) {
+    return centralDownloadService.baixarArquivo(urlPdf, rastreio: CodigoRastreio.baixarArquivo);
+  }
 }

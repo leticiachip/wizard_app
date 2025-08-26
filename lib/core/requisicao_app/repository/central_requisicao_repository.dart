@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'package:wizard_app/app/data/services/login/login_service.dart';
@@ -247,5 +248,24 @@ class CentralRequisicaoRepository {
       detalhes: convertBase64("exception $exception | stackTrace $stackTrace"),
       rastreio: rastreio,
     );
+  }
+
+  Future<Result<Uint8List, ExceptionApp>> executarCarregamentoArquivo(
+    String urlPdf,
+    String rastreio,
+  ) async {
+    try {
+      final url = Uri.parse(urlPdf);
+      var response = await http.get(url);
+      return Success(response.bodyBytes);
+    } catch (e, stack) {
+      return Failure(
+        ExceptionApp(
+          descricao: 'Não foi possivel buscar o arquivo',
+          detalhes: '$e $stack',
+          rastreio: rastreio,
+        ),
+      );
+    }
   }
 }
