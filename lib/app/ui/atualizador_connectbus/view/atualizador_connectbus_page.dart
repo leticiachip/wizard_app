@@ -4,6 +4,8 @@ import 'package:wizard_app/app/data/utils/enum_estado_atualizacao_connnect.dart'
 
 import 'package:wizard_app/app/ui/atualizador_connectbus/view_model/atualizador_connectbus_view_model.dart';
 
+import '../../../../core/ui/scaffold_marca_dagua.dart';
+
 class AtualizadorConnectbusPage extends StatefulWidget {
   final String mac;
   final AtualizadorConnectbusViewModel atualizadorConnectbusViewModel;
@@ -31,7 +33,7 @@ class _AtualizadorConnectbusPageState extends State<AtualizadorConnectbusPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
       appBar: AppBar(title: Text("Atualizador connect bus")),
       body: AnimatedBuilder(
         animation: atualizadorConnectbusViewModel,

@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/ui/configuracoes/view_model/configuracoes_view_model.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
+import '../../../../core/ui/scaffold_marca_dagua.dart';
+
 class ConfiguracoesPage extends StatefulWidget {
   final ConfiguracoesViewModel configuracoesViewModel;
   const ConfiguracoesPage({super.key, required this.configuracoesViewModel});
@@ -28,7 +30,7 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
       appBar: AppBar(title: Text("Configurações")),
       body: ListView(
         children: [

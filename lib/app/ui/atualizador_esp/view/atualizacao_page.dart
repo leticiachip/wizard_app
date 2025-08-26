@@ -7,6 +7,7 @@ import 'package:wizard_app/app/data/utils/estado_conexao_bluetooth.dart';
 import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
+import '../../../../core/ui/scaffold_marca_dagua.dart';
 import '../../login/views/components/dialog_erro.dart';
 
 class AtualizadorPage extends StatefulWidget {
@@ -64,7 +65,7 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
       appBar: AppBar(title: Text("Atualizar")),
       body: AnimatedBuilder(
         animation: atualizadorViewModel,

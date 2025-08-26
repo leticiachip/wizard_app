@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
+import 'package:wizard_app/core/ui/scaffold_marca_dagua.dart';
 
 class PdfManualPage extends StatefulWidget {
   final OrdemServicoViewModel ordemServicoViewModel;
@@ -29,7 +30,8 @@ class _PdfManualPageState extends State<PdfManualPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
+      appBar: AppBar(title: Text("Pdf"),),
       body: ListenableBuilder(
         listenable: ordemServicoViewModel.buscarManual,
         builder: (context, child) {

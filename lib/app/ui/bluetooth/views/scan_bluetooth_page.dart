@@ -4,6 +4,7 @@ import 'package:wizard_app/app/domain/models/bluetooth/devices.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
+import '../../../../core/ui/scaffold_marca_dagua.dart';
 import '../../../../core/utils/injecao_depencias.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../data/services/bluetooth/bluetooth_service.dart';
@@ -31,7 +32,7 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: () {

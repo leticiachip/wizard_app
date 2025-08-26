@@ -175,9 +175,7 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         OrdemServicoViewModel ordemServicoViewModel =
             getIt<OrdemServicoViewModel>();
-        return PdfManualPage(
-          ordemServicoViewModel: ordemServicoViewModel,
-        );
+        return PdfManualPage(ordemServicoViewModel: ordemServicoViewModel);
       },
     ),
   ],

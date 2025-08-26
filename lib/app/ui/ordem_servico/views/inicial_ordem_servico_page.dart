@@ -4,6 +4,8 @@ import 'package:wizard_app/app/domain/models/etapas_ordem_servico/etapas_ordem_s
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
+import '../../../../core/ui/scaffold_marca_dagua.dart';
+
 class InicialOrdemServicoPage extends StatefulWidget {
   final OrdemServicoViewModel ordemServicoViewModel;
   const InicialOrdemServicoPage({
@@ -27,7 +29,7 @@ class _InicialOrdemServicoPageState extends State<InicialOrdemServicoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
       appBar: AppBar(title: Text("Page inicial")),
       body: AnimatedBuilder(
         animation: ordemServicoViewModel.buscarEtpasOS,

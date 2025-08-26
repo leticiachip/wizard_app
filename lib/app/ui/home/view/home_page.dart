@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:wizard_app/app/ui/atualizador_esp/view_model/atualizador_view_model.dart';
 import 'package:wizard_app/app/ui/bluetooth/views/conectar_bluetooth_page.dart';
 import 'package:wizard_app/app/ui/home/view_model/home_view_model.dart';
+import 'package:wizard_app/core/ui/scaffold_marca_dagua.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
 import '../../../../core/utils/injecao_depencias.dart';
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
       appBar: AppBar(
         title: Text("Home page"),
         actions: [

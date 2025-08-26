@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/bluetooth_view_model.dart';
 
+import '../../../../core/ui/scaffold_marca_dagua.dart';
+
 class ConectarBluetoothPage extends StatefulWidget {
   final String mac;
   final BluetoothViewModel bluetoothViewModel;
@@ -33,7 +35,7 @@ class _ConectarBluetoothPageState extends State<ConectarBluetoothPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
       appBar: AppBar(title: Text("Conexão")),
       body: AnimatedBuilder(
         animation: bluetoothViewModel,

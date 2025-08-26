@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
 import 'package:wizard_app/core/services/formatar_hora.dart';
+import 'package:wizard_app/core/ui/scaffold_marca_dagua.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
 import '../../../domain/models/ordem_servico/ordem_servico.dart';
@@ -26,7 +27,7 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMarcaDagua(
       appBar: AppBar(title: Text("Ordem serviço")),
       body: AnimatedBuilder(
         animation: ordemServicoViewModel.buscarOS,
