@@ -60,3 +60,175 @@ Map<String, dynamic> checklist = {
     },
   ],
 };
+
+Map<String, dynamic> mapInstalacao = {
+  "id": 1,
+  "orderId": "2025-00123",
+  "type": 1,
+  "typeDescription": "Instalação",
+  "vehicle": {
+    "id": 1,
+    "automakerDescription": "MERCEDES-BENZ",
+    "modelDescription": "ACTROS 2651 S 6X4 2P (DIESEL)(E5)",
+    "year": 2021,
+    "plate": "ABC1D23",
+  },
+  "workflow": {
+    "workflowId": 1,
+    "workflowDescription": "Instalação Rastreador + ConnectBus",
+    "steps": [
+      {
+        "stepId": 1,
+        "title": "Preparação do veículo",
+        "order": 1,
+        "actions": [
+          {
+            "actionId": 1,
+            "type": 1,
+            "typeDescription": "CHECKLIST",
+            "checkListOptions": [
+              {"id": 1, "description": "Opção 1"},
+              {"id": 2, "description": "Opção 2"},
+              {"id": 3, "description": "Opção 3"},
+            ],
+            "label": "Conferir se o veículo está desligado",
+            "enablePicture": true,
+            "pictureDescription": "Envia uma foto",
+            "maximun": 1,
+            "minimum": 2,
+          },
+          {
+            "actionId": 2,
+            "type": 1,
+            "typeDescription": "CHECKLIST",
+            "checkListOptions": [
+              {"id": 1, "description": "Opção 1"},
+              {"id": 2, "description": "Opção 2"},
+              {"id": 3, "description": "Opção 3"},
+            ],
+            "label": "Verificar presença de bateria auxiliar",
+            "enablePicture": true,
+            "maximun": 1,
+            "minimum": 2,
+          },
+          {
+            "actionId": 3,
+            "type": 2,
+            "typeDescription": "CHECKBOX",
+            "checkListOptions": [],
+            "label": "Verificar presença de bateria auxiliar",
+            "enablePicture": true,
+            "maximun": 1,
+            "minimum": 2,
+          },
+          {
+            "actionId": 4,
+            "type": 3,
+            "typeDescription": "TEXTFIELD",
+            "checkListOptions": [],
+            "label": "Descreva a prsença de bateria",
+            "enablePicture": true,
+            "maximun": 1,
+            "minimum": 2,
+          },
+          {
+            "actionId": 5,
+            "type": 4,
+            "typeDescription": "PHOTO",
+            "checkListOptions": [],
+            "label": "Capturar foto do painel do veículo antes da desmontagem",
+            "enablePicture": true,
+            "maximun": 1,
+            "minimum": 2,
+          },
+          {
+            "actionId": 6,
+            "type": 5,
+            "typeDescription": "BUTTON_SIGNATURE",
+            "checkListOptions": [],
+
+            "label": "Assinar",
+            "enablePicture": false,
+            "maximun": 0,
+            "minimum": 0,
+          },
+          {
+            "actionId": 7,
+            "type": 6,
+            "typeDescription": "BUTTON_COMMAND",
+            "checkListOptions": [],
+            "label": "Iniciar instalação",
+            "enablePicture": false,
+            "maximun": 0,
+            "minimum": 0,
+          },
+        ],
+      },
+      {
+        "stepId": 2,
+        "title": "Instalação do chicote",
+        "order": 2,
+        "actions": [
+          {
+            "actionId": 4,
+            "type": "INFO",
+            "content":
+                "Conecte o chicote principal ao rastreador e fixe o fusível próximo à bateria.",
+            "mediaUrl": "https://exemplo.com/imagens/chicote.png",
+          },
+          {
+            "actionId": 5,
+            "type": "CHECKLIST",
+            "label": "Verificar se o fusível está corretamente posicionado",
+          },
+          {
+            "actionId": 6,
+            "type": "PHOTO",
+            "label": "Capturar foto do chicote conectado",
+          },
+        ],
+      },
+      {
+        "stepId": 3,
+        "title": "Configuração do dispositivo",
+        "order": 3,
+        "actions": [
+          {
+            "actionId": 7,
+            "type": "FORM",
+            "label": "Digite o número de série do rastreador",
+            "fieldType": "text",
+          },
+          {
+            "actionId": 8,
+            "type": "DEVICE_CONFIG",
+            "label": "Enviar comando de configuração inicial",
+            "command": "AT+****",
+          },
+          {
+            "actionId": 9,
+            "type": "CHECKLIST",
+            "label": "Confirmar que o LED do dispositivo está piscando",
+          },
+        ],
+      },
+      {
+        "stepId": 4,
+        "title": "Finalização",
+        "order": 4,
+        "actions": [
+          {
+            "actionId": 10,
+            "type": "PHOTO",
+            "label": "Capturar foto final do ras treador instalado",
+          },
+          {
+            "actionId": 11,
+            "type": "SIGNATURE",
+            "label": "Coletar assinatura do cliente",
+          },
+        ],
+      },
+    ],
+  },
+};

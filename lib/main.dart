@@ -210,7 +210,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               primaryColor: Colors.pink,
               appBarTheme: AppBarTheme(color: Colors.purple),
-              scaffoldBackgroundColor: Colors.pink[10],
+              scaffoldBackgroundColor: Colors.white,
             ),
     );
   }
