@@ -202,7 +202,30 @@ class MyApp extends StatelessWidget {
       routerConfig: _router,
       title: 'Flutter Demo',
       theme: Flavor.isProduction()
-          ? ThemeData(primaryColor: Color(0xFF123D9E), fontFamily: 'Montserrat', )
+          ? ThemeData(
+              primaryColor: Color(0xFF123D9E),
+              colorScheme: ColorScheme(
+                brightness: Brightness.light,
+                primary: Color(0xFF123D9E),
+                onPrimary: Color(0xFFFFFFFF),
+                secondary: Color(0xFFFFFFFF),
+                onSecondary: Color(0xFF000000),
+                error: Color(0xFFFFC247),
+                onError: Color(0xFFFFFFFF),
+                surface: Color(0xFFFFFFFF),
+                onSurface: Color(0xFF444444),
+              ),
+              fontFamily: 'Montserrat',
+              appBarTheme: AppBarTheme(
+                centerTitle: true,
+                titleTextStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontFamily: 'Montserrat',
+                  fontSize: 16,
+                ),
+              ),
+            )
           : ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               primaryColor: Colors.pink,

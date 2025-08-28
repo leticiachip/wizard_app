@@ -51,4 +51,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get buscarDispositivos => 'Buscando dispositivos';
+
+  @override
+  String get ordemServico => 'Ordem de serviço';
+
+  @override
+  String get empresaDestinataria => 'Empresa distinatária';
+
+  @override
+  String get responsavel => 'Responsável';
+
+  @override
+  String get prazoFinal => 'Prazo final';
 }

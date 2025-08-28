@@ -183,6 +183,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Searching for devices'**
   String get buscarDispositivos;
+
+  /// No description provided for @ordemServico.
+  ///
+  /// In en, this message translates to:
+  /// **'Work order'**
+  String get ordemServico;
+
+  /// No description provided for @empresaDestinataria.
+  ///
+  /// In en, this message translates to:
+  /// **'Distributor company'**
+  String get empresaDestinataria;
+
+  /// No description provided for @responsavel.
+  ///
+  /// In en, this message translates to:
+  /// **'Responsible'**
+  String get responsavel;
+
+  /// No description provided for @prazoFinal.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline'**
+  String get prazoFinal;
 }
 
 class _AppLocalizationsDelegate

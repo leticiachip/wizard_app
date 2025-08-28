@@ -18,5 +18,9 @@
         }
     },
     "falhaBuscarDispositivos": "It was not possible to retrieve devices",
-    "buscarDispositivos": "Searching for devices"
+    "buscarDispositivos": "Searching for devices",
+    "ordemServico": "Work order",
+    "empresaDestinataria": "Distributor company",
+    "responsavel": "Responsible",
+    "prazoFinal": "Deadline"
 }

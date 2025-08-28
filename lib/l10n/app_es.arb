@@ -18,6 +18,11 @@
         }
     },
    "falhaBuscarDispositivos": "No se pudieron buscar dispositivos.",
-   "buscarDispositivos": "Buscando dispositivos"
+   "buscarDispositivos": "Buscando dispositivos",
+   "ordemServico": "Orden de servicio",
+   "empresaDestinataria": "Empresa distinguida",
+   "responsavel": "responsable",
+   "prazoFinal": "Fecha límite"
+
     
 }

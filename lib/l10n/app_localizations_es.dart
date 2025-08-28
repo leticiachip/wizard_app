@@ -52,4 +52,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get buscarDispositivos => 'Buscando dispositivos';
+
+  @override
+  String get ordemServico => 'Orden de servicio';
+
+  @override
+  String get empresaDestinataria => 'Empresa distinguida';
+
+  @override
+  String get responsavel => 'responsable';
+
+  @override
+  String get prazoFinal => 'Fecha límite';
 }
