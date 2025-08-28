@@ -1,33 +1,78 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ordem_servico.freezed.dart';
 part 'ordem_servico.g.dart';
 
 @freezed
 abstract class OrdemServico with _$OrdemServico {
-  const factory OrdemServico({
-    required int id,
-    required int idEmpresa,
-    required int idEmpresaDestinataria,
-    required String numeroPedido,
-    required int tipo,
-    required int status,
-    required String dataHoraInicio,
-    required String dataHoraFim,
-    required int idVeiculo,
-    required int idFuncionario,
-    required String prazoFinal,
-    required String dataHoraPrazoFinal,
+   factory OrdemServico({
+    required int? id,
+
+    @JsonKey(name: 'companyId')
+    required int? idEmpresa,
+
+    @JsonKey(name: 'companyName')
+    required String? nomeEmpresa,
+
+    @JsonKey(name: 'recipientCompanyId')
+    required int? idEmpresaDestinataria,
+
+    @JsonKey(name: 'orderNumber')
+    required String? numeroPedido,
+
+    @JsonKey(name: 'workflowId')
+    required int? tipo,
+
+    @JsonKey(name: 'serviceOrderStatusId')
+    required int? status,
+
+    @JsonKey(name: 'startTimestamp')
+    String? dataHoraInicio,
+
+    @JsonKey(name: 'endTimestamp')
+    String? dataHoraFim,
+
+    @JsonKey(name: 'vehicleId')
+    required int? idVeiculo,
+
+    @JsonKey(name: 'employeeId')
+    required int? idFuncionario,
+
+    @JsonKey(name: 'deadline')
+    required int? prazoFinal,
+
+    @JsonKey(name: 'deadlineTimestamp')
+    required String? dataHoraPrazoFinal,
+
+    @JsonKey(name: 'attempt')
     required int tentativas,
-    required String latitude,
-    required String longitude,
-    required String informacoesAdicionais,
-    required String motivoCancelamento,
-    required String comentario,
-    required String urlAssinaturaDigital,
-    required String responsavel,
-    required String dataHora,
+
+    @JsonKey(name: 'latitude')
+    required String? latitude,
+
+    @JsonKey(name: 'longitude')
+    required String? longitude,
+
+    @JsonKey(name: 'additionalInformation')
+    required String? informacoesAdicionais,
+
+    @JsonKey(name: 'serviceOrderCancellationDescription')
+    String? motivoCancelamento,
+
+    @JsonKey(name: 'comment')
+    String? comentario,
+
+    @JsonKey(name: 'digitalSignatureURL')
+    String? urlAssinaturaDigital,
+
+    @JsonKey(name: 'employeeFullName')
+    required String? responsavel,
+
+    @JsonKey(name: 'timestamp')
+    required String? dataHora,
   }) = _OrdemServico;
 
-  factory OrdemServico.fromJson(Map<String, Object?> json) =>
+  factory OrdemServico.fromJson(Map<String, dynamic> json) =>
       _$OrdemServicoFromJson(json);
 }

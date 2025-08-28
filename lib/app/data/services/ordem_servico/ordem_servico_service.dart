@@ -14,4 +14,5 @@ abstract class OrdemServicoService {
   buscarEtapasOrdemServico();
   Future<Result<CheckList, ExceptionApp>> buscarCheckist();
   Future<Result<Uint8List, ExceptionApp>> buscarPdf();
+  //Future<Result<TipoOrdemServico, ExceptionApp>> buscarOrdemServicoEspecifico();
 }

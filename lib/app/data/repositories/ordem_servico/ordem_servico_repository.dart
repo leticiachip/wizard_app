@@ -6,7 +6,7 @@ import '../../../../core/requisicao_app/utils/resultado_requisicao.dart'
 import '../../../../core/utils/result.dart';
 
 abstract class OrdemServicoRepository {
-  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarOrdemServico();
+  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarOrdemServicoDisponiveis();
   Future<Result<ResultadoRequisicao, ExceptionApp>> buscarEtapaOS();
   Future<Result<ResultadoRequisicao, ExceptionApp>> buscarChecklist();
   Future<Result<ResultadoRequisicao, ExceptionApp>> buscarManualPdf(
@@ -14,4 +14,5 @@ abstract class OrdemServicoRepository {
     Map<String, dynamic> body,
   );
   Future<Result<Uint8List, ExceptionApp>> buscarArquivoPdf(String urlPdf);
+  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarOrdemServico();
 }

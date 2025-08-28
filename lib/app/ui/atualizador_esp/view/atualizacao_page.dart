@@ -109,7 +109,7 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
             return Column(
               children: [
                 Text(
-                  "Deve reiniciar a atualização ${atualizadorViewModel.exception.rastreio}",
+                  "Deve reiniciar a atualização ",
                 ),
                 ElevatedButton(
                   onPressed: () {

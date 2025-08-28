@@ -42,7 +42,13 @@ class _ChecklistOrdemServicoPageState extends State<ChecklistOrdemServicoPage> {
           if (ordemServicoViewModel.buscarCheckList.running) {
             return CircularProgressIndicator();
           }
-          return ListView.builder(
+          return Column(children: [Row(children: [])]);
+        },
+      ),
+    );
+  }
+}
+/* ListView.builder(
             itemCount: ordemServicoViewModel.checkList.checkListItem.length,
             itemBuilder: (context, index) {
               ChecklistItem item =
@@ -65,9 +71,4 @@ class _ChecklistOrdemServicoPageState extends State<ChecklistOrdemServicoPage> {
                 ],
               );
             },
-          );
-        },
-      ),
-    );
-  }
-}
+          ); */

@@ -12,7 +12,7 @@ class OrdemServicoRepositoryImpl implements OrdemServicoRepository {
   OrdemServicoRepositoryImpl({required this.centralDownloadService});
 
   @override
-  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarOrdemServico() {
+  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarOrdemServicoDisponiveis() {
     return centralDownloadService.executarDownload(
       NomeRotasDownload.downloadOrdemServico,
       body: {},
@@ -54,4 +54,15 @@ class OrdemServicoRepositoryImpl implements OrdemServicoRepository {
   buscarArquivoPdf(String urlPdf) {
     return centralDownloadService.baixarArquivo(urlPdf, rastreio: CodigoRastreio.baixarArquivo);
   }
+  
+  @override
+  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarOrdemServico() {
+    return centralDownloadService.executarDownload(
+      NomeRotasDownload.downloadOrdemServicoEspecifica,
+      body: {},
+      rastreio: CodigoRastreio.ordemServico,
+    );
+  }
+  
+  
 }

@@ -50,11 +50,11 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
                 onTap: (){
                   context.push(NomesNavegacaoRota.inicioOrdemServicoPage);
                 },
-                title: Text(ordemServico.informacoesAdicionais),
+                title: Text(ordemServico.informacoesAdicionais ?? "N/A"),
                 subtitle: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                  Text(formatarHora(ordemServico.dataHoraInicio)),
+                  Text(formatarHora(ordemServico.dataHoraInicio ?? "")),
                 ]),
               );
             },

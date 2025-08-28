@@ -20,7 +20,7 @@ class OrdemServicoServiceImpl implements OrdemServicoService {
   Future<Result<List<OrdemServico>, ExceptionApp>> buscarOrdemServico() async {
     List<OrdemServico> ordensEncontradas = [];
     Result<ResultadoRequisicao, ExceptionApp> resultadoRequisicao =
-        await ordemServicoRepository.buscarOrdemServico();
+        await ordemServicoRepository.buscarOrdemServicoDisponiveis();
     if (resultadoRequisicao.isError) {
       return Failure(resultadoRequisicao.exceptionOrNull()!);
     }
@@ -31,9 +31,11 @@ class OrdemServicoServiceImpl implements OrdemServicoService {
     }
     body['serviceOrder'].forEach((e) {
       ordensEncontradas.add(
-        OrdemServico(
+        OrdemServico.fromJson(e),
+       /*  OrdemServico(
           id: e['id'],
           idEmpresa: e['companyId'],
+          nomeEmpresa: e['companyName'],
           idEmpresaDestinataria: e['recipientCompanyId'],
           numeroPedido: e['orderNumber'],
           tipo: e['type'],
@@ -53,7 +55,7 @@ class OrdemServicoServiceImpl implements OrdemServicoService {
           urlAssinaturaDigital: e['digitalSignatureURL'] ?? "",
           responsavel: e['accountable'] ?? "",
           dataHora: e['timestamp'] ?? "",
-        ),
+        ), */
       );
     });
 
@@ -155,4 +157,16 @@ class OrdemServicoServiceImpl implements OrdemServicoService {
     }
     return Success(result.getOrNull()!);
   }
+
+  /*   @override
+  Future<Result<TipoOrdemServico, ExceptionApp>>
+  buscarOrdemServicoEspecifico() async {
+    Result<ResultadoRequisicao, ExceptionApp> resultadoRequisicao =
+        await ordemServicoRepository.buscarOrdemServico();
+    if (resultadoRequisicao.isError) {
+      return Failure(resultadoRequisicao.exceptionOrNull()!);
+    }
+
+
+  } */
 }
