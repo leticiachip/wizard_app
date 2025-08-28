@@ -18,20 +18,18 @@ class ScaffoldMarcaDagua extends StatelessWidget {
       appBar: appBar,
       body: Stack(
         children: [
-          body,
-          Positioned(
-            bottom: 10,
-            left: 10,
+          Center(
             child: IgnorePointer(
               ignoring: true,
-              child: Container(
-                color: Colors.amber,
-                height: 60,
-                width: 60,
-                child: Text("Teste"),
+              child: Image.asset(
+                color: Colors.grey[200],
+                'assets/images/logo_sem_subtitulo.png',
+                height: 300,
+                width: 300,
               ),
             ),
           ),
+          body,
         ],
       ),
     );

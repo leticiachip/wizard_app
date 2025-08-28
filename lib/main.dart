@@ -204,17 +204,7 @@ class MyApp extends StatelessWidget {
       theme: Flavor.isProduction()
           ? ThemeData(
               primaryColor: Color(0xFF123D9E),
-              colorScheme: ColorScheme(
-                brightness: Brightness.light,
-                primary: Color(0xFF123D9E),
-                onPrimary: Color(0xFFFFFFFF),
-                secondary: Color(0xFFFFFFFF),
-                onSecondary: Color(0xFF000000),
-                error: Color(0xFFFFC247),
-                onError: Color(0xFFFFFFFF),
-                surface: Color(0xFFFFFFFF),
-                onSurface: Color(0xFF444444),
-              ),
+
               fontFamily: 'Montserrat',
               appBarTheme: AppBarTheme(
                 centerTitle: true,
@@ -224,6 +214,91 @@ class MyApp extends StatelessWidget {
                   fontFamily: 'Montserrat',
                   fontSize: 16,
                 ),
+              ),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+                  textStyle: WidgetStateProperty.all(
+                    TextStyle(color: Colors.white),
+                  ),
+                  elevation: WidgetStateProperty.all(0.0),
+                  fixedSize: WidgetStateProperty.all(
+                    Size(MediaQuery.of(context).size.width, 40),
+                  ),
+                  backgroundColor: WidgetStateProperty.all(Color(0xFF123D9E)),
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+              colorScheme: ColorScheme(
+                brightness: Brightness.light,
+
+                /// Cor por padrão aplicada no [CheckBox], na porcentagem do [LinearProgress],
+                /// em Textos nos botões ([Text], [Outlined], [Elevated]), no BG do [FilledButton],
+                /// nos splash dos botões ([Text], [Outlined], [Elevated]),
+                /// no BG do Switch quando o mesmo está ativo
+                primary: const Color.fromARGB(255, 4, 50, 190),
+
+                /// Cor aplicada nos textos
+                onPrimary: const Color(0xFFFFFFFF),
+
+                /// BG do [FloatingActionButton]
+                primaryContainer: Color.fromARGB(255, 242, 246, 255),
+
+                /// Texto do [FloatingActionButton]
+                onPrimaryContainer: Colors.white,
+
+                ///
+                secondary: Color.fromARGB(255, 239, 248, 255),
+
+                ///
+                onSecondary: Colors.white,
+
+                ///
+                secondaryContainer: Color.fromARGB(255, 255, 255, 255),
+
+                ///
+                onSecondaryContainer: Colors.white,
+
+                ///
+                tertiary: Color.fromARGB(255, 249, 252, 255),
+
+                ///
+                onTertiary: Colors.white,
+
+                ///
+                tertiaryContainer: Color.fromARGB(255, 239, 244, 255),
+
+                ///
+                onTertiaryContainer: Colors.white,
+
+                ///
+                error: Colors.red,
+
+                ///
+                errorContainer: Colors.white,
+
+                ///
+                onError: Colors.red.shade200,
+
+                ///
+                onErrorContainer: Colors.red.shade800,
+
+                /// Cor aplicada por padrão na [AppBar], [Card], [Background ElevatedButton]
+                // surface: const Color(0XFFE6E7E7),
+                surface: Colors.white,
+
+                /// Cor padrão aplicada em todos os texto.
+                onSurface: Colors.black,
+
+                /// Cor Aplicada no [Icone] das Actions da [AppBar],
+                /// no [Icone] do [IconButton], na borda do [TextFormfield]
+                /// e na transição do [Switch]
+                onSurfaceVariant: const Color.fromARGB(255, 104, 104, 104),
+
+                /// Cor pad )),
               ),
             )
           : ThemeData(

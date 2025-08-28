@@ -1,6 +1,10 @@
 {   
     "@@locale": "en",
     "login": "Login",
+    "email": "Email",
+    "senha": "Password",
+    "digiteEmail": "Enter your email address",
+    "digiteSenha": "Enter the password",
     "esqueciSenha": "I forgot my password",
     "atencao": "Attention",
     "confirmacaoEmail": "Email confirmation",
@@ -20,7 +24,17 @@
     "falhaBuscarDispositivos": "It was not possible to retrieve devices",
     "buscarDispositivos": "Searching for devices",
     "ordemServico": "Work order",
+    "detalhesOrdemServico": "Work order details",
     "empresaDestinataria": "Distributor company",
     "responsavel": "Responsible",
-    "prazoFinal": "Deadline"
+    "prazoFinal": "Deadline",
+    "prazoAcabando": "The deadline is approaching",
+    "tipo": "Type",
+    "detalhes": "Details",
+    "status": "Status",
+    "idExterno": "External ID",
+    "placaVeiculo": "Vehicle registration plate",
+    "informacoesAdicionais": "Additional information",
+    "motivoCancelamento": "Reason for cancellation"
+
 }

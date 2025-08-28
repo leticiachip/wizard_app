@@ -12,6 +12,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get login => 'Entrar';
 
   @override
+  String get email => 'Correo electrónico';
+
+  @override
+  String get senha => 'Contraseña';
+
+  @override
+  String get digiteEmail => 'Introduzca su dirección de correo electrónico';
+
+  @override
+  String get digiteSenha => 'Introduzca la contraseña';
+
+  @override
   String get esqueciSenha => 'Olvidé mi contraseña';
 
   @override
@@ -28,9 +40,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get codigo => 'Código';
-
-  @override
-  String get senha => 'Contraseña';
 
   @override
   String get confirmarSenha => 'Confirmación de contraseña';
@@ -57,6 +66,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ordemServico => 'Orden de servicio';
 
   @override
+  String get detalhesOrdemServico => 'Detalles del pedido de servicio';
+
+  @override
   String get empresaDestinataria => 'Empresa distinguida';
 
   @override
@@ -64,4 +76,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get prazoFinal => 'Fecha límite';
+
+  @override
+  String get prazoAcabando => 'El plazo está a punto de expirar.';
+
+  @override
+  String get tipo => 'Tipo';
+
+  @override
+  String get detalhes => 'Detalles';
+
+  @override
+  String get status => 'Estado';
+
+  @override
+  String get idExterno => 'Id externo';
+
+  @override
+  String get placaVeiculo => 'Matriculación del vehículo';
+
+  @override
+  String get informacoesAdicionais => 'Información adicional';
+
+  @override
+  String get motivoCancelamento => 'Motivo de la cancelación';
 }

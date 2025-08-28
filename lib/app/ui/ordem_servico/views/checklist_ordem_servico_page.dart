@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
-import 'package:wizard_app/app/ui/ordem_servico/views/components/checkbox_component.dart';
-import 'package:wizard_app/app/ui/ordem_servico/views/components/text_field_component.dart';
 
 import '../../../../core/ui/scaffold_marca_dagua.dart';
-import '../../../domain/models/checklist/checklist_item.dart';
 
 class ChecklistOrdemServicoPage extends StatefulWidget {
   final OrdemServicoViewModel ordemServicoViewModel;

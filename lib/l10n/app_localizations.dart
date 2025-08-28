@@ -106,6 +106,30 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get login;
 
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @senha.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get senha;
+
+  /// No description provided for @digiteEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address'**
+  String get digiteEmail;
+
+  /// No description provided for @digiteSenha.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the password'**
+  String get digiteSenha;
+
   /// No description provided for @esqueciSenha.
   ///
   /// In en, this message translates to:
@@ -141,12 +165,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Code'**
   String get codigo;
-
-  /// No description provided for @senha.
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get senha;
 
   /// No description provided for @confirmarSenha.
   ///
@@ -190,6 +208,12 @@ abstract class AppLocalizations {
   /// **'Work order'**
   String get ordemServico;
 
+  /// No description provided for @detalhesOrdemServico.
+  ///
+  /// In en, this message translates to:
+  /// **'Work order details'**
+  String get detalhesOrdemServico;
+
   /// No description provided for @empresaDestinataria.
   ///
   /// In en, this message translates to:
@@ -207,6 +231,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deadline'**
   String get prazoFinal;
+
+  /// No description provided for @prazoAcabando.
+  ///
+  /// In en, this message translates to:
+  /// **'The deadline is approaching'**
+  String get prazoAcabando;
+
+  /// No description provided for @tipo.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get tipo;
+
+  /// No description provided for @detalhes.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get detalhes;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @idExterno.
+  ///
+  /// In en, this message translates to:
+  /// **'External ID'**
+  String get idExterno;
+
+  /// No description provided for @placaVeiculo.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle registration plate'**
+  String get placaVeiculo;
+
+  /// No description provided for @informacoesAdicionais.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional information'**
+  String get informacoesAdicionais;
+
+  /// No description provided for @motivoCancelamento.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for cancellation'**
+  String get motivoCancelamento;
 }
 
 class _AppLocalizationsDelegate

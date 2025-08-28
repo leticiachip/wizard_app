@@ -64,6 +64,10 @@ class _LoginPageState extends State<LoginPage> {
                   autofillHints: const [AutofillHints.username],
                   controller: email,
                   validator: loginViewModel.regexEmail,
+                  decoration: InputDecoration(
+                    label: Text(AppLocalizations.of(context)!.email),
+                    hint: Text(AppLocalizations.of(context)!.digiteEmail),
+                  ),
                 ),
                 TextFormField(
                   readOnly: loginViewModel.login.running,
@@ -72,6 +76,8 @@ class _LoginPageState extends State<LoginPage> {
                   validator: loginViewModel.regexSenha,
                   obscureText: Flavor.isProduction() && exibirSenha,
                   decoration: InputDecoration(
+                    label: Text(AppLocalizations.of(context)!.senha),
+                    hint: Text(AppLocalizations.of(context)!.digiteSenha),
                     suffix: Flavor.isProduction()
                         ? IconButton(
                             onPressed: () {
@@ -111,8 +117,15 @@ class _LoginPageState extends State<LoginPage> {
                           ));
                         },
                   child: loginViewModel.login.running
-                      ? CircularProgressIndicator()
-                      : Text(AppLocalizations.of(context)!.login),
+                      ? CircularProgressIndicator(
+                          color: ColorScheme.of(context).onPrimary,
+                        )
+                      : Text(
+                          AppLocalizations.of(context)!.login,
+                          style: TextStyle(
+                            color: ColorScheme.of(context).onPrimary,
+                          ),
+                        ),
                 ),
               ],
             );

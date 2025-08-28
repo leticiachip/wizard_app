@@ -1,6 +1,10 @@
 {
     "@@locale": "pt",
     "login": "Entrar",
+    "email": "Email",
+    "senha": "Senha",
+    "digiteEmail": "Digite o email",
+    "digiteSenha": "Digite a senha",
     "esqueciSenha": "Esqueci minha senha",
     "atencao":"Atenção",
     "confirmacaoEmail": "Email de confirmação",
@@ -20,8 +24,16 @@
     "falhaBuscarDispositivos": "Não foi possivel buscar dispositivos",
     "buscarDispositivos": "Buscando dispositivos",
     "ordemServico": "Ordem de serviço",
+    "detalhesOrdemServico": "Detalhes ordem de serviço",
     "empresaDestinataria": "Empresa distinatária",
     "responsavel": "Responsável",
-    "prazoFinal": "Prazo final"
-    
+    "prazoFinal": "Prazo final",
+    "prazoAcabando": "O prazo está acabando",
+    "tipo": "Tipo",
+    "detalhes": "Detalhes",
+    "status": "Status",
+    "idExterno": "Id externo",
+    "placaVeiculo": "Placa do veículo",
+    "informacoesAdicionais": "Informações adicionais",
+    "motivoCancelamento": "Motivo cancelamento"
 }

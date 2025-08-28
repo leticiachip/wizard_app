@@ -1,6 +1,10 @@
 {
     "@@locale": "es",
     "login": "Entrar",
+    "email": "Correo electrónico",
+    "senha": "Contraseña",
+    "digiteEmail": "Introduzca su dirección de correo electrónico",
+    "digiteSenha": "Introduzca la contraseña",
     "esqueciSenha": "Olvidé mi contraseña",
     "atencao": "Atención",
     "confirmacaoEmail": "Confirmación de correo electrónico",
@@ -20,9 +24,18 @@
    "falhaBuscarDispositivos": "No se pudieron buscar dispositivos.",
    "buscarDispositivos": "Buscando dispositivos",
    "ordemServico": "Orden de servicio",
+   "detalhesOrdemServico": "Detalles del pedido de servicio",
    "empresaDestinataria": "Empresa distinguida",
    "responsavel": "responsable",
-   "prazoFinal": "Fecha límite"
-
+   "prazoFinal": "Fecha límite",
+   "prazoAcabando": "El plazo está a punto de expirar.",
+   "tipo": "Tipo",
+   "detalhes": "Detalles",
+   "status": "Estado",
+   "idExterno": "Id externo",
+   "placaVeiculo": "Matriculación del vehículo",
+    "informacoesAdicionais": "Información adicional",
+    "motivoCancelamento": "Motivo de la cancelación"
+    
     
 }

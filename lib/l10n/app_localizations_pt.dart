@@ -12,6 +12,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get login => 'Entrar';
 
   @override
+  String get email => 'Email';
+
+  @override
+  String get senha => 'Senha';
+
+  @override
+  String get digiteEmail => 'Digite o email';
+
+  @override
+  String get digiteSenha => 'Digite a senha';
+
+  @override
   String get esqueciSenha => 'Esqueci minha senha';
 
   @override
@@ -28,9 +40,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get codigo => 'Código';
-
-  @override
-  String get senha => 'Senha';
 
   @override
   String get confirmarSenha => 'Confirmacao de senha';
@@ -56,6 +65,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get ordemServico => 'Ordem de serviço';
 
   @override
+  String get detalhesOrdemServico => 'Detalhes ordem de serviço';
+
+  @override
   String get empresaDestinataria => 'Empresa distinatária';
 
   @override
@@ -63,4 +75,28 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get prazoFinal => 'Prazo final';
+
+  @override
+  String get prazoAcabando => 'O prazo está acabando';
+
+  @override
+  String get tipo => 'Tipo';
+
+  @override
+  String get detalhes => 'Detalhes';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get idExterno => 'Id externo';
+
+  @override
+  String get placaVeiculo => 'Placa do veículo';
+
+  @override
+  String get informacoesAdicionais => 'Informações adicionais';
+
+  @override
+  String get motivoCancelamento => 'Motivo cancelamento';
 }
