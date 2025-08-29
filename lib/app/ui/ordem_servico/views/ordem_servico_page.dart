@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
 import 'package:wizard_app/app/ui/ordem_servico/views/components/card_component.dart';
 import 'package:wizard_app/app/ui/ordem_servico/views/components/item_card_component.dart';
 import 'package:wizard_app/core/services/formatar_hora.dart';
 import 'package:wizard_app/core/ui/scaffold_marca_dagua.dart';
 
+import '../../../../core/ui/marca_dagua.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../domain/models/ordem_servico/ordem_servico.dart';
 
@@ -149,75 +151,93 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
           child: Padding(
             padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Stack(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  MarcaDagua(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)!.detalhesOrdemServico,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.detalhesOrdemServico,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(context)!.ordemServico,
+                        descricao: ordemServico.numeroPedido,
+                      ),
+                      Divider(color: Colors.grey[200], height: 0),
+                      SizedBox(height: 8),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(
+                          context,
+                        )!.empresaDestinataria,
+                        descricao: ordemServico.nomeEmpresaDestinaria,
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(context)!.responsavel,
+                        descricao: ordemServico.nomeCompletoResposavel,
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(context)!.prazoFinal,
+                        descricao: formatarHora(
+                          ordemServico.dataHoraPrazoFinal,
+                        ),
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(context)!.tipo,
+                        descricao: ordemServico.nomeFluxoTrabalho,
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(context)!.detalhes,
+                        descricao: ordemServico.descricaoFluxoTrabalho,
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(context)!.status,
+                        descricao: ordemServico.descricaoStatusOrdem,
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(context)!.idExterno,
+                        descricao: ordemServico.veiculoIdExterno,
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(context)!.placaVeiculo,
+                        descricao: ordemServico.placaVeiculo,
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(
+                          context,
+                        )!.informacoesAdicionais,
+                        descricao: ordemServico.informacoesAdicionais,
+                      ),
+                      ItemCardComponent(
+                        titulo: AppLocalizations.of(
+                          context,
+                        )!.motivoCancelamento,
+                        descricao: ordemServico.motivoCancelamento,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        child: Text(
+                          "Iniciar ordem de serviço",
+                          style: TextStyle(
+                            color: ColorScheme.of(context).onPrimary,
+                          ),
                         ),
                       ),
                     ],
-                  ),
-
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.ordemServico,
-                    descricao: ordemServico.numeroPedido,
-                  ),
-                  Divider(color: Colors.grey[200], height: 0),
-                  SizedBox(height: 8),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.empresaDestinataria,
-                    descricao: ordemServico.nomeEmpresaDestinaria,
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.responsavel,
-                    descricao: ordemServico.nomeCompletoResposavel,
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.prazoFinal,
-                    descricao: formatarHora(ordemServico.dataHoraPrazoFinal),
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.tipo,
-                    descricao: ordemServico.nomeFluxoTrabalho
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.detalhes,
-                    descricao: ordemServico.descricaoFluxoTrabalho,
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.status,
-                    descricao: ordemServico.descricaoStatusOrdem,
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.idExterno,
-                    descricao: ordemServico.veiculoIdExterno,
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.placaVeiculo,
-                    descricao: ordemServico.placaVeiculo,
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.informacoesAdicionais,
-                    descricao: ordemServico.informacoesAdicionais,
-                  ),
-                  ItemCardComponent(
-                    titulo: AppLocalizations.of(context)!.motivoCancelamento,
-                    descricao: ordemServico.motivoCancelamento,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      print("iniciar produção");
-                    },
-                    child: Text("Iniciar ordem de serviço"),
                   ),
                 ],
               ),

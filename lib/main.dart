@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
@@ -47,6 +49,7 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         final homeViewModel = getIt<HomeViewModel>();
         final atualizadorViewModel = getIt<AtualizadorViewModel>();
+        log("----->> mac ${state.extra}");
         String mac = state.extra as String;
         return HomePage(
           homeViewModel: homeViewModel,

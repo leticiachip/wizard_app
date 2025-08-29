@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wizard_app/core/ui/marca_dagua.dart';
 
 class ScaffoldMarcaDagua extends StatelessWidget {
   final PreferredSizeWidget appBar;
@@ -16,22 +17,7 @@ class ScaffoldMarcaDagua extends StatelessWidget {
     return Scaffold(
       floatingActionButton: floatingActionButton,
       appBar: appBar,
-      body: Stack(
-        children: [
-          Center(
-            child: IgnorePointer(
-              ignoring: true,
-              child: Image.asset(
-                color: Colors.grey[200],
-                'assets/images/logo_sem_subtitulo.png',
-                height: 300,
-                width: 300,
-              ),
-            ),
-          ),
-          body,
-        ],
-      ),
+      body: Stack(children: [MarcaDagua(), body]),
     );
   }
 }
