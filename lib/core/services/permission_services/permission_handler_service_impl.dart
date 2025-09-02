@@ -18,11 +18,6 @@ class PermissionHandlerServiceImpl implements PermissionHandlerService {
   Future<bool> permissaoLocalizacaoPrimeiroPlano() async {
     PermissionStatus reqLocation = await Permission.location.request();
     PermissionStatus reqWhenUse = await Permission.locationWhenInUse.request();
-    print(
-      "---->> ${reqWhenUse.isGranted} - ${reqLocation.isGranted}",
-    );
-    return 
-        reqWhenUse.isGranted &&
-        reqLocation.isGranted;
+    return reqWhenUse.isGranted && reqLocation.isGranted;
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:wizard_app/app/data/dao/usuario/usuario_dao.dart';
 import 'package:wizard_app/app/data/repositories/login/amplify_repository.dart';
 import 'package:wizard_app/app/data/services/login/enum_result_login.dart';
@@ -8,8 +6,6 @@ import 'package:wizard_app/app/data/services/login/login_service.dart';
 import 'package:wizard_app/core/const/regex.dart';
 import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
 import 'package:wizard_app/core/utils/result.dart';
-
-import '../../../domain/models/usuario/usuario.dart';
 
 class LoginServiceImpl implements LoginService {
   final AmplifyRepository amplifyRepository;
@@ -42,8 +38,8 @@ class LoginServiceImpl implements LoginService {
     try {
       bool usuarioLogado = await validaUsuarioLogado();
       if (usuarioLogado) {
-        Result<bool, ExceptionLogin> resultadoLogout =
-            await amplifyRepository.signout();
+        Result<bool, ExceptionLogin> resultadoLogout = await amplifyRepository
+            .signout();
         return Success(resultadoLogout.getOrNull()!);
       }
       return Success(false);
@@ -120,23 +116,10 @@ class LoginServiceImpl implements LoginService {
   }
 
   @override
-  Future<Result<Map<String, dynamic>, ExceptionLogin>>
-  buscaridToken() async {
+  Future<Result<Map<String, dynamic>, ExceptionLogin>> buscaridToken() async {
     Result<Map<String, dynamic>, ExceptionLogin> idToken =
         await amplifyRepository.buscarIdToken();
-    if (idToken.isSuccess) {
-      log("----->>> inserir dados");
-      Map<String, dynamic> token = idToken.getOrNull()!;
-      Map<String, dynamic> address = token['address'];
-      var usuario = Usuario(
-        id: token['userId'],
-        nome: token['name'],
-        telefone: token['phone_number'],
-        endereco: address.values.first,
-      );
-      await usuarioDAO.inserirUsuario(usuario);
-      log("${await usuarioDAO.buscarUsuario()}");
-    }
+
     return idToken;
   }
 }

@@ -35,5 +35,6 @@
     "idExterno": "Id externo",
     "placaVeiculo": "Placa do veículo",
     "informacoesAdicionais": "Informações adicionais",
-    "motivoCancelamento": "Motivo cancelamento"
+    "motivoCancelamento": "Motivo cancelamento",
+    "avisoPermissaoScan":"Este aplicativo utiliza conexão via Bluetooth. Para que ele funcione corretamente, é necessário ativar as permissões de dispositivos próximos e localização"
 }

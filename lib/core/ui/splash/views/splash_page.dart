@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
-import '../../../app/data/services/login/login_service.dart';
+import '../../../../app/data/services/login/login_service.dart';
 
 class SplashPage extends StatefulWidget {
   final LoginService loginService;
+
   const SplashPage({super.key, required this.loginService});
 
   @override
@@ -21,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
       bool usuarioLogado = await loginService.validaUsuarioLogado();
       if (!mounted) return;
       if (usuarioLogado) {
-        context.go(NomesNavegacaoRota.scanBluetoothPage);
+        context.go(NomesNavegacaoRota.configuracoesIniciaisPage);
       } else {
         context.go(NomesNavegacaoRota.loginPage);
       }

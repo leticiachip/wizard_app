@@ -35,6 +35,8 @@
     "idExterno": "External ID",
     "placaVeiculo": "Vehicle registration plate",
     "informacoesAdicionais": "Additional information",
-    "motivoCancelamento": "Reason for cancellation"
+    "motivoCancelamento": "Reason for cancellation",
+    "avisoPermissaoScan":"This app uses a Bluetooth connection. For it to work properly, you need to enable nearby device and location permissions."
+
 
 }

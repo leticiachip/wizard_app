@@ -14,5 +14,6 @@ class NomesNavegacaoRota {
   static String inicioOrdemServicoPage = '/ordemServicoPage/inicio';
   static String checklistVeiculo = '/ordemServicoPage/inicio/checklistVeiculo';
   static String pdfPage = '/ordemServico/pdf';
+  static String configuracoesIniciaisPage = "/configuracoesIniciaisPage";
 
 }

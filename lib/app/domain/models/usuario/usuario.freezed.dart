@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Usuario {
 
- String get id; String get nome; String get telefone; String get endereco;
+ String get id; String get nome; String get cpf; String get telefone; String get endereco;
 /// Create a copy of Usuario
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UsuarioCopyWith<Usuario> get copyWith => _$UsuarioCopyWithImpl<Usuario>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Usuario&&(identical(other.id, id) || other.id == id)&&(identical(other.nome, nome) || other.nome == nome)&&(identical(other.telefone, telefone) || other.telefone == telefone)&&(identical(other.endereco, endereco) || other.endereco == endereco));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Usuario&&(identical(other.id, id) || other.id == id)&&(identical(other.nome, nome) || other.nome == nome)&&(identical(other.cpf, cpf) || other.cpf == cpf)&&(identical(other.telefone, telefone) || other.telefone == telefone)&&(identical(other.endereco, endereco) || other.endereco == endereco));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nome,telefone,endereco);
+int get hashCode => Object.hash(runtimeType,id,nome,cpf,telefone,endereco);
 
 @override
 String toString() {
-  return 'Usuario(id: $id, nome: $nome, telefone: $telefone, endereco: $endereco)';
+  return 'Usuario(id: $id, nome: $nome, cpf: $cpf, telefone: $telefone, endereco: $endereco)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UsuarioCopyWith<$Res>  {
   factory $UsuarioCopyWith(Usuario value, $Res Function(Usuario) _then) = _$UsuarioCopyWithImpl;
 @useResult
 $Res call({
- String id, String nome, String telefone, String endereco
+ String id, String nome, String cpf, String telefone, String endereco
 });
 
 
@@ -65,10 +65,11 @@ class _$UsuarioCopyWithImpl<$Res>
 
 /// Create a copy of Usuario
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nome = null,Object? telefone = null,Object? endereco = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nome = null,Object? cpf = null,Object? telefone = null,Object? endereco = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nome: null == nome ? _self.nome : nome // ignore: cast_nullable_to_non_nullable
+as String,cpf: null == cpf ? _self.cpf : cpf // ignore: cast_nullable_to_non_nullable
 as String,telefone: null == telefone ? _self.telefone : telefone // ignore: cast_nullable_to_non_nullable
 as String,endereco: null == endereco ? _self.endereco : endereco // ignore: cast_nullable_to_non_nullable
 as String,
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String nome,  String telefone,  String endereco)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String nome,  String cpf,  String telefone,  String endereco)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Usuario() when $default != null:
-return $default(_that.id,_that.nome,_that.telefone,_that.endereco);case _:
+return $default(_that.id,_that.nome,_that.cpf,_that.telefone,_that.endereco);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.id,_that.nome,_that.telefone,_that.endereco);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String nome,  String telefone,  String endereco)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String nome,  String cpf,  String telefone,  String endereco)  $default,) {final _that = this;
 switch (_that) {
 case _Usuario():
-return $default(_that.id,_that.nome,_that.telefone,_that.endereco);case _:
+return $default(_that.id,_that.nome,_that.cpf,_that.telefone,_that.endereco);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.id,_that.nome,_that.telefone,_that.endereco);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String nome,  String telefone,  String endereco)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String nome,  String cpf,  String telefone,  String endereco)?  $default,) {final _that = this;
 switch (_that) {
 case _Usuario() when $default != null:
-return $default(_that.id,_that.nome,_that.telefone,_that.endereco);case _:
+return $default(_that.id,_that.nome,_that.cpf,_that.telefone,_that.endereco);case _:
   return null;
 
 }
@@ -212,11 +213,12 @@ return $default(_that.id,_that.nome,_that.telefone,_that.endereco);case _:
 @JsonSerializable()
 
 class _Usuario implements Usuario {
-  const _Usuario({required this.id, required this.nome, required this.telefone, required this.endereco});
+  const _Usuario({required this.id, required this.nome, required this.cpf, required this.telefone, required this.endereco});
   factory _Usuario.fromJson(Map<String, dynamic> json) => _$UsuarioFromJson(json);
 
 @override final  String id;
 @override final  String nome;
+@override final  String cpf;
 @override final  String telefone;
 @override final  String endereco;
 
@@ -233,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Usuario&&(identical(other.id, id) || other.id == id)&&(identical(other.nome, nome) || other.nome == nome)&&(identical(other.telefone, telefone) || other.telefone == telefone)&&(identical(other.endereco, endereco) || other.endereco == endereco));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Usuario&&(identical(other.id, id) || other.id == id)&&(identical(other.nome, nome) || other.nome == nome)&&(identical(other.cpf, cpf) || other.cpf == cpf)&&(identical(other.telefone, telefone) || other.telefone == telefone)&&(identical(other.endereco, endereco) || other.endereco == endereco));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nome,telefone,endereco);
+int get hashCode => Object.hash(runtimeType,id,nome,cpf,telefone,endereco);
 
 @override
 String toString() {
-  return 'Usuario(id: $id, nome: $nome, telefone: $telefone, endereco: $endereco)';
+  return 'Usuario(id: $id, nome: $nome, cpf: $cpf, telefone: $telefone, endereco: $endereco)';
 }
 
 
@@ -253,7 +255,7 @@ abstract mixin class _$UsuarioCopyWith<$Res> implements $UsuarioCopyWith<$Res> {
   factory _$UsuarioCopyWith(_Usuario value, $Res Function(_Usuario) _then) = __$UsuarioCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String nome, String telefone, String endereco
+ String id, String nome, String cpf, String telefone, String endereco
 });
 
 
@@ -270,10 +272,11 @@ class __$UsuarioCopyWithImpl<$Res>
 
 /// Create a copy of Usuario
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nome = null,Object? telefone = null,Object? endereco = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nome = null,Object? cpf = null,Object? telefone = null,Object? endereco = null,}) {
   return _then(_Usuario(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nome: null == nome ? _self.nome : nome // ignore: cast_nullable_to_non_nullable
+as String,cpf: null == cpf ? _self.cpf : cpf // ignore: cast_nullable_to_non_nullable
 as String,telefone: null == telefone ? _self.telefone : telefone // ignore: cast_nullable_to_non_nullable
 as String,endereco: null == endereco ? _self.endereco : endereco // ignore: cast_nullable_to_non_nullable
 as String,

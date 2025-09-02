@@ -5,16 +5,11 @@ class MarcaDagua extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: IgnorePointer(
-        ignoring: true,
-        child: Image.asset(
+    return Image.asset(
           color: Colors.grey[200],
           'assets/images/logo_sem_subtitulo.png',
           height: 300,
           width: 300,
-        ),
-      ),
-    );
+        );
   }
 }

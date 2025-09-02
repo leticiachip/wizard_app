@@ -16,7 +16,6 @@ class BluetoothGetIt {
     getIt.registerLazySingleton<BluetoothAppService>(
       () => BluetoothBleServiceImpl(
         bluetoothBleAdapter: getIt<BluetoothBleAdapter>(),
-        permissionHandlerService: getIt<PermissionHandlerService>(),
       ),
       instanceName: 'ble',
     );
@@ -34,6 +33,7 @@ class BluetoothGetIt {
         bluetoothAppService: getIt<BluetoothAppService>(
           instanceName: 'classic',
         ),
+        permissionHandlerService: getIt<PermissionHandlerService>(),
       ),
     );
     getIt.registerLazySingleton<BluetoothViewModel>(

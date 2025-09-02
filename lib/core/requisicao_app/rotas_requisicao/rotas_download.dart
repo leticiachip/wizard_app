@@ -5,7 +5,8 @@ enum NomeRotasDownload {
   downloadEtapasOS(name: '/app/mock/os/etapa', key: 'mock'),
   downloadCheckList(name: '/app/mock/os/etapa/checklist', key: 'mock'),
   downloadManual(name: '/app/mock/os/manual', key: 'mock'),
-  downloadOrdemServicoEspecifica(name: '/app/mock/os/especifica', key: 'mock');
+  downloadOrdemServicoEspecifica(name: '/app/mock/os/especifica', key: 'mock'),
+  downloadUsuario(name: '/app/mock/usuario', key: 'mock');
 
   final String name;
   final String key;

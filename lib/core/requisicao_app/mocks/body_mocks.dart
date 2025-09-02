@@ -352,3 +352,12 @@ Map<String, dynamic> arrayOS = {
     },
   ],
 };
+Map<String, dynamic> usuarioMock = {
+  "usuario": {
+    "id": 1,
+    "nome": "Leticia Damasceno",
+    "cpf": "123.456.789-00",
+    "telefone": "111111111",
+    "endereco": "Endereco usuario"
+  }
+};

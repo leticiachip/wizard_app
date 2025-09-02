@@ -99,4 +99,8 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get motivoCancelamento => 'Motivo cancelamento';
+
+  @override
+  String get avisoPermissaoScan =>
+      'Este aplicativo utiliza conexão via Bluetooth. Para que ele funcione corretamente, é necessário ativar as permissões de dispositivos próximos e localização';
 }

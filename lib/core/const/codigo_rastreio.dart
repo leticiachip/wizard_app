@@ -8,4 +8,6 @@ abstract class CodigoRastreio {
   static String atualizacaoConnect = "$base.F.A";
   static String ordemServico = "$base.G.A";
   static String baixarArquivo = "$base.H.A";
+  static String permissoes = "$base.I.A";
+  static String usuario = "$base.J.A";
 }

@@ -34,8 +34,10 @@
    "status": "Estado",
    "idExterno": "Id externo",
    "placaVeiculo": "Matriculación del vehículo",
-    "informacoesAdicionais": "Información adicional",
-    "motivoCancelamento": "Motivo de la cancelación"
+   "informacoesAdicionais": "Información adicional",
+   "motivoCancelamento": "Motivo de la cancelación",
+   "avisoPermissaoScan":"Esta aplicación utiliza una conexión Bluetooth. Para que funcione correctamente, es necesario activar los permisos de dispositivos cercanos y ubicación."
+
     
     
 }

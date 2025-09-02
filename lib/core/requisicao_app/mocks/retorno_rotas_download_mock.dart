@@ -53,6 +53,11 @@ class MockDownload {
           body: {'message': 'nada', "data": modelo},
           codigoRastreio: 0,
         );
+      case NomeRotasDownload.downloadUsuario:
+        return ResultadoRequisicao(
+          body: {'message': 'nada', "data": usuarioMock},
+          codigoRastreio: 0,
+        );
     }
   }
 }

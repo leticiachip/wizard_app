@@ -279,6 +279,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reason for cancellation'**
   String get motivoCancelamento;
+
+  /// No description provided for @avisoPermissaoScan.
+  ///
+  /// In en, this message translates to:
+  /// **'This app uses a Bluetooth connection. For it to work properly, you need to enable nearby device and location permissions.'**
+  String get avisoPermissaoScan;
 }
 
 class _AppLocalizationsDelegate

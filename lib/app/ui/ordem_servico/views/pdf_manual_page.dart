@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
-import 'package:wizard_app/core/ui/scaffold_marca_dagua.dart';
+import 'package:wizard_app/core/ui/marca_dagua/scaffold_marca_dagua.dart';
 
 class PdfManualPage extends StatefulWidget {
   final OrdemServicoViewModel ordemServicoViewModel;

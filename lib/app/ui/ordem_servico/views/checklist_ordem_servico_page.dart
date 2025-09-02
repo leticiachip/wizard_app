@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
 
-import '../../../../core/ui/scaffold_marca_dagua.dart';
+import '../../../../core/ui/marca_dagua/scaffold_marca_dagua.dart';
 
 class ChecklistOrdemServicoPage extends StatefulWidget {
   final OrdemServicoViewModel ordemServicoViewModel;

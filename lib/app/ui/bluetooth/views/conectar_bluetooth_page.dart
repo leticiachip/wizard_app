@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/bluetooth_view_model.dart';
 
-import '../../../../core/ui/scaffold_marca_dagua.dart';
+import '../../../../core/ui/marca_dagua/scaffold_marca_dagua.dart';
 
 class ConectarBluetoothPage extends StatefulWidget {
   final String mac;

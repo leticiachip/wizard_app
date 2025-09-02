@@ -8,15 +8,11 @@ import 'package:wizard_app/app/domain/models/bluetooth/devices.dart';
 import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
 import 'package:wizard_app/core/utils/result.dart';
 
-import '../../../../core/services/permission_services/permission_handler_service.dart'
-    show PermissionHandlerService;
 
 class BluetoothBleServiceImpl implements BluetoothAppService {
   final BluetoothBleAdapter bluetoothBleAdapter;
-  final PermissionHandlerService permissionHandlerService;
 
   BluetoothBleServiceImpl({
-    required this.permissionHandlerService,
     required this.bluetoothBleAdapter,
   });
 

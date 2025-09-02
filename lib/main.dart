@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
@@ -12,6 +10,8 @@ import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
 import 'package:wizard_app/app/ui/bluetooth/views/teste_bluetooth_page.dart';
 import 'package:wizard_app/app/ui/configuracoes/view/configuracoes_page.dart';
 import 'package:wizard_app/app/ui/configuracoes/view_model/configuracoes_view_model.dart';
+import 'package:wizard_app/app/ui/configuracoes_iniciais/view/configuracoes_iniciais_page.dart';
+import 'package:wizard_app/app/ui/configuracoes_iniciais/view_model/configuracoes_iniciais_view_model.dart';
 import 'package:wizard_app/app/ui/home/view_model/home_view_model.dart';
 import 'package:wizard_app/app/ui/login/view_model/esqueci_senha_view_model.dart';
 import 'package:wizard_app/app/ui/login/view_model/troca_senha_view_model.dart';
@@ -21,10 +21,11 @@ import 'package:wizard_app/app/ui/login/view_model/login_view_model.dart';
 import 'package:wizard_app/app/ui/login/views/troca_senha_page.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
 import 'package:wizard_app/app/ui/ordem_servico/views/ordem_servico_page.dart';
+import 'package:wizard_app/app/ui/usuario/view_model/usuario_view_model.dart';
 import 'package:wizard_app/core/flavors/flavors.dart';
 import 'package:wizard_app/core/utils/injecao_depencias.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
-import 'package:wizard_app/core/splash/views/splash_page.dart';
+import 'package:wizard_app/core/ui/splash/views/splash_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wizard_app/l10n/app_localizations.dart';
 
@@ -49,7 +50,6 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         final homeViewModel = getIt<HomeViewModel>();
         final atualizadorViewModel = getIt<AtualizadorViewModel>();
-        log("----->> mac ${state.extra}");
         String mac = state.extra as String;
         return HomePage(
           homeViewModel: homeViewModel,
@@ -150,7 +150,11 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         OrdemServicoViewModel ordemServicoViewModel =
             getIt<OrdemServicoViewModel>();
-        return OrdemServicoPage(ordemServicoViewModel: ordemServicoViewModel);
+        UsuarioViewModel usuarioViewModel = getIt<UsuarioViewModel>();
+        return OrdemServicoPage(
+          ordemServicoViewModel: ordemServicoViewModel,
+          usuarioViewModel: usuarioViewModel,
+        );
       },
     ),
     GoRoute(
@@ -179,6 +183,16 @@ final GoRouter _router = GoRouter(
         OrdemServicoViewModel ordemServicoViewModel =
             getIt<OrdemServicoViewModel>();
         return PdfManualPage(ordemServicoViewModel: ordemServicoViewModel);
+      },
+    ),
+    GoRoute(
+      path: NomesNavegacaoRota.configuracoesIniciaisPage,
+      builder: (BuildContext context, GoRouterState state) {
+        ConfiguracoesIniciaisViewModel configuracoesIniciaisViewModel =
+            getIt<ConfiguracoesIniciaisViewModel>();
+        return ConfiguracoesIniciaisPage(
+          configuracoesIniciaisViewModel: configuracoesIniciaisViewModel,
+        );
       },
     ),
   ],
@@ -237,71 +251,25 @@ class MyApp extends StatelessWidget {
               ),
               colorScheme: ColorScheme(
                 brightness: Brightness.light,
-
-                /// Cor por padrão aplicada no [CheckBox], na porcentagem do [LinearProgress],
-                /// em Textos nos botões ([Text], [Outlined], [Elevated]), no BG do [FilledButton],
-                /// nos splash dos botões ([Text], [Outlined], [Elevated]),
-                /// no BG do Switch quando o mesmo está ativo
                 primary: const Color.fromARGB(255, 4, 50, 190),
-
-                /// Cor aplicada nos textos
                 onPrimary: const Color(0xFFFFFFFF),
-
-                /// BG do [FloatingActionButton]
                 primaryContainer: Color.fromARGB(255, 242, 246, 255),
-
-                /// Texto do [FloatingActionButton]
                 onPrimaryContainer: Colors.white,
-
-                ///
                 secondary: Color.fromARGB(255, 239, 248, 255),
-
-                ///
                 onSecondary: Colors.white,
-
-                ///
                 secondaryContainer: Color.fromARGB(255, 255, 255, 255),
-
-                ///
                 onSecondaryContainer: Colors.white,
-
-                ///
                 tertiary: Color.fromARGB(255, 249, 252, 255),
-
-                ///
                 onTertiary: Colors.white,
-
-                ///
                 tertiaryContainer: Color.fromARGB(255, 239, 244, 255),
-
-                ///
                 onTertiaryContainer: Colors.white,
-
-                ///
                 error: Colors.red,
-
-                ///
                 errorContainer: Colors.white,
-
-                ///
                 onError: Colors.red.shade200,
-
-                ///
                 onErrorContainer: Colors.red.shade800,
-
-                /// Cor aplicada por padrão na [AppBar], [Card], [Background ElevatedButton]
-                // surface: const Color(0XFFE6E7E7),
                 surface: Colors.white,
-
-                /// Cor padrão aplicada em todos os texto.
                 onSurface: Colors.black,
-
-                /// Cor Aplicada no [Icone] das Actions da [AppBar],
-                /// no [Icone] do [IconButton], na borda do [TextFormfield]
-                /// e na transição do [Switch]
                 onSurfaceVariant: const Color.fromARGB(255, 104, 104, 104),
-
-                /// Cor pad )),
               ),
             )
           : ThemeData(

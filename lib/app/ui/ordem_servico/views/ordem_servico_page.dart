@@ -3,16 +3,23 @@ import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
 import 'package:wizard_app/app/ui/ordem_servico/views/components/card_component.dart';
 import 'package:wizard_app/app/ui/ordem_servico/views/components/item_card_component.dart';
+import 'package:wizard_app/app/ui/usuario/view_model/usuario_view_model.dart';
 import 'package:wizard_app/core/services/formatar_hora.dart';
-import 'package:wizard_app/core/ui/scaffold_marca_dagua.dart';
+import 'package:wizard_app/core/ui/marca_dagua/scaffold_marca_dagua.dart';
+import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
-import '../../../../core/ui/marca_dagua.dart';
+//import '../../../../core/ui/marca_dagua/marca_dagua.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../domain/models/ordem_servico/ordem_servico.dart';
 
 class OrdemServicoPage extends StatefulWidget {
+  final UsuarioViewModel usuarioViewModel;
   final OrdemServicoViewModel ordemServicoViewModel;
-  const OrdemServicoPage({super.key, required this.ordemServicoViewModel});
+  const OrdemServicoPage({
+    super.key,
+    required this.ordemServicoViewModel,
+    required this.usuarioViewModel,
+  });
 
   @override
   State<OrdemServicoPage> createState() => _OrdemServicoPageState();
@@ -153,7 +160,7 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
             child: SingleChildScrollView(
               child: Stack(
                 children: [
-                  MarcaDagua(),
+                //  MarcaDagua(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -229,6 +236,9 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
                       ElevatedButton(
                         onPressed: () {
                           context.pop();
+                          context.push(
+                            NomesNavegacaoRota.inicioOrdemServicoPage,
+                          );
                         },
                         child: Text(
                           "Iniciar ordem de serviço",

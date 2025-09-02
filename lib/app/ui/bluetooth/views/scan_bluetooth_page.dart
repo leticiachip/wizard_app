@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/domain/models/bluetooth/devices.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
+import 'package:wizard_app/core/ui/modal/modal_aviso.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
-
-import '../../../../core/ui/scaffold_marca_dagua.dart';
+import '../../../../core/ui/marca_dagua/scaffold_marca_dagua.dart';
 import '../../../../core/utils/injecao_depencias.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../data/services/bluetooth/bluetooth_service.dart';
@@ -26,7 +26,34 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
   @override
   void initState() {
     scanViewModel.scan.execute();
-    scanViewModel.addListener(() {});
+    scanViewModel.scan.addListener(() {
+      if (scanViewModel.scan.error) {
+        if (!scanViewModel.permissaoBluetoothHabilitada) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return DialogCustomizado(
+                descricao: "Sem permissao para bluetooth",
+                titulo: "Bluetooth desligado",
+              );
+            },
+          );
+          return;
+        }
+        if (!scanViewModel.permissaoLocalizacaoHabilitada) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return DialogCustomizado(
+                descricao: "Sem permissao para localizacao",
+                titulo: "Acesso localizacao negada",
+              );
+            },
+          );
+          return;
+        }
+      }
+    });
     super.initState();
   }
 
@@ -145,7 +172,7 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
                         if (!context.mounted) {
                           return;
                         }
-                        context.push( 
+                        context.push(
                           NomesNavegacaoRota.atualizadorEspPage,
                           extra: resultadoConexao['enderecoMac'],
                         );

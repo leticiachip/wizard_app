@@ -7,6 +7,7 @@ abstract class Usuario with _$Usuario {
   const factory Usuario({
     required String id,
     required String nome,
+    required String cpf,
     required String telefone,
     required String endereco,
   }) = _Usuario;

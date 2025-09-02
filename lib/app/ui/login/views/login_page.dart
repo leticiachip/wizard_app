@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     loginViewModel.login.addListener(() {
       if (loginViewModel.login.completed &&
           loginViewModel.enumResultLogin == EnumResultLogin.prosseguir) {
-        context.pushReplacement(NomesNavegacaoRota.scanBluetoothPage);
+        context.pushReplacement(NomesNavegacaoRota.configuracoesIniciaisPage);
       }
       if (loginViewModel.login.completed &&
           loginViewModel.enumResultLogin == EnumResultLogin.trocaSenha) {
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                   autofillHints: const [AutofillHints.password],
                   controller: senha,
                   validator: loginViewModel.regexSenha,
-                  obscureText: Flavor.isProduction() && exibirSenha,
+                  obscureText: Flavor.isProduction() && !exibirSenha,
                   decoration: InputDecoration(
                     label: Text(AppLocalizations.of(context)!.senha),
                     hint: Text(AppLocalizations.of(context)!.digiteSenha),
