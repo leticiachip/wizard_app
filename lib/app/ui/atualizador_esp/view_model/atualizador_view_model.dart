@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wizard_app/app/data/services/atualizador_esp/atualizador_esp_service.dart';
+import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
 import 'package:wizard_app/app/data/utils/estado_conexao_bluetooth.dart';
 import 'package:wizard_app/core/const/codigo_rastreio.dart';
 import 'package:wizard_app/core/extensions/extension_string.dart';
@@ -18,10 +19,14 @@ import '../../../data/utils/enum_estado_atualizacao_esp.dart';
 import '../../../domain/models/atualizacao/carga_atualizacao.dart';
 
 class AtualizadorViewModel extends ChangeNotifier {
+  final BluetoothAppService bluetoothAppService;
   final AtualizadorEspService atualizadorEspService;
   late Command1 buscarPermissao;
 
-  AtualizadorViewModel({required this.atualizadorEspService}) {
+  AtualizadorViewModel({
+    required this.atualizadorEspService,
+    required this.bluetoothAppService,
+  }) {
     buscarPermissao = Command1<void, String>(iniciarAtualizacao);
   }
   final sharedPreferences = getIt<SharedPreferences>();
@@ -50,8 +55,7 @@ class AtualizadorViewModel extends ChangeNotifier {
     String enderecoMac,
   ) async {
     _enumExitModoScape = EnumValidacaoModoScape.nenhum;
-    _bluetoothConectado = await atualizadorEspService.bluetoothAppService
-        .obterStatusConexao();
+    _bluetoothConectado = await bluetoothAppService.obterStatusConexao();
     notifyListeners();
 
     //tentar reconectar se não estiver conectado
@@ -80,8 +84,7 @@ class AtualizadorViewModel extends ChangeNotifier {
         "AT+EXIT_SCAPE_MODE",
       );
       if (!sairModoScape) {
-        _bluetoothConectado = await atualizadorEspService.bluetoothAppService
-            .obterStatusConexao();
+        _bluetoothConectado = await bluetoothAppService.obterStatusConexao();
         notifyListeners();
         return Failure(
           ExceptionApp(
@@ -93,8 +96,7 @@ class AtualizadorViewModel extends ChangeNotifier {
       }
     }
     if (retornoModoScope == EnumValidacaoModoScape.semRetorno) {
-      _bluetoothConectado = await atualizadorEspService.bluetoothAppService
-          .obterStatusConexao();
+      _bluetoothConectado = await bluetoothAppService.obterStatusConexao();
 
       notifyListeners();
       return Failure(
@@ -106,7 +108,7 @@ class AtualizadorViewModel extends ChangeNotifier {
       );
     }
 
-    String serial = await buscarSerial();
+    String serial = await atualizadorEspService.buscarSerial();
     if (serial.isEmpty) {
       _estadoAtualizacao = EstadoAtualizacao.falhaAtualizacao;
       return Failure(
@@ -123,8 +125,7 @@ class AtualizadorViewModel extends ChangeNotifier {
 
     if (permissaoCarga.isError) {
       _exceptionApp = permissaoCarga.exceptionOrNull()!;
-      _bluetoothConectado = await atualizadorEspService.bluetoothAppService
-          .obterStatusConexao();
+      _bluetoothConectado = await bluetoothAppService.obterStatusConexao();
       notifyListeners();
       return Failure(permissaoCarga.exceptionOrNull()!);
     }
@@ -133,9 +134,15 @@ class AtualizadorViewModel extends ChangeNotifier {
       return Success(null);
     }
     double novaVersao = await buscarVersaoEsp();
-    log("---->> versao atual esp $novaVersao");
+
     bool confirmacaoEnviadaServidor =
         sharedPreferences.getBool("atualizacaoCompleta") ?? false;
+
+    if (!confirmacaoEnviadaServidor) {
+      _cargaAtualizacao = null;
+      notifyListeners();
+      return permissaoCarga;
+    }
     //atualizou mas não subiu para o servidor, tenta novamente
     if (_cargaAtualizacao!.versao == novaVersao &&
         !confirmacaoEnviadaServidor) {
@@ -146,10 +153,12 @@ class AtualizadorViewModel extends ChangeNotifier {
             sharedPreferences.getString('respEndUpdate') ?? "N/A",
           );
       if (enviadoServidor.isError) {
+        log("---->>> caiu aqui");
         _estadoAtualizacao = EstadoAtualizacao.falhaAtualizacao;
         notifyListeners();
         return permissaoCarga;
       }
+      print("dados enviados: ${enviadoServidor.getOrNull()}");
       _estadoAtualizacao = EstadoAtualizacao.atualizacaoCompleta;
       await sharedPreferences.setBool("atualizacaoCompleta", true);
       notifyListeners();
@@ -172,8 +181,7 @@ class AtualizadorViewModel extends ChangeNotifier {
           sharedPreferences.getString('respEndUpdate')!,
         );
     if (retornoAtualizacao.isError) {
-      _bluetoothConectado = await atualizadorEspService.bluetoothAppService
-          .obterStatusConexao();
+      _bluetoothConectado = await bluetoothAppService.obterStatusConexao();
       notifyListeners();
       return Failure(retornoAtualizacao.exceptionOrNull()!);
     }
@@ -240,8 +248,7 @@ class AtualizadorViewModel extends ChangeNotifier {
 
     _estadoAtualizacao = EstadoAtualizacao.sairScapeMode;
     notifyListeners();
-    _bluetoothConectado = await atualizadorEspService.bluetoothAppService
-        .obterStatusConexao();
+    _bluetoothConectado = await bluetoothAppService.obterStatusConexao();
     notifyListeners();
     String resposta = await atualizadorEspService.enviarComando(
       "AT+END_UPDATE_FLASH",
@@ -294,8 +301,7 @@ class AtualizadorViewModel extends ChangeNotifier {
     }
 
     await Future.delayed(const Duration(seconds: 5));
-    _bluetoothConectado = await atualizadorEspService.bluetoothAppService
-        .obterStatusConexao();
+    _bluetoothConectado = await bluetoothAppService.obterStatusConexao();
     int qtdTentativas = 0;
     _bluetoothConectado = EstadoConexaoBluetooth.tentandoConectar;
     notifyListeners();
@@ -307,8 +313,7 @@ class AtualizadorViewModel extends ChangeNotifier {
       qtdTentativas++;
     }
 
-    _bluetoothConectado = await atualizadorEspService.bluetoothAppService
-        .obterStatusConexao();
+    _bluetoothConectado = await bluetoothAppService.obterStatusConexao();
     log("---->> estado bluetooth $_bluetoothConectado");
     notifyListeners();
     _estadoAtualizacao = EstadoAtualizacao.confirmandoAtualizacao;
@@ -371,24 +376,6 @@ class AtualizadorViewModel extends ChangeNotifier {
     return result;
   }
 
-  Future<String> buscarSerial() async {
-    EstadoConexaoBluetooth estadoBt = await atualizadorEspService
-        .bluetoothAppService
-        .obterStatusConexao();
-    if (estadoBt == EstadoConexaoBluetooth.desconectado) {
-      return '';
-    }
-    String resposta = await atualizadorEspService.enviarComando(
-      "AT+GET_INFO:AA",
-    );
-
-    if (resposta.isEmpty) {
-      return '';
-    }
-    String versao = int.parse(resposta.substring(20, 28), radix: 16).toString();
-    return versao;
-  }
-
   Future<double> buscarVersaoEsp() async {
     String resposta = await atualizadorEspService.enviarComando(
       "AT+DEVICE_VERSION",
@@ -406,9 +393,8 @@ class AtualizadorViewModel extends ChangeNotifier {
   Future<EstadoConexaoBluetooth> reconexao(String endereco) async {
     _bluetoothConectado = EstadoConexaoBluetooth.tentandoConectar;
     notifyListeners();
-    await atualizadorEspService.bluetoothAppService.conectar(endereco);
-    EstadoConexaoBluetooth status = await atualizadorEspService
-        .bluetoothAppService
+    await bluetoothAppService.conectar(endereco);
+    EstadoConexaoBluetooth status = await bluetoothAppService
         .obterStatusConexao();
     return status;
   }

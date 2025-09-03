@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +32,9 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
   void initState() {
     atualizadorViewModel.buscarPermissao.execute((endereco));
     atualizadorViewModel.buscarPermissao.addListener(() {
+      log(
+        "---->>> ${atualizadorViewModel.cargaAtualizacao} - ${atualizadorViewModel.buscarPermissao.completed}",
+      );
       if (atualizadorViewModel.buscarPermissao.error &&
           atualizadorViewModel.enumExitModoSceape ==
               EnumValidacaoModoScape.semRetorno) {
@@ -56,8 +61,7 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
       if (atualizadorViewModel.cargaAtualizacao == null &&
           atualizadorViewModel.buscarPermissao.completed) {
         context.go(NomesNavegacaoRota.homePage, extra: endereco);
-        atualizadorViewModel.atualizadorEspService.bluetoothAppService
-            .desconectar();
+        atualizadorViewModel.bluetoothAppService.desconectar();
       }
     });
     super.initState();
@@ -108,9 +112,7 @@ class _AtualizadorPageState extends State<AtualizadorPage> {
           if (atualizadorViewModel.buscarPermissao.error) {
             return Column(
               children: [
-                Text(
-                  "Deve reiniciar a atualização ",
-                ),
+                Text("Deve reiniciar a atualização "),
                 ElevatedButton(
                   onPressed: () {
                     atualizadorViewModel.buscarPermissao.execute((endereco));

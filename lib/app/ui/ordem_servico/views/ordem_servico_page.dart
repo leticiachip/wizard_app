@@ -249,7 +249,7 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
                       ElevatedButton(
                         onPressed: () {
                           context.pop();
-                          context.push(
+                          context.go(
                             NomesNavegacaoRota.inicioOrdemServicoPage,
                           );
                         },

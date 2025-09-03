@@ -2,6 +2,7 @@ import 'package:wizard_app/core/requisicao_app/rotas_requisicao/rotas_download.d
 import 'package:wizard_app/core/requisicao_app/utils/status_response.dart';
 
 import '../utils/resultado_requisicao.dart';
+import 'arquivo_atualizacao.dart';
 import 'arquivo_atualizacao_connect.dart';
 import 'body_mocks.dart';
 //import 'arquivo_atualizacao.dart';
@@ -11,7 +12,7 @@ class MockDownload {
     switch (rotas) {
       case NomeRotasDownload.downloadPermissaoAtualizarEsp:
         return ResultadoRequisicao(
-          body: {'message': 'nada', 'data': null},
+          body: {'message': 'nada', 'data': atualizacao},
           codigoRastreio: 0,
           estadoResponse: EstadoResponse.todasInformacoesCadastrada,
         );

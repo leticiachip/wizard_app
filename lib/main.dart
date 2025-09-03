@@ -191,11 +191,14 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         ConfiguracoesIniciaisViewModel configuracoesIniciaisViewModel =
             getIt<ConfiguracoesIniciaisViewModel>();
-        String mac = state.extra as String;
+        Map<String, dynamic> map = state.extra as Map<String, dynamic>;
+        String mac = map['mac'];
+        String serial = map['serial'];
 
         return ConfiguracoesIniciaisPage(
           configuracoesIniciaisViewModel: configuracoesIniciaisViewModel,
           macVeiculo: mac,
+          serial: serial,
         );
       },
     ),
@@ -229,6 +232,9 @@ class MyApp extends StatelessWidget {
                   fontSize: 20,
                   color: Color(0xFF000000),
                 ),
+              ),
+              progressIndicatorTheme: ProgressIndicatorThemeData(
+                linearTrackColor: Colors.grey[200],
               ),
               primaryColor: Color(0xFF123D9E),
 

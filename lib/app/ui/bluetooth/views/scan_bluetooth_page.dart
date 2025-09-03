@@ -176,7 +176,6 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
                     subtitle: Text(devices.mac),
                     onTap: () async {
                       scanViewModel.stopScan();
-                      print("---->> chama tela de configurações");
                       /* final bluetoothViewModel = BluetoothViewModel(
                         bluetoothBleService: getIt<BluetoothAppService>(
                           instanceName: 'classic',
@@ -205,7 +204,7 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
                       } */
                       context.go(
                         NomesNavegacaoRota.configuracoesIniciaisPage,
-                        extra: devices.mac,
+                        extra: {'mac': devices.mac, 'serial': devices.nome},
                       );
                     },
                   );

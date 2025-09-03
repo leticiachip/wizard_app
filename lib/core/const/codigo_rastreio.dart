@@ -10,4 +10,5 @@ abstract class CodigoRastreio {
   static String baixarArquivo = "$base.H.A";
   static String permissoes = "$base.I.A";
   static String usuario = "$base.J.A";
+  static String configuracoesInicias = "$base.K.A";
 }

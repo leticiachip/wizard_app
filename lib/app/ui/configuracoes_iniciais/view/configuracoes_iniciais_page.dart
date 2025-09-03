@@ -7,11 +7,12 @@ import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 class ConfiguracoesIniciaisPage extends StatefulWidget {
   final ConfiguracoesIniciaisViewModel configuracoesIniciaisViewModel;
   final String macVeiculo;
+  final String serial;
   const ConfiguracoesIniciaisPage({
     super.key,
     required this.configuracoesIniciaisViewModel,
-    required this.macVeiculo
-
+    required this.macVeiculo,
+    required this.serial,
   });
 
   @override
@@ -22,18 +23,32 @@ class ConfiguracoesIniciaisPage extends StatefulWidget {
 class _ConfiguracoesIniciaisPageState extends State<ConfiguracoesIniciaisPage> {
   ConfiguracoesIniciaisViewModel get configuracoesIniciaisViewModel =>
       widget.configuracoesIniciaisViewModel;
+  String get serial => widget.serial;
+  String get macVeiculo => widget.macVeiculo;
   @override
   void initState() {
     configuracoesIniciaisViewModel.buscarConfiguracoesIniciasCommand
         .addListener(() {
           if (configuracoesIniciaisViewModel
+                  .buscarConfiguracoesIniciasCommand
+                  .completed &&
+              configuracoesIniciaisViewModel.atualizacaoEspHabilitado) {
+            context.go(
+              NomesNavegacaoRota.atualizadorEspPage,
+              extra: macVeiculo,
+            );
+            return;
+          }
+          if (configuracoesIniciaisViewModel
               .buscarConfiguracoesIniciasCommand
               .completed) {
-                context.go(NomesNavegacaoRota.ordemServicoPage);
+            context.go(NomesNavegacaoRota.ordemServicoPage);
             return;
           }
         });
-    configuracoesIniciaisViewModel.buscarConfiguracoesIniciasCommand.execute();
+    configuracoesIniciaisViewModel.buscarConfiguracoesIniciasCommand.execute(
+      macVeiculo,
+    );
     super.initState();
   }
 
