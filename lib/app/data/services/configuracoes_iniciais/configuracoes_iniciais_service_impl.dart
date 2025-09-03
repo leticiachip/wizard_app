@@ -1,7 +1,7 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wizard_app/app/data/repositories/usuario/usuario_repository.dart';
 import 'package:wizard_app/app/data/services/configuracoes_iniciais/configuracoes_iniciais_service.dart';
 import 'package:wizard_app/core/const/codigo_rastreio.dart';
+import 'package:wizard_app/main.dart';
 
 import '../../../../core/exceptions_app/model/exception_app.dart';
 import '../../../../core/requisicao_app/utils/resultado_requisicao.dart'
@@ -9,11 +9,9 @@ import '../../../../core/requisicao_app/utils/resultado_requisicao.dart'
 import '../../../../core/utils/result.dart';
 
 class ConfiguracoesIniciaisServiceImpl implements ConfiguracoesIniciaisService {
-  final SharedPreferences sharedPreferences;
   final UsuarioRepository usuarioRepository;
   ConfiguracoesIniciaisServiceImpl({
     required this.usuarioRepository,
-    required this.sharedPreferences,
   });
   @override
   Future<Result<bool, ExceptionApp>> iniciarConfiguracao() async {
@@ -46,7 +44,7 @@ class ConfiguracoesIniciaisServiceImpl implements ConfiguracoesIniciaisService {
     }
     String dadosUsuario =
         "${data!['usuario']['nome']}\n${data['usuario']['cpf']}";
-    sharedPreferences.setString("nomeUsuarioMarcaDagua", dadosUsuario);
+    nomeUsuarioMarcadagua = dadosUsuario;
     return Success(true);
   }
 }

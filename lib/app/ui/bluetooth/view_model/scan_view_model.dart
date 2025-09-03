@@ -45,9 +45,7 @@ class ScanViewModel extends ChangeNotifier {
 
     bool permissaoBluetoothHabilitada = await permissionHandlerService
         .permissaBluetooth();
-    print(
-      "--------------->>> permissaoBluetoothHabilitada $permissaoBluetoothHabilitada",
-    );
+
     _permissaoBluetoothHabilitada = permissaoBluetoothHabilitada;
     notifyListeners();
     if (!permissaoBluetoothHabilitada) {

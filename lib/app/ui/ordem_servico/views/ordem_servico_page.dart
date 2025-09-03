@@ -5,10 +5,11 @@ import 'package:wizard_app/app/ui/ordem_servico/views/components/card_component.
 import 'package:wizard_app/app/ui/ordem_servico/views/components/item_card_component.dart';
 import 'package:wizard_app/app/ui/usuario/view_model/usuario_view_model.dart';
 import 'package:wizard_app/core/services/formatar_hora.dart';
+import 'package:wizard_app/core/ui/marca_dagua/custom_painter.dart';
 import 'package:wizard_app/core/ui/marca_dagua/scaffold_marca_dagua.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
+import 'package:wizard_app/main.dart';
 
-//import '../../../../core/ui/marca_dagua/marca_dagua.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../domain/models/ordem_servico/ordem_servico.dart';
 
@@ -160,7 +161,19 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
             child: SingleChildScrollView(
               child: Stack(
                 children: [
-                //  MarcaDagua(),
+                  IgnorePointer(
+                    child: CustomPaint(
+                      painter: WatermarkPainter(
+                        nomeUsuarioMarcadagua.isEmpty
+                            ? ""
+                            : nomeUsuarioMarcadagua,
+                      ),
+                      size: Size(
+                        MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height,
+                      ),
+                    ),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,

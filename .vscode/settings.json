@@ -8,6 +8,6 @@
     "amplify/backend/amplify-meta.json": true,
     "amplify/backend/awscloudformation": true
   },
-    "dart.flutterSdkPath": "C:\\Users\\USER\\.puro\\envs\\v3_32_5\\flutter",
-    "dart.sdkPath": "C:\\Users\\USER\\.puro\\envs\\v3_32_5\\flutter\\bin\\cache\\dart-sdk"
+  "dart.flutterSdkPath": "C:\\Users\\USER\\.puro\\envs\\v3_32_5\\flutter",
+  "dart.sdkPath": "C:\\Users\\USER\\.puro\\envs\\v3_32_5\\flutter\\bin\\cache\\dart-sdk"
 }

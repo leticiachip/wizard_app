@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wizard_app/app/data/repositories/usuario/usuario_repository.dart';
 import 'package:wizard_app/app/data/services/configuracoes_iniciais/configuracoes_iniciais_service.dart';
 import 'package:wizard_app/app/data/services/configuracoes_iniciais/configuracoes_iniciais_service_impl.dart';
@@ -18,7 +17,6 @@ class ConfiguracoesIniciaisGetIt {
     getIt.registerFactory<ConfiguracoesIniciaisService>(
       () => ConfiguracoesIniciaisServiceImpl(
         usuarioRepository: getIt<UsuarioRepository>(),
-        sharedPreferences: getIt<SharedPreferences>(),
       ),
     );
   }

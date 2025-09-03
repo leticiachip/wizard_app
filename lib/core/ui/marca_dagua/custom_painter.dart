@@ -8,7 +8,7 @@ class WatermarkPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final textStyle = TextStyle(
-      color: Colors.black.withValues(alpha: 0.04),
+      color: Colors.black.withValues(alpha: 0.07),
       fontSize: 14,
       fontWeight: FontWeight.bold,
     );

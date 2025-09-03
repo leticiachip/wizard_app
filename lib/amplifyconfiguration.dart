@@ -12,7 +12,7 @@ const amplifyconfig = ''' {
                 "CognitoUserPool": {
                     "Default": {
                         "PoolId": "sa-east-1_a6yhg64Ue",
-                        "AppClientId": "7mcbdv389vervgs6inrgu8dtfr",
+                        "AppClientId": "6oa6juoecp4mvna4us7v4ctjrj",
                         "Region": "sa-east-1"
                     }
                 },
@@ -20,7 +20,7 @@ const amplifyconfig = ''' {
                     "Default": {
                         "OAuth": {
                             "WebDomain": "auth.chiptronicsciencetelematic.com.br.auth.sa-east-1.amazoncognito.com",
-                            "AppClientId": "7mcbdv389vervgs6inrgu8dtfr",
+                            "AppClientId": "6oa6juoecp4mvna4us7v4ctjrj",
                             "SignInRedirectURI": "chiptronic0002:app-jornada",
                             "SignOutRedirectURI": "chiptronic0002:app-jornada",
                             "Scopes": [

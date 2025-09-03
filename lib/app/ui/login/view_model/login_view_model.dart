@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:wizard_app/app/data/services/login/enum_result_login.dart';
@@ -27,12 +26,10 @@ class LoginViewModel extends ChangeNotifier {
     Result<EnumResultLogin, ExceptionLogin> resultLogin = await loginService
         .login(email, senha);
     if (resultLogin.isError) {
-      log("------>> caiu na falha");
       ExceptionLogin exception = resultLogin.exceptionOrNull()!;
       _exceptionLogin = exception;
     }
     if (resultLogin.isSuccess) {
-      log("------>> caiu no sucesso");
       _enumResultLogin = resultLogin.getOrNull()!;
     }
     notifyListeners();

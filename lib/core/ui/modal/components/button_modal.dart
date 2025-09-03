@@ -9,7 +9,6 @@ class ButtonModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 40,
-      width: 60,
       child: TextButton(
         onPressed: () {
           function();

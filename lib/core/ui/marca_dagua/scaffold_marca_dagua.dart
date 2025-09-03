@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wizard_app/core/utils/injecao_depencias.dart';
+import 'package:wizard_app/main.dart';
 
 import 'custom_painter.dart';
 
-class ScaffoldMarcaDagua extends StatefulWidget {
+class ScaffoldMarcaDagua extends StatelessWidget {
   final PreferredSizeWidget appBar;
   final Widget? floatingActionButton;
   final Widget body;
@@ -16,23 +15,19 @@ class ScaffoldMarcaDagua extends StatefulWidget {
   });
 
   @override
-  State<ScaffoldMarcaDagua> createState() => _ScaffoldMarcaDaguaState();
-}
-
-class _ScaffoldMarcaDaguaState extends State<ScaffoldMarcaDagua> {
-  final sharedPreferences = getIt<SharedPreferences>();
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: widget.floatingActionButton,
-      appBar: widget.appBar,
+      floatingActionButton: floatingActionButton,
+      appBar: appBar,
       body: Stack(
         children: [
+          body,
           IgnorePointer(
             child: CustomPaint(
               painter: WatermarkPainter(
-                sharedPreferences.getString("nomeUsuarioMarcaDagua") ??
-                    "Nome não encontrado",
+                nomeUsuarioMarcadagua.isEmpty
+                    ? ""
+                    : nomeUsuarioMarcadagua,
               ),
               size: Size(
                 MediaQuery.of(context).size.width,
@@ -40,7 +35,6 @@ class _ScaffoldMarcaDaguaState extends State<ScaffoldMarcaDagua> {
               ),
             ),
           ),
-          widget.body,
         ],
       ),
     );

@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     loginViewModel.login.addListener(() {
       if (loginViewModel.login.completed &&
           loginViewModel.enumResultLogin == EnumResultLogin.prosseguir) {
-        context.pushReplacement(NomesNavegacaoRota.configuracoesIniciaisPage);
+        context.pushReplacement(NomesNavegacaoRota.scanBluetoothPage);
       }
       if (loginViewModel.login.completed &&
           loginViewModel.enumResultLogin == EnumResultLogin.trocaSenha) {

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wizard_app/app/domain/models/bluetooth/devices.dart';
 import 'package:wizard_app/app/ui/bluetooth/view_model/scan_view_model.dart';
 import 'package:wizard_app/core/ui/modal/modal_aviso.dart';
 import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 import '../../../../core/ui/marca_dagua/scaffold_marca_dagua.dart';
-import '../../../../core/utils/injecao_depencias.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../data/services/bluetooth/bluetooth_service.dart';
-import '../view_model/bluetooth_view_model.dart';
-import 'conectar_bluetooth_page.dart';
 
 class ScanBluetoothPage extends StatefulWidget {
   final ScanViewModel scanViewModel;
@@ -23,30 +20,46 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
   ScanViewModel get scanViewModel => widget.scanViewModel;
   final filtroPesquisa = TextEditingController();
   bool filtroHabilitado = false;
+  bool habiltarFloatingActionButton = true;
   @override
   void initState() {
     scanViewModel.scan.execute();
     scanViewModel.scan.addListener(() {
       if (scanViewModel.scan.error) {
-        if (!scanViewModel.permissaoBluetoothHabilitada) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return DialogCustomizado(
-                descricao: "Sem permissao para bluetooth",
-                titulo: "Bluetooth desligado",
-              );
-            },
-          );
-          return;
-        }
+        setState(() {
+          habiltarFloatingActionButton = false;
+        });
         if (!scanViewModel.permissaoLocalizacaoHabilitada) {
           showDialog(
             context: context,
             builder: (context) {
               return DialogCustomizado(
-                descricao: "Sem permissao para localizacao",
                 titulo: "Acesso localizacao negada",
+                descricao:
+                    "Para o bom funcionamento do aplicativo é necessário habilitar a permissão para localização, habilite o acesso",
+                botaoSim: "Conceder permissão",
+                onTapSim: () {
+                  openAppSettings();
+                  context.pop();
+                },
+              );
+            },
+          );
+          return;
+        }
+        if (!scanViewModel.permissaoBluetoothHabilitada) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return DialogCustomizado(
+                titulo: "Acesso ao bluetooth negado",
+                descricao:
+                    "O aplicativo não pode acessar o recurso do bluetotoh, habilite o acesso",
+                botaoSim: "Conceder permissão",
+                onTapSim: () {
+                  openAppSettings();
+                  context.pop();
+                },
               );
             },
           );
@@ -60,12 +73,14 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldMarcaDagua(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.search),
-        onPressed: () {
-          scanViewModel.scan.execute();
-        },
-      ),
+      floatingActionButton: !habiltarFloatingActionButton
+          ? SizedBox()
+          : FloatingActionButton(
+              child: Icon(Icons.search),
+              onPressed: () {
+                scanViewModel.scan.execute();
+              },
+            ),
       appBar: AppBar(
         title: filtroHabilitado
             ? AnimatedBuilder(
@@ -118,7 +133,20 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
             );
           }
           if (scanViewModel.scan.error) {
-            return Text(AppLocalizations.of(context)!.falhaBuscarDispositivos);
+            return Column(
+              children: [
+                Text(AppLocalizations.of(context)!.falhaBuscarDispositivos),
+                ElevatedButton(
+                  onPressed: () {
+                    scanViewModel.scan.execute();
+                    setState(() {
+                      habiltarFloatingActionButton = true;
+                    });
+                  },
+                  child: Text("Tentar novamente"),
+                ),
+              ],
+            );
           }
           if (scanViewModel.dispositivos.isEmpty) {
             return Text("Não foi encontrado nada");
@@ -148,7 +176,8 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
                     subtitle: Text(devices.mac),
                     onTap: () async {
                       scanViewModel.stopScan();
-                      final bluetoothViewModel = BluetoothViewModel(
+                      print("---->> chama tela de configurações");
+                      /* final bluetoothViewModel = BluetoothViewModel(
                         bluetoothBleService: getIt<BluetoothAppService>(
                           instanceName: 'classic',
                         ),
@@ -172,11 +201,12 @@ class _ScanBluetoothPageState extends State<ScanBluetoothPage> {
                         if (!context.mounted) {
                           return;
                         }
-                        context.push(
-                          NomesNavegacaoRota.atualizadorEspPage,
-                          extra: resultadoConexao['enderecoMac'],
-                        );
-                      }
+                        
+                      } */
+                      context.go(
+                        NomesNavegacaoRota.configuracoesIniciaisPage,
+                        extra: devices.mac,
+                      );
                     },
                   );
                 },

@@ -29,6 +29,15 @@ class HomeServiceImpl implements HomeService {
 
       if (getIdToken.isSuccess) {
         Map<String, dynamic> rotas = getIdToken.getOrNull()!;
+        if (!rotas.containsKey('scopes')) {
+          return Failure(
+            ExceptionApp(
+              descricao: 'Não tem scope para identificar rotas autorizadas',
+              detalhes: 'O resultado do buscarId não esta vindo o scope',
+              rastreio: '${CodigoRastreio.consultarPermissoesRota}.00',
+            ),
+          );
+        }
         List<String> scope = rotas['scopes'].split(' ');
 
         List<String> replace = scope
@@ -41,7 +50,7 @@ class HomeServiceImpl implements HomeService {
         ExceptionApp(
           descricao: getIdToken.exceptionOrNull()!.descricao,
           detalhes: getIdToken.exceptionOrNull()!.detalhes,
-          rastreio: '${CodigoRastreio.atualizacaoESP}.1'
+          rastreio: '${CodigoRastreio.atualizacaoESP}.1',
         ),
       );
     } catch (error) {
@@ -49,7 +58,7 @@ class HomeServiceImpl implements HomeService {
         ExceptionApp(
           descricao: '$error',
           detalhes: 'Não foi possivel obter os dados do cognito',
-          rastreio: '${CodigoRastreio.atualizacaoESP}.2'
+          rastreio: '${CodigoRastreio.atualizacaoESP}.2',
         ),
       );
     }
@@ -62,5 +71,4 @@ class HomeServiceImpl implements HomeService {
     await imagePickerAdapter.abrirCamera(caminho);
     //await imagePickerAdapter.excluirFoto('data/data/com.example.wizard_app.dev/app_flutter/capturas/exemplo0311ddde09f2c57c342188b3b954695b.jpeg');
   }
-
 }

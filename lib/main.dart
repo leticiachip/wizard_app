@@ -36,6 +36,7 @@ import 'app/ui/ordem_servico/views/checklist_ordem_servico_page.dart';
 import 'app/ui/ordem_servico/views/inicial_ordem_servico_page.dart';
 import 'app/ui/ordem_servico/views/pdf_manual_page.dart';
 
+String nomeUsuarioMarcadagua = "";
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupDependencias();
@@ -190,8 +191,11 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         ConfiguracoesIniciaisViewModel configuracoesIniciaisViewModel =
             getIt<ConfiguracoesIniciaisViewModel>();
+        String mac = state.extra as String;
+
         return ConfiguracoesIniciaisPage(
           configuracoesIniciaisViewModel: configuracoesIniciaisViewModel,
+          macVeiculo: mac,
         );
       },
     ),
@@ -220,6 +224,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Flavor.isProduction()
           ? ThemeData(
+              dialogTheme: DialogThemeData(
+                titleTextStyle: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xFF000000),
+                ),
+              ),
               primaryColor: Color(0xFF123D9E),
 
               fontFamily: 'Montserrat',
@@ -234,9 +244,8 @@ class MyApp extends StatelessWidget {
               ),
               elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ButtonStyle(
-                  textStyle: WidgetStateProperty.all(
-                    TextStyle(color: Colors.white),
-                  ),
+                  foregroundColor: WidgetStateProperty.all(Colors.white),
+
                   elevation: WidgetStateProperty.all(0.0),
                   fixedSize: WidgetStateProperty.all(
                     Size(MediaQuery.of(context).size.width, 40),
