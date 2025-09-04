@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wizard_app/app/domain/models/etapas_ordem_servico/etapas_ordem_servico.dart';
 import 'package:wizard_app/app/ui/ordem_servico/view_model/ordem_servico_view_model.dart';
-import 'package:wizard_app/core/utils/nomes_navegacao_rota.dart';
 
 import '../../../../core/ui/marca_dagua/scaffold_marca_dagua.dart';
+import '../../../domain/models/ordem_servico/workflow.dart';
 
 class InicialOrdemServicoPage extends StatefulWidget {
   final OrdemServicoViewModel ordemServicoViewModel;
+  final String tituloPagina;
   const InicialOrdemServicoPage({
     super.key,
     required this.ordemServicoViewModel,
+    required this.tituloPagina,
   });
 
   @override
@@ -18,57 +18,156 @@ class InicialOrdemServicoPage extends StatefulWidget {
       _InicialOrdemServicoPageState();
 }
 
-class _InicialOrdemServicoPageState extends State<InicialOrdemServicoPage> {
+class _InicialOrdemServicoPageState extends State<InicialOrdemServicoPage>
+    with TickerProviderStateMixin {
   OrdemServicoViewModel get ordemServicoViewModel =>
       widget.ordemServicoViewModel;
+  TabController? tabController;
+  String get titulo => widget.tituloPagina;
+
   @override
   void initState() {
-    ordemServicoViewModel.buscarEtpasOS.execute();
+    ordemServicoViewModel.buscarWorflow.execute();
+    ordemServicoViewModel.buscarWorflow.addListener(() {
+      if (ordemServicoViewModel.buscarWorflow.completed) {
+        setState(() {
+          tabController = TabController(
+            length: ordemServicoViewModel.workflowOS.length,
+            vsync: this,
+          );
+        });
+        tabController!.addListener(() {
+          setState(() {}); // atualiza UI quando muda a aba
+        });
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ScaffoldMarcaDagua(
-      appBar: AppBar(title: Text("Page inicial")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ordemServicoViewModel.buscarWorflow.execute();
+        },
+      ),
+      appBar: AppBar(
+        actionsPadding: EdgeInsets.zero,
+
+        title: Text(titulo),
+        bottom: tabController == null
+            ? null
+            : PreferredSize(
+                preferredSize: Size.fromHeight(
+                  MediaQuery.of(context).size.height * 0.10,
+                ),
+                child: IgnorePointer(
+                  ignoring: true,
+                  child: TabBar(
+                    enableFeedback: true,
+                    indicatorColor: Colors.transparent,
+                    tabAlignment: tabController!.length > 4
+                        ? TabAlignment.start
+                        : null,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    padding: EdgeInsets.zero,
+                    indicatorPadding: EdgeInsets.zero,
+                    labelPadding: EdgeInsets.zero,
+                    indicatorWeight: 4,
+                    isScrollable: tabController!.length > 4,
+                    dividerHeight: 0,
+                    controller: tabController,
+                    tabs: ordemServicoViewModel.workflowOS.asMap().entries.map((
+                      entry,
+                    ) {
+                      int index = entry.key;
+                      Workflow item = entry.value;
+                      bool selecionado = tabController!.index == index;
+                      bool preenchido = item.dataFim.isEmpty ? false : true;
+                      return Tab(
+                        height: MediaQuery.of(context).size.height * 0.10,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 20,
+                              backgroundColor: selecionado
+                                  ? ColorScheme.of(context).primary
+                                  : ColorScheme.of(context).primaryContainer,
+                              child: selecionado
+                                  ? Icon(
+                                      Icons.info_outlined,
+                                      color: ColorScheme.of(
+                                        context,
+                                      ).onSecondary,
+                                    )
+                                  : preenchido
+                                  ? Icon(
+                                      Icons.check,
+                                      color: ColorScheme.of(
+                                        context,
+                                      ).onSecondary,
+                                    )
+                                  : Text(
+                                      "${item.id ?? 0}",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: SizedBox(
+                                width: 80,
+                                child: Text(
+                                  item.nome,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: ColorScheme.of(context).onSurface,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+      ),
       body: AnimatedBuilder(
-        animation: ordemServicoViewModel.buscarEtpasOS,
+        animation: ordemServicoViewModel.buscarWorflow,
         builder: (context, _) {
-          if (ordemServicoViewModel.buscarEtpasOS.error) {
+          if (ordemServicoViewModel.buscarWorflow.error) {
             return Text(
               "Não foi possivel buscar as informações ${ordemServicoViewModel.exceptionApp.rastreio}",
             );
           }
-          if (ordemServicoViewModel.buscarEtpasOS.running) {
+          if (ordemServicoViewModel.buscarWorflow.running) {
             return CircularProgressIndicator();
           }
-          return ListView.builder(
-            itemCount: ordemServicoViewModel.listaEtapaOS.length,
-            itemBuilder: (context, index) {
-              EtapasOrdemServico etapas =
-                  ordemServicoViewModel.listaEtapaOS[index];
-              return ListTile(
-                leading: Icon(Icons.warning_amber_rounded, color: Colors.amber),
-                title: Text(etapas.descricao),
-                onTap: () {
-                  direcionarPage(etapas.tipo);
-                },
-              );
-            },
+          return DefaultTabController(
+            initialIndex: 0,
+            length: tabController!.length,
+            child: TabBarView(
+              controller: tabController,
+              children: ordemServicoViewModel.workflowOS
+                  .map((item) => Tab(text: item.nome))
+                  .toList(),
+            ),
           );
         },
       ),
     );
   }
 
-  direcionarPage(int tipo) {
-    switch (tipo) {
-      case 1:
-        context.push(NomesNavegacaoRota.checklistVeiculo);
-      case 2:
-        context.push(NomesNavegacaoRota.pdfPage);
-      case 3:
-        print("outros");
-    }
+  @override
+  void dispose() {
+    tabController?.dispose();
+    super.dispose();
   }
 }

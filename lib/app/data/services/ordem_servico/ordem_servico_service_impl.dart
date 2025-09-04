@@ -2,16 +2,14 @@ import 'dart:typed_data';
 
 import 'package:wizard_app/app/data/repositories/ordem_servico/ordem_servico_repository.dart';
 import 'package:wizard_app/app/data/services/ordem_servico/ordem_servico_service.dart';
-import 'package:wizard_app/app/domain/models/checklist/checklist.dart';
-import 'package:wizard_app/app/domain/models/etapas_ordem_servico/etapas_ordem_servico.dart';
 import 'package:wizard_app/app/domain/models/ordem_servico/ordem_servico.dart';
+import 'package:wizard_app/app/domain/models/ordem_servico/workflow.dart';
 import 'package:wizard_app/core/const/codigo_rastreio.dart';
 import 'package:wizard_app/core/exceptions_app/model/exception_app.dart';
 import 'package:wizard_app/core/utils/result.dart';
 
 import '../../../../core/requisicao_app/utils/resultado_requisicao.dart'
     show ResultadoRequisicao;
-import '../../../domain/models/checklist/checklist_item.dart';
 
 class OrdemServicoServiceImpl implements OrdemServicoService {
   final OrdemServicoRepository ordemServicoRepository;
@@ -30,102 +28,10 @@ class OrdemServicoServiceImpl implements OrdemServicoService {
       return Success([]);
     }
     body['serviceOrder'].forEach((e) {
-      ordensEncontradas.add(
-        OrdemServico.fromJson(e),
-       /*  OrdemServico(
-          id: e['id'],
-          idEmpresa: e['companyId'],
-          nomeEmpresa: e['companyName'],
-          idEmpresaDestinataria: e['recipientCompanyId'],
-          numeroPedido: e['orderNumber'],
-          tipo: e['type'],
-          status: e['status'],
-          dataHoraInicio: e['startTimestamp'],
-          dataHoraFim: e['endTimestamp'] ?? "",
-          idVeiculo: e['vehicleId'],
-          idFuncionario: e['employeeId'],
-          prazoFinal: e['deadline'],
-          dataHoraPrazoFinal: e['deadlineTimestamp'],
-          tentativas: e['attempt'],
-          latitude: e['latitude'],
-          longitude: e['longitude'],
-          informacoesAdicionais: e['additionalInformation'],
-          motivoCancelamento: e['cancellationReason'] ?? "",
-          comentario: e['comment'] ?? "",
-          urlAssinaturaDigital: e['digitalSignatureURL'] ?? "",
-          responsavel: e['accountable'] ?? "",
-          dataHora: e['timestamp'] ?? "",
-        ), */
-      );
+      ordensEncontradas.add(OrdemServico.fromJson(e));
     });
 
     return Success(ordensEncontradas);
-  }
-
-  @override
-  Future<Result<List<EtapasOrdemServico>, ExceptionApp>>
-  buscarEtapasOrdemServico() async {
-    List<EtapasOrdemServico> etapas = [];
-    Result<ResultadoRequisicao, ExceptionApp> resultadoRequisicao =
-        await ordemServicoRepository.buscarEtapaOS();
-    if (resultadoRequisicao.isError) {
-      return Failure(resultadoRequisicao.exceptionOrNull()!);
-    }
-    ResultadoRequisicao result = resultadoRequisicao.getOrNull()!;
-    Map<String, dynamic> body = result.body!['data'];
-    if (body['etapa'].isEmpty) {
-      return Success([]);
-    }
-    body['etapa'].forEach((e) {
-      etapas.add(
-        EtapasOrdemServico(
-          descricao: e['descricao'],
-          id: e['id'],
-          tipo: e['tipo'],
-        ),
-      );
-    });
-    return Success(etapas);
-  }
-
-  @override
-  Future<Result<CheckList, ExceptionApp>> buscarCheckist() async {
-    List<ChecklistItem> checkListItens = [];
-    Result<ResultadoRequisicao, ExceptionApp> resultadoRequisicao =
-        await ordemServicoRepository.buscarChecklist();
-    if (resultadoRequisicao.isError) {
-      return Failure(resultadoRequisicao.exceptionOrNull()!);
-    }
-    ResultadoRequisicao result = resultadoRequisicao.getOrNull()!;
-    Map<String, dynamic> body = result.body!['data'];
-    body['checkListItems'].forEach((e) {
-      checkListItens.add(
-        ChecklistItem(
-          id: e['id'],
-          checklistId: e['checklistId'],
-          resumo: e['summary'],
-          campoObrigatorio: e['mandatoryField'],
-          titulo: e['title'],
-          descricao: e['description'],
-          checkBoxHabilitado: e['switchEnabled'],
-          descricaoCheckBox: e['switchLabel'],
-          textFieldHabilitado: e['textfieldEnabled'],
-          dicaTextField: e['textfieldPlaceholder'],
-          qtdMininaFotoObr: e['pictureMandatoryAmount'],
-          qtdMaximaFoto: e['pictureMaximumAmount'],
-          delete: e['deleted'],
-        ),
-      );
-    });
-    CheckList checkList = CheckList(
-      id: body['id'],
-      tipo: body['type'],
-      descricao: body['description'],
-      idFuncionario: body['creationEmployeeId'],
-
-      checkListItem: checkListItens,
-    );
-    return Success(checkList);
   }
 
   @override
@@ -158,15 +64,28 @@ class OrdemServicoServiceImpl implements OrdemServicoService {
     return Success(result.getOrNull()!);
   }
 
-  /*   @override
-  Future<Result<TipoOrdemServico, ExceptionApp>>
-  buscarOrdemServicoEspecifico() async {
+  @override
+  Future<Result<List<Workflow>, ExceptionApp>> buscarWorflow() async {
+    List<Workflow> worflowEncontrados = [];
     Result<ResultadoRequisicao, ExceptionApp> resultadoRequisicao =
-        await ordemServicoRepository.buscarOrdemServico();
+        await ordemServicoRepository.buscarWorkflowOrdemServico();
     if (resultadoRequisicao.isError) {
       return Failure(resultadoRequisicao.exceptionOrNull()!);
     }
+    ResultadoRequisicao result = resultadoRequisicao.getOrNull()!;
+    Map<String, dynamic> body = result.body!['data'];
+    body['workflow'][0]['step'].forEach((e) {
+      worflowEncontrados.add(
+        Workflow(
+          id: e['workflowStepId'],
+          nome: e['workflowStepName'],
+          ordem: e['workflowStepOrdination'],
+          dataInicio: e['workflowStepStartTimeStamp'],
+          dataFim: e['workflowStepEndTimeStamp'],
+        ),
+      );
+    });
 
-
-  } */
+    return Success(worflowEncontrados);
+  }
 }

@@ -251,6 +251,7 @@ class _OrdemServicoPageState extends State<OrdemServicoPage> {
                           context.pop();
                           context.go(
                             NomesNavegacaoRota.inicioOrdemServicoPage,
+                            extra: ordemServico.nomeFluxoTrabalho
                           );
                         },
                         child: Text(

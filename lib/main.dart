@@ -32,7 +32,6 @@ import 'package:wizard_app/l10n/app_localizations.dart';
 import 'app/ui/bluetooth/views/scan_bluetooth_page.dart' show ScanBluetoothPage;
 import 'app/ui/home/view/home_page.dart';
 import 'app/ui/login/views/esqueci_senha_page.dart';
-import 'app/ui/ordem_servico/views/checklist_ordem_servico_page.dart';
 import 'app/ui/ordem_servico/views/inicial_ordem_servico_page.dart';
 import 'app/ui/ordem_servico/views/pdf_manual_page.dart';
 
@@ -161,23 +160,16 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: NomesNavegacaoRota.inicioOrdemServicoPage,
       builder: (BuildContext context, GoRouterState state) {
+        String tituloPagia = state.extra as String;
         OrdemServicoViewModel ordemServicoViewModel =
             getIt<OrdemServicoViewModel>();
         return InicialOrdemServicoPage(
           ordemServicoViewModel: ordemServicoViewModel,
+          tituloPagina: tituloPagia,
         );
       },
     ),
-    GoRoute(
-      path: NomesNavegacaoRota.checklistVeiculo,
-      builder: (BuildContext context, GoRouterState state) {
-        OrdemServicoViewModel ordemServicoViewModel =
-            getIt<OrdemServicoViewModel>();
-        return ChecklistOrdemServicoPage(
-          ordemServicoViewModel: ordemServicoViewModel,
-        );
-      },
-    ),
+
     GoRoute(
       path: NomesNavegacaoRota.pdfPage,
       builder: (BuildContext context, GoRouterState state) {
@@ -227,6 +219,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Flavor.isProduction()
           ? ThemeData(
+              tabBarTheme: TabBarThemeData(labelColor: Color(0xFF000000)),
               dialogTheme: DialogThemeData(
                 titleTextStyle: TextStyle(
                   fontSize: 20,
@@ -266,17 +259,17 @@ class MyApp extends StatelessWidget {
               ),
               colorScheme: ColorScheme(
                 brightness: Brightness.light,
-                primary: const Color.fromARGB(255, 4, 50, 190),
+                primary: const Color(0xFF123D9E),
                 onPrimary: const Color(0xFFFFFFFF),
-                primaryContainer: Color.fromARGB(255, 242, 246, 255),
-                onPrimaryContainer: Colors.white,
-                secondary: Color.fromARGB(255, 239, 248, 255),
-                onSecondary: Colors.white,
-                secondaryContainer: Color.fromARGB(255, 255, 255, 255),
+                primaryContainer: const Color(0xFFCDDCFF),
+                onPrimaryContainer: const Color(0xFF123D9E),
+                secondary: const Color(0xFFFFFFFF),
+                onSecondary: const Color(0xFFFFFFFF),
+                secondaryContainer: const Color(0xFFFFFFFF),
                 onSecondaryContainer: Colors.white,
-                tertiary: Color.fromARGB(255, 249, 252, 255),
+                tertiary: const Color(0xFFFFFFFF),
                 onTertiary: Colors.white,
-                tertiaryContainer: Color.fromARGB(255, 239, 244, 255),
+                tertiaryContainer: const Color(0xFFFFFFFF),
                 onTertiaryContainer: Colors.white,
                 error: Colors.red,
                 errorContainer: Colors.white,

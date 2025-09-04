@@ -1,16 +1,20 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wizard_app/app/domain/models/ordem_servico/etapa.dart';
 part 'workflow.freezed.dart';
 part 'workflow.g.dart';
 
 @freezed
-abstract class WorkFlow with _$WorkFlow {
-  const factory WorkFlow({
-    required int? id,
-    required String? descricao,
-    required List<Etapa> etapas,
-  }) = _WorkFlow;
+abstract class Workflow with _$Workflow {
+  const factory Workflow({
+    @JsonKey(name: 'workflowStepActionId') required int? id,
+    @JsonKey(name: 'workflowStepActionName') required String nome,
+    @JsonKey(name: 'workflowStepActionOrdination') required int ordem,
+    @JsonKey(name: 'workflowStepStartTimeStamp') required String dataInicio,
+    @JsonKey(name: 'workflowStepEndTimeStamp') required String dataFim,
 
-  factory WorkFlow.fromJson(Map<String, Object?> json) =>
-      _$WorkFlowFromJson(json);
+  }) = _Workflow;
+
+  factory Workflow.fromJson(Map<String, Object?> json) =>
+      _$WorkflowFromJson(json);
 }

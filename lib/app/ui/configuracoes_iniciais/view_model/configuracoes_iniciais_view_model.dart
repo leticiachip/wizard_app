@@ -95,6 +95,7 @@ class ConfiguracoesIniciaisViewModel extends ChangeNotifier {
         _atualizacaoEspHabilitado = true;
         notifyListeners();
       }
+      await bluetoothAppService.desconectar();
     }
 
     return Success(true);

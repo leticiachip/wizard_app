@@ -6,16 +6,18 @@ part of 'workflow.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_WorkFlow _$WorkFlowFromJson(Map<String, dynamic> json) => _WorkFlow(
-  id: (json['id'] as num?)?.toInt(),
-  descricao: json['descricao'] as String?,
-  etapas: (json['etapas'] as List<dynamic>)
-      .map((e) => Etapa.fromJson(e as Map<String, dynamic>))
-      .toList(),
+_Workflow _$WorkflowFromJson(Map<String, dynamic> json) => _Workflow(
+  id: (json['workflowStepActionId'] as num?)?.toInt(),
+  nome: json['workflowStepActionName'] as String,
+  ordem: (json['workflowStepActionOrdination'] as num).toInt(),
+  dataInicio: json['workflowStepStartTimeStamp'] as String,
+  dataFim: json['workflowStepEndTimeStamp'] as String,
 );
 
-Map<String, dynamic> _$WorkFlowToJson(_WorkFlow instance) => <String, dynamic>{
-  'id': instance.id,
-  'descricao': instance.descricao,
-  'etapas': instance.etapas,
+Map<String, dynamic> _$WorkflowToJson(_Workflow instance) => <String, dynamic>{
+  'workflowStepActionId': instance.id,
+  'workflowStepActionName': instance.nome,
+  'workflowStepActionOrdination': instance.ordem,
+  'workflowStepStartTimeStamp': instance.dataInicio,
+  'workflowStepEndTimeStamp': instance.dataFim,
 };

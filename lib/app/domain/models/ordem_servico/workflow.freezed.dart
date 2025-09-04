@@ -13,42 +13,42 @@ part of 'workflow.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$WorkFlow {
+mixin _$Workflow {
 
- int? get id; String? get descricao; List<Etapa> get etapas;
-/// Create a copy of WorkFlow
+@JsonKey(name: 'workflowStepActionId') int? get id;@JsonKey(name: 'workflowStepActionName') String get nome;@JsonKey(name: 'workflowStepActionOrdination') int get ordem;@JsonKey(name: 'workflowStepStartTimeStamp') String get dataInicio;@JsonKey(name: 'workflowStepEndTimeStamp') String get dataFim;
+/// Create a copy of Workflow
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$WorkFlowCopyWith<WorkFlow> get copyWith => _$WorkFlowCopyWithImpl<WorkFlow>(this as WorkFlow, _$identity);
+$WorkflowCopyWith<Workflow> get copyWith => _$WorkflowCopyWithImpl<Workflow>(this as Workflow, _$identity);
 
-  /// Serializes this WorkFlow to a JSON map.
+  /// Serializes this Workflow to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkFlow&&(identical(other.id, id) || other.id == id)&&(identical(other.descricao, descricao) || other.descricao == descricao)&&const DeepCollectionEquality().equals(other.etapas, etapas));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Workflow&&(identical(other.id, id) || other.id == id)&&(identical(other.nome, nome) || other.nome == nome)&&(identical(other.ordem, ordem) || other.ordem == ordem)&&(identical(other.dataInicio, dataInicio) || other.dataInicio == dataInicio)&&(identical(other.dataFim, dataFim) || other.dataFim == dataFim));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,descricao,const DeepCollectionEquality().hash(etapas));
+int get hashCode => Object.hash(runtimeType,id,nome,ordem,dataInicio,dataFim);
 
 @override
 String toString() {
-  return 'WorkFlow(id: $id, descricao: $descricao, etapas: $etapas)';
+  return 'Workflow(id: $id, nome: $nome, ordem: $ordem, dataInicio: $dataInicio, dataFim: $dataFim)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $WorkFlowCopyWith<$Res>  {
-  factory $WorkFlowCopyWith(WorkFlow value, $Res Function(WorkFlow) _then) = _$WorkFlowCopyWithImpl;
+abstract mixin class $WorkflowCopyWith<$Res>  {
+  factory $WorkflowCopyWith(Workflow value, $Res Function(Workflow) _then) = _$WorkflowCopyWithImpl;
 @useResult
 $Res call({
- int? id, String? descricao, List<Etapa> etapas
+@JsonKey(name: 'workflowStepActionId') int? id,@JsonKey(name: 'workflowStepActionName') String nome,@JsonKey(name: 'workflowStepActionOrdination') int ordem,@JsonKey(name: 'workflowStepStartTimeStamp') String dataInicio,@JsonKey(name: 'workflowStepEndTimeStamp') String dataFim
 });
 
 
@@ -56,29 +56,31 @@ $Res call({
 
 }
 /// @nodoc
-class _$WorkFlowCopyWithImpl<$Res>
-    implements $WorkFlowCopyWith<$Res> {
-  _$WorkFlowCopyWithImpl(this._self, this._then);
+class _$WorkflowCopyWithImpl<$Res>
+    implements $WorkflowCopyWith<$Res> {
+  _$WorkflowCopyWithImpl(this._self, this._then);
 
-  final WorkFlow _self;
-  final $Res Function(WorkFlow) _then;
+  final Workflow _self;
+  final $Res Function(Workflow) _then;
 
-/// Create a copy of WorkFlow
+/// Create a copy of Workflow
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? descricao = freezed,Object? etapas = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? nome = null,Object? ordem = null,Object? dataInicio = null,Object? dataFim = null,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,descricao: freezed == descricao ? _self.descricao : descricao // ignore: cast_nullable_to_non_nullable
-as String?,etapas: null == etapas ? _self.etapas : etapas // ignore: cast_nullable_to_non_nullable
-as List<Etapa>,
+as int?,nome: null == nome ? _self.nome : nome // ignore: cast_nullable_to_non_nullable
+as String,ordem: null == ordem ? _self.ordem : ordem // ignore: cast_nullable_to_non_nullable
+as int,dataInicio: null == dataInicio ? _self.dataInicio : dataInicio // ignore: cast_nullable_to_non_nullable
+as String,dataFim: null == dataFim ? _self.dataFim : dataFim // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [WorkFlow].
-extension WorkFlowPatterns on WorkFlow {
+/// Adds pattern-matching-related methods to [Workflow].
+extension WorkflowPatterns on Workflow {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -91,10 +93,10 @@ extension WorkFlowPatterns on WorkFlow {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WorkFlow value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Workflow value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _WorkFlow() when $default != null:
+case _Workflow() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -113,10 +115,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WorkFlow value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Workflow value)  $default,){
 final _that = this;
 switch (_that) {
-case _WorkFlow():
+case _Workflow():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -134,10 +136,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WorkFlow value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Workflow value)?  $default,){
 final _that = this;
 switch (_that) {
-case _WorkFlow() when $default != null:
+case _Workflow() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -155,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? descricao,  List<Etapa> etapas)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'workflowStepActionId')  int? id, @JsonKey(name: 'workflowStepActionName')  String nome, @JsonKey(name: 'workflowStepActionOrdination')  int ordem, @JsonKey(name: 'workflowStepStartTimeStamp')  String dataInicio, @JsonKey(name: 'workflowStepEndTimeStamp')  String dataFim)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _WorkFlow() when $default != null:
-return $default(_that.id,_that.descricao,_that.etapas);case _:
+case _Workflow() when $default != null:
+return $default(_that.id,_that.nome,_that.ordem,_that.dataInicio,_that.dataFim);case _:
   return orElse();
 
 }
@@ -176,10 +178,10 @@ return $default(_that.id,_that.descricao,_that.etapas);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? descricao,  List<Etapa> etapas)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'workflowStepActionId')  int? id, @JsonKey(name: 'workflowStepActionName')  String nome, @JsonKey(name: 'workflowStepActionOrdination')  int ordem, @JsonKey(name: 'workflowStepStartTimeStamp')  String dataInicio, @JsonKey(name: 'workflowStepEndTimeStamp')  String dataFim)  $default,) {final _that = this;
 switch (_that) {
-case _WorkFlow():
-return $default(_that.id,_that.descricao,_that.etapas);case _:
+case _Workflow():
+return $default(_that.id,_that.nome,_that.ordem,_that.dataInicio,_that.dataFim);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +198,10 @@ return $default(_that.id,_that.descricao,_that.etapas);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? descricao,  List<Etapa> etapas)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'workflowStepActionId')  int? id, @JsonKey(name: 'workflowStepActionName')  String nome, @JsonKey(name: 'workflowStepActionOrdination')  int ordem, @JsonKey(name: 'workflowStepStartTimeStamp')  String dataInicio, @JsonKey(name: 'workflowStepEndTimeStamp')  String dataFim)?  $default,) {final _that = this;
 switch (_that) {
-case _WorkFlow() when $default != null:
-return $default(_that.id,_that.descricao,_that.etapas);case _:
+case _Workflow() when $default != null:
+return $default(_that.id,_that.nome,_that.ordem,_that.dataInicio,_that.dataFim);case _:
   return null;
 
 }
@@ -210,54 +212,50 @@ return $default(_that.id,_that.descricao,_that.etapas);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _WorkFlow implements WorkFlow {
-  const _WorkFlow({required this.id, required this.descricao, required final  List<Etapa> etapas}): _etapas = etapas;
-  factory _WorkFlow.fromJson(Map<String, dynamic> json) => _$WorkFlowFromJson(json);
+class _Workflow implements Workflow {
+  const _Workflow({@JsonKey(name: 'workflowStepActionId') required this.id, @JsonKey(name: 'workflowStepActionName') required this.nome, @JsonKey(name: 'workflowStepActionOrdination') required this.ordem, @JsonKey(name: 'workflowStepStartTimeStamp') required this.dataInicio, @JsonKey(name: 'workflowStepEndTimeStamp') required this.dataFim});
+  factory _Workflow.fromJson(Map<String, dynamic> json) => _$WorkflowFromJson(json);
 
-@override final  int? id;
-@override final  String? descricao;
- final  List<Etapa> _etapas;
-@override List<Etapa> get etapas {
-  if (_etapas is EqualUnmodifiableListView) return _etapas;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_etapas);
-}
+@override@JsonKey(name: 'workflowStepActionId') final  int? id;
+@override@JsonKey(name: 'workflowStepActionName') final  String nome;
+@override@JsonKey(name: 'workflowStepActionOrdination') final  int ordem;
+@override@JsonKey(name: 'workflowStepStartTimeStamp') final  String dataInicio;
+@override@JsonKey(name: 'workflowStepEndTimeStamp') final  String dataFim;
 
-
-/// Create a copy of WorkFlow
+/// Create a copy of Workflow
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$WorkFlowCopyWith<_WorkFlow> get copyWith => __$WorkFlowCopyWithImpl<_WorkFlow>(this, _$identity);
+_$WorkflowCopyWith<_Workflow> get copyWith => __$WorkflowCopyWithImpl<_Workflow>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$WorkFlowToJson(this, );
+  return _$WorkflowToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkFlow&&(identical(other.id, id) || other.id == id)&&(identical(other.descricao, descricao) || other.descricao == descricao)&&const DeepCollectionEquality().equals(other._etapas, _etapas));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Workflow&&(identical(other.id, id) || other.id == id)&&(identical(other.nome, nome) || other.nome == nome)&&(identical(other.ordem, ordem) || other.ordem == ordem)&&(identical(other.dataInicio, dataInicio) || other.dataInicio == dataInicio)&&(identical(other.dataFim, dataFim) || other.dataFim == dataFim));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,descricao,const DeepCollectionEquality().hash(_etapas));
+int get hashCode => Object.hash(runtimeType,id,nome,ordem,dataInicio,dataFim);
 
 @override
 String toString() {
-  return 'WorkFlow(id: $id, descricao: $descricao, etapas: $etapas)';
+  return 'Workflow(id: $id, nome: $nome, ordem: $ordem, dataInicio: $dataInicio, dataFim: $dataFim)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$WorkFlowCopyWith<$Res> implements $WorkFlowCopyWith<$Res> {
-  factory _$WorkFlowCopyWith(_WorkFlow value, $Res Function(_WorkFlow) _then) = __$WorkFlowCopyWithImpl;
+abstract mixin class _$WorkflowCopyWith<$Res> implements $WorkflowCopyWith<$Res> {
+  factory _$WorkflowCopyWith(_Workflow value, $Res Function(_Workflow) _then) = __$WorkflowCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, String? descricao, List<Etapa> etapas
+@JsonKey(name: 'workflowStepActionId') int? id,@JsonKey(name: 'workflowStepActionName') String nome,@JsonKey(name: 'workflowStepActionOrdination') int ordem,@JsonKey(name: 'workflowStepStartTimeStamp') String dataInicio,@JsonKey(name: 'workflowStepEndTimeStamp') String dataFim
 });
 
 
@@ -265,21 +263,23 @@ $Res call({
 
 }
 /// @nodoc
-class __$WorkFlowCopyWithImpl<$Res>
-    implements _$WorkFlowCopyWith<$Res> {
-  __$WorkFlowCopyWithImpl(this._self, this._then);
+class __$WorkflowCopyWithImpl<$Res>
+    implements _$WorkflowCopyWith<$Res> {
+  __$WorkflowCopyWithImpl(this._self, this._then);
 
-  final _WorkFlow _self;
-  final $Res Function(_WorkFlow) _then;
+  final _Workflow _self;
+  final $Res Function(_Workflow) _then;
 
-/// Create a copy of WorkFlow
+/// Create a copy of Workflow
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? descricao = freezed,Object? etapas = null,}) {
-  return _then(_WorkFlow(
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? nome = null,Object? ordem = null,Object? dataInicio = null,Object? dataFim = null,}) {
+  return _then(_Workflow(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,descricao: freezed == descricao ? _self.descricao : descricao // ignore: cast_nullable_to_non_nullable
-as String?,etapas: null == etapas ? _self._etapas : etapas // ignore: cast_nullable_to_non_nullable
-as List<Etapa>,
+as int?,nome: null == nome ? _self.nome : nome // ignore: cast_nullable_to_non_nullable
+as String,ordem: null == ordem ? _self.ordem : ordem // ignore: cast_nullable_to_non_nullable
+as int,dataInicio: null == dataInicio ? _self.dataInicio : dataInicio // ignore: cast_nullable_to_non_nullable
+as String,dataFim: null == dataFim ? _self.dataFim : dataFim // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

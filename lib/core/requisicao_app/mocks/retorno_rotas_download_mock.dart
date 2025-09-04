@@ -28,16 +28,6 @@ class MockDownload {
           codigoRastreio: 0,
         );
 
-      case NomeRotasDownload.downloadEtapasOS:
-        return ResultadoRequisicao(
-          body: {'message': 'nada', "data": etapasOS},
-          codigoRastreio: 0,
-        );
-      case NomeRotasDownload.downloadCheckList:
-        return ResultadoRequisicao(
-          body: {'message': 'nada', "data": checklist},
-          codigoRastreio: 0,
-        );
       case NomeRotasDownload.downloadManual:
         return ResultadoRequisicao(
           body: {
@@ -57,6 +47,11 @@ class MockDownload {
       case NomeRotasDownload.downloadUsuario:
         return ResultadoRequisicao(
           body: {'message': 'nada', "data": usuarioMock},
+          codigoRastreio: 0,
+        );
+      case NomeRotasDownload.downloadWorflow:
+        return ResultadoRequisicao(
+          body: modelo,
           codigoRastreio: 0,
         );
     }

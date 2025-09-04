@@ -12,27 +12,10 @@ class OrdemServicoRepositoryImpl implements OrdemServicoRepository {
   OrdemServicoRepositoryImpl({required this.centralDownloadService});
 
   @override
-  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarOrdemServicoDisponiveis() {
+  Future<Result<ResultadoRequisicao, ExceptionApp>>
+  buscarOrdemServicoDisponiveis() {
     return centralDownloadService.executarDownload(
       NomeRotasDownload.downloadOrdemServico,
-      body: {},
-      rastreio: CodigoRastreio.ordemServico,
-    );
-  }
-
-  @override
-  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarEtapaOS() {
-    return centralDownloadService.executarDownload(
-      NomeRotasDownload.downloadEtapasOS,
-      body: {},
-      rastreio: CodigoRastreio.ordemServico,
-    );
-  }
-
-  @override
-  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarChecklist() {
-    return centralDownloadService.executarDownload(
-      NomeRotasDownload.downloadCheckList,
       body: {},
       rastreio: CodigoRastreio.ordemServico,
     );
@@ -49,12 +32,15 @@ class OrdemServicoRepositoryImpl implements OrdemServicoRepository {
       rastreio: CodigoRastreio.ordemServico,
     );
   }
-  
+
   @override
   buscarArquivoPdf(String urlPdf) {
-    return centralDownloadService.baixarArquivo(urlPdf, rastreio: CodigoRastreio.baixarArquivo);
+    return centralDownloadService.baixarArquivo(
+      urlPdf,
+      rastreio: CodigoRastreio.baixarArquivo,
+    );
   }
-  
+
   @override
   Future<Result<ResultadoRequisicao, ExceptionApp>> buscarOrdemServico() {
     return centralDownloadService.executarDownload(
@@ -64,5 +50,12 @@ class OrdemServicoRepositoryImpl implements OrdemServicoRepository {
     );
   }
   
-  
+  @override
+  Future<Result<ResultadoRequisicao, ExceptionApp>> buscarWorkflowOrdemServico() {
+    return centralDownloadService.executarDownload(
+      NomeRotasDownload.downloadWorflow,
+      body: {},
+      rastreio: CodigoRastreio.ordemServico,
+    );
+  }
 }
