@@ -139,6 +139,34 @@ Map<String, dynamic> modelo = {
               },
             ],
           },
+          {
+            "workflowStepId": 5,
+            "workflowStepName": "Finalização",
+            "workflowStepOrdination": 2,
+            "workflowStepStartTimeStamp": "2025-08-26T17:50:00.000Z",
+            "workflowStepEndTimeStamp": "",
+            "action": [
+              {
+                "workflowStepActionId": 10,
+                "workflowStepActionName": "Número de série do Connectbus",
+                "workflowStepActionType": "INPUT_NUMBER",
+                "workflowStepActionRequired": 0,
+                "workflowStepActionOrdination": 2,
+                "workflowStepActionConfiguration": {
+                  "help": "Digite o número visível na etiqueta",
+                  "items": [],
+                  "values": {"comments": "", "boolean": 1, "pictures": [
+                       
+                    ]
+                  },
+                  "dependency": [1],
+                  "allowComment": 0,
+                  " ": 2,
+                  "minimumPicture": 1,
+                },
+              },
+            ],
+          },
         ],
       },
     ],

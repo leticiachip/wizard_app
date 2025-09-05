@@ -78,11 +78,7 @@ class _InicialOrdemServicoPageState extends State<InicialOrdemServicoPage>
                 ],
               ),
             ),
-      /*  floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ordemServicoViewModel.buscarWorflow.execute();
-        },
-      ), */
+
       appBar: AppBar(
         actionsPadding: EdgeInsets.zero,
 
@@ -185,6 +181,7 @@ class _InicialOrdemServicoPageState extends State<InicialOrdemServicoPage>
             initialIndex: 0,
             length: tabController!.length,
             child: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
               controller: tabController,
               children: ordemServicoViewModel.workflowOS
                   .map((item) => Tab(text: item.nome))
