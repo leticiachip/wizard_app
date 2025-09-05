@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wizard_app/app/data/services/bluetooth/bluetooth_service.dart';
 import 'package:wizard_app/app/data/services/login/login_service.dart';
@@ -36,10 +37,13 @@ import 'app/ui/ordem_servico/views/inicial_ordem_servico_page.dart';
 import 'app/ui/ordem_servico/views/pdf_manual_page.dart';
 
 String nomeUsuarioMarcadagua = "";
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupDependencias();
-
+  if (Flavor.isProduction()) {
+    const MethodChannel channel = MethodChannel('screen_shot');
+    channel.invokeMethod('proibirPrint');
+  }
   runApp(const MyApp());
 }
 
@@ -219,6 +223,18 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Flavor.isProduction()
           ? ThemeData(
+              outlinedButtonTheme: OutlinedButtonThemeData(
+                style: ButtonStyle(
+                  side: WidgetStateProperty.all<BorderSide>(
+                    BorderSide(color: Color(0xFF123D9E)),
+                  ),
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
               tabBarTheme: TabBarThemeData(labelColor: Color(0xFF000000)),
               dialogTheme: DialogThemeData(
                 titleTextStyle: TextStyle(
@@ -281,10 +297,78 @@ class MyApp extends StatelessWidget {
               ),
             )
           : ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              primaryColor: Colors.pink,
-              appBarTheme: AppBarTheme(color: Colors.purple),
-              scaffoldBackgroundColor: Colors.white,
+              outlinedButtonTheme: OutlinedButtonThemeData(
+                style: ButtonStyle(
+                  side: WidgetStateProperty.all<BorderSide>(
+                    BorderSide(color: Color(0xFFED142F)),
+                  ),
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+              tabBarTheme: TabBarThemeData(labelColor: Color(0xFF000000)),
+              dialogTheme: DialogThemeData(
+                titleTextStyle: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xFF000000),
+                ),
+              ),
+              progressIndicatorTheme: ProgressIndicatorThemeData(
+                linearTrackColor: Colors.grey[200],
+              ),
+              primaryColor: Color(0xFFED142F),
+
+              fontFamily: 'Montserrat',
+              appBarTheme: AppBarTheme(
+                centerTitle: true,
+                titleTextStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontFamily: 'Montserrat',
+                  fontSize: 16,
+                ),
+              ),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+                  foregroundColor: WidgetStateProperty.all(Colors.white),
+
+                  elevation: WidgetStateProperty.all(0.0),
+                  fixedSize: WidgetStateProperty.all(
+                    Size(MediaQuery.of(context).size.width, 40),
+                  ),
+                  backgroundColor: WidgetStateProperty.all(Color(0xFFED142F)),
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+              colorScheme: ColorScheme(
+                brightness: Brightness.light,
+                primary: const Color(0xFFED142F),
+                onPrimary: const Color(0xFFFFFFFF),
+                primaryContainer: const Color(0xFFCDDCFF),
+                onPrimaryContainer: const Color(0xFFED142F),
+                secondary: const Color(0xFFFFFFFF),
+                onSecondary: const Color(0xFFFFFFFF),
+                secondaryContainer: const Color(0xFFFFFFFF),
+                onSecondaryContainer: Colors.white,
+                tertiary: const Color(0xFFFFFFFF),
+                onTertiary: Colors.white,
+                tertiaryContainer: const Color(0xFFFFFFFF),
+                onTertiaryContainer: Colors.white,
+                error: Colors.red,
+                errorContainer: Colors.white,
+                onError: Colors.red.shade200,
+                onErrorContainer: Colors.red.shade800,
+                surface: Colors.white,
+                onSurface: Colors.black,
+                onSurfaceVariant: const Color.fromARGB(255, 104, 104, 104),
+              ),
             ),
     );
   }

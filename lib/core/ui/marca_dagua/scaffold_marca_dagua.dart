@@ -6,17 +6,20 @@ import 'custom_painter.dart';
 class ScaffoldMarcaDagua extends StatelessWidget {
   final PreferredSizeWidget appBar;
   final Widget? floatingActionButton;
+  final Widget? bottomNavigationBar;
   final Widget body;
   const ScaffoldMarcaDagua({
     super.key,
     required this.appBar,
     required this.body,
     this.floatingActionButton,
+    this.bottomNavigationBar,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
       appBar: appBar,
       body: Stack(
@@ -25,9 +28,7 @@ class ScaffoldMarcaDagua extends StatelessWidget {
           IgnorePointer(
             child: CustomPaint(
               painter: WatermarkPainter(
-                nomeUsuarioMarcadagua.isEmpty
-                    ? ""
-                    : nomeUsuarioMarcadagua,
+                nomeUsuarioMarcadagua.isEmpty ? "" : nomeUsuarioMarcadagua,
               ),
               size: Size(
                 MediaQuery.of(context).size.width,

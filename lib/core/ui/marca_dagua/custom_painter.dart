@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../flavors/flavors.dart';
+
 class WatermarkPainter extends CustomPainter {
   final String text;
 
@@ -8,12 +10,15 @@ class WatermarkPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final textStyle = TextStyle(
-      color: Colors.black.withValues(alpha: 0.07),
+      color: Flavor.isProduction() ? Colors.black.withValues(alpha: 0.07) : Colors.black.withValues(alpha: 0.20),
       fontSize: 14,
       fontWeight: FontWeight.bold,
     );
 
-    final textSpan = TextSpan(text: text, style: textStyle);
+    final textSpan = TextSpan(
+      text: Flavor.isProduction() ? text : "DEBUG",
+      style: textStyle,
+    );
     final textPainter = TextPainter(
       text: textSpan,
       textDirection: TextDirection.ltr,
@@ -21,7 +26,7 @@ class WatermarkPainter extends CustomPainter {
 
     textPainter.layout();
 
-    final double diagonalSpacing = 140;
+    final double diagonalSpacing = Flavor.isProduction() ? 110 : 90;
 
     for (double y = -size.height; y < size.height * 2; y += diagonalSpacing) {
       for (double x = -size.width; x < size.width * 2; x += diagonalSpacing) {

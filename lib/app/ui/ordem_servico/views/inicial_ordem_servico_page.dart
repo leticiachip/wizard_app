@@ -37,8 +37,12 @@ class _InicialOrdemServicoPageState extends State<InicialOrdemServicoPage>
           );
         });
         tabController!.addListener(() {
-          setState(() {}); // atualiza UI quando muda a aba
+          setState(() {});
         });
+        tabController!.index = ordemServicoViewModel.workflowOS
+            .where((element) => element.dataFim.isNotEmpty)
+            .last
+            .ordem;
       }
     });
     super.initState();
@@ -47,11 +51,38 @@ class _InicialOrdemServicoPageState extends State<InicialOrdemServicoPage>
   @override
   Widget build(BuildContext context) {
     return ScaffoldMarcaDagua(
-      floatingActionButton: FloatingActionButton(
+      bottomNavigationBar: tabController == null
+          ? null
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  tabController!.index > 0
+                      ? OutlinedButton(
+                          onPressed: () {
+                            tabController!.index = tabController!.index - 1;
+                          },
+                          child: Text("Voltar"),
+                        )
+                      : SizedBox(),
+                  tabController!.index + 1 <
+                          ordemServicoViewModel.workflowOS.length
+                      ? OutlinedButton(
+                          onPressed: () {
+                            tabController!.index = tabController!.index + 1;
+                          },
+                          child: Text("Próximo"),
+                        )
+                      : SizedBox(),
+                ],
+              ),
+            ),
+      /*  floatingActionButton: FloatingActionButton(
         onPressed: () {
           ordemServicoViewModel.buscarWorflow.execute();
         },
-      ),
+      ), */
       appBar: AppBar(
         actionsPadding: EdgeInsets.zero,
 
@@ -93,7 +124,7 @@ class _InicialOrdemServicoPageState extends State<InicialOrdemServicoPage>
                           children: [
                             CircleAvatar(
                               radius: 20,
-                              backgroundColor: selecionado
+                              backgroundColor: selecionado || preenchido
                                   ? ColorScheme.of(context).primary
                                   : ColorScheme.of(context).primaryContainer,
                               child: selecionado

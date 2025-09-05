@@ -19,7 +19,7 @@ Map<String, dynamic> modelo = {
             "workflowStepName": "Preparação",
             "workflowStepOrdination": 1,
             "workflowStepStartTimeStamp": "2025-08-26T17:50:00.000Z",
-            "workflowStepEndTimeStamp": "",
+            "workflowStepEndTimeStamp": "2025-08-26T17:50:00.000Z",
             "action": [
               {
                 "workflowStepActionId": 9,
@@ -60,7 +60,7 @@ Map<String, dynamic> modelo = {
             "workflowStepName": "Configuração",
             "workflowStepOrdination": 2,
             "workflowStepStartTimeStamp": "2025-08-26T17:50:00.000Z",
-            "workflowStepEndTimeStamp": "",
+            "workflowStepEndTimeStamp": "2025-08-26T17:50:00.000Z",
             "action": [
               {
                 "workflowStepActionId": 10,
